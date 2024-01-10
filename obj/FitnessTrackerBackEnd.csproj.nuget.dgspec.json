@@ -1,32 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\04fel\\OneDrive\\Desktop\\Work\\FitnessTrackerV2\\ft-backend\\FitnessTrackerBackEnd\\FitnessTrackerBackEnd.csproj": {}
+    "C:\\Users\\04fel\\OneDrive\\Desktop\\Work\\FitnessTrackerV2\\FitnessTrackerBackEnd\\FitnessTrackerBackEnd.csproj": {}
   },
   "projects": {
-    "C:\\Users\\04fel\\OneDrive\\Desktop\\Work\\FitnessTrackerV2\\ft-backend\\FitnessTrackerBackEnd\\FitnessTrackerBackEnd.csproj": {
+    "C:\\Users\\04fel\\OneDrive\\Desktop\\Work\\FitnessTrackerV2\\FitnessTrackerBackEnd\\FitnessTrackerBackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\04fel\\OneDrive\\Desktop\\Work\\FitnessTrackerV2\\ft-backend\\FitnessTrackerBackEnd\\FitnessTrackerBackEnd.csproj",
+        "projectUniqueName": "C:\\Users\\04fel\\OneDrive\\Desktop\\Work\\FitnessTrackerV2\\FitnessTrackerBackEnd\\FitnessTrackerBackEnd.csproj",
         "projectName": "FitnessTrackerBackEnd",
-        "projectPath": "C:\\Users\\04fel\\OneDrive\\Desktop\\Work\\FitnessTrackerV2\\ft-backend\\FitnessTrackerBackEnd\\FitnessTrackerBackEnd.csproj",
+        "projectPath": "C:\\Users\\04fel\\OneDrive\\Desktop\\Work\\FitnessTrackerV2\\FitnessTrackerBackEnd\\FitnessTrackerBackEnd.csproj",
         "packagesPath": "C:\\Users\\04fel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\04fel\\OneDrive\\Desktop\\Work\\FitnessTrackerV2\\ft-backend\\FitnessTrackerBackEnd\\obj\\",
+        "outputPath": "C:\\Users\\04fel\\OneDrive\\Desktop\\Work\\FitnessTrackerV2\\FitnessTrackerBackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\04fel\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -37,12 +37,16 @@
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[7.0.10, )"
+              "version": "[8.0.1, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -68,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
