@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ftDB.Interfaces
 {
-    public interface IDao
+    public interface IRepo
     {
         List<ResponseModelExerciseInList> GetExerciseList(string searchInput);
     }

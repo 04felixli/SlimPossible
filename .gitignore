@@ -1,0 +1,42 @@
+# Binaries and build output
+bin/
+obj/
+
+# Visual Studio metadata
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.sqlite
+
+# Rider
+.idea/
+
+# ReSharper files
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# Rider
+.idea/
+
+# NuGet
+*.nuget/
+*.nupkg
+*.paket/
+
+# OS generated files
+Thumbs.db
+.DS_Store
+
+# Other common ignores
+*.log
+*.bak
+*.cache
+*.swp
+*~
+*.pid
+*.tmp
+
+# Configuration files
+appsettings*.json
