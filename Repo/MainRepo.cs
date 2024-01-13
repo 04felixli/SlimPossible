@@ -12,9 +12,9 @@ namespace ftDB.Repo
     {
         private readonly IDao _dao = Dao;
 
-        public async Task<ResponseModelExerciseInList> GetExerciseList(string searchInput)
+        public async Task<ResponseModelExerciseInList> GetExerciseListAsync(string searchInput)
         {
-            List<ModelExercise> exercises = await _dao.GetExerciseList(searchInput);
+            List<ModelExercise> exercises = await _dao.GetExerciseListAsync(searchInput);
 
             ResponseModelExerciseInList response = new()
             {

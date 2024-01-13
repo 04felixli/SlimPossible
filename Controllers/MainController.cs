@@ -17,13 +17,13 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpGet("GetExerciseList")]
-        public async Task<ResponseModelExerciseInList> GetAllExercises([FromQuery] string searchInput)
+        public async Task<ResponseModelExerciseInList> GetAllExercisesAsync([FromQuery] string searchInput = "")
         {
             ResponseModelExerciseInList response = new();
 
             try
             {
-                response = await _repo.GetExerciseList(searchInput);
+                response = await _repo.GetExerciseListAsync(searchInput);
             }
             catch (CustomExceptionModel ex)
             {

@@ -7,6 +7,6 @@ namespace ftDB.Interfaces
 {
     public interface IDao
     {
-        Task<List<ModelExercise>> GetExerciseList(string searchInput);
+        Task<List<ModelExercise>> GetExerciseListAsync(string searchInput);
     }
 }

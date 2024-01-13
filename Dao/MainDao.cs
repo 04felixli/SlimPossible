@@ -6,6 +6,8 @@ using ftDB.Interfaces;
 using ftDB.Models;
 using Microsoft.EntityFrameworkCore;
 using ftDB.Exceptions;
+using NpgsqlTypes;
+
 
 namespace ftDB.Dao
 {
@@ -13,22 +15,58 @@ namespace ftDB.Dao
     {
         private readonly PostgressDBContext _context = context;
 
-        public async Task<List<ModelExercise>> GetExerciseList(string searchInput)
+        public async Task<List<ModelExercise>> GetExerciseListAsync(string searchInput)
         {
-            var result = await _context.All_Exercises
-                .Where(exercise => exercise.Name == "Bench Press")
-                .Select(exercise => new ModelExercise
-                        (
-                            exercise.Id,
-                            exercise.Name,
-                            exercise.Equipment,
-                            exercise.TargetMuscle,
-                            exercise.CreatedDate
-                        )
-                        )
-                .ToListAsync();
 
-            return result;
+            if (searchInput != "")
+            {
+                return await GetExerciseListWhenStringExistsAsync(searchInput);
+            }
+
+            return await GetExerciseListEmptyStringAsync();
+
+
         }
+
+        #region Private Methods 
+
+        private async Task<List<ModelExercise>> GetExerciseListWhenStringExistsAsync(string searchInput)
+        {
+            List<ModelExercise> exerciseList = await _context.All_Exercises
+                                                            .Where(exercise => exercise.SearchVector.Matches(searchInput))
+                                                            .OrderBy(exercise => exercise.Id)
+                                                            .Select(exercise => new ModelExercise
+                                                                    (
+                                                                        exercise.Id,
+                                                                        exercise.Name,
+                                                                        exercise.Equipment,
+                                                                        exercise.TargetMuscle,
+                                                                        exercise.CreatedDate
+                                                                    )
+                                                                    )
+                                                            .ToListAsync();
+
+            return exerciseList;
+        }
+
+        private async Task<List<ModelExercise>> GetExerciseListEmptyStringAsync()
+        {
+            List<ModelExercise> exerciseList = await _context.All_Exercises
+                                                            .OrderBy(exercise => exercise.Id)
+                                                            .Select(exercise => new ModelExercise
+                                                                    (
+                                                                        exercise.Id,
+                                                                        exercise.Name,
+                                                                        exercise.Equipment,
+                                                                        exercise.TargetMuscle,
+                                                                        exercise.CreatedDate
+                                                                    )
+                                                                    )
+                                                            .ToListAsync();
+
+            return exerciseList;
+        }
+
+        #endregion
     }
 }
