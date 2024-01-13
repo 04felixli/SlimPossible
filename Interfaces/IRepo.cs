@@ -5,6 +5,6 @@ namespace ftDB.Interfaces
 {
     public interface IRepo
     {
-        List<ResponseModelExerciseInList> GetExerciseList(string searchInput);
+        Task<ResponseModelExerciseInList> GetExerciseList(string searchInput);
     }
 }

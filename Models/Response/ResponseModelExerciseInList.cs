@@ -1,7 +1,18 @@
 using ftDB.Entities;
+using ftDB.BaseLibrary;
 
 namespace ftDB.Models.Response
 {
-    // When creating a ResponseModelExerciseInList object, we pass in parameters which call the Exercise object constructor
-    public class ResponseModelExerciseInList(string name, string equipment, string targetMuscle) : Exercise(name, equipment, targetMuscle) { }
+    public class ResponseModelExerciseInList : ResponseBase
+    {
+        public ModelExercise[]? Exercises { get; set; }
+
+        public ResponseModelExerciseInList() { }
+
+        public ResponseModelExerciseInList(ModelExercise[]? exercises)
+        {
+            Exercises = exercises;
+        }
+
+    }
 }

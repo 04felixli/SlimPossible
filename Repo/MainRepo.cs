@@ -3,24 +3,27 @@ using ftDB.Models.Response;
 using System.Collections.Generic;
 using System.Linq;
 using ftDB.Interfaces;
+using ftDB.Models;
+using ftDB.Exceptions;
 
 namespace ftDB.Repo
 {
-    // public class MainRepo : IRepo
-    // {
-    //     public List<ResponseModelExerciseInList> GetExerciseList(string searchInput)
-    //     {
-    //         return [];
-    //     }
-    // }
-
     public class MainRepo(IDao Dao) : IRepo
     {
         private readonly IDao _dao = Dao;
 
-        public List<ResponseModelExerciseInList> GetExerciseList(string searchInput)
+        public async Task<ResponseModelExerciseInList> GetExerciseList(string searchInput)
         {
-            return _dao.GetExerciseList(searchInput);
+            List<ModelExercise> exercises = await _dao.GetExerciseList(searchInput);
+
+            ResponseModelExerciseInList response = new()
+            {
+                Exercises = [.. exercises] // Convert exercises to array
+            };
+
+            response.SetResponseSuccess();
+
+            return response;
         }
     }
 }

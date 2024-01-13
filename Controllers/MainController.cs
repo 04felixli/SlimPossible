@@ -4,31 +4,37 @@ using ftDB.Entities;
 using System;
 using System.Collections.Generic;
 using ftDB.Models.Response;
+using Microsoft.AspNetCore.Cors;
+using ftDB.Exceptions;
 
 namespace ftDB.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    // public class MainController : ControllerBase
-    // {
-
-    //     [HttpGet("GetExerciseList")]
-    //     public List<ResponseModelExerciseInList> GetAllExercises([FromQuery] string searchInput)
-    //     {
-    //         return [];
-    //     }
-
-    // }
-
     public class MainController(IRepo repo) : ControllerBase
     {
         private readonly IRepo _repo = repo;
 
+        [EnableCors]
         [HttpGet("GetExerciseList")]
-        public List<ResponseModelExerciseInList> GetAllExercises([FromQuery] string searchInput)
+        public async Task<ResponseModelExerciseInList> GetAllExercises([FromQuery] string searchInput)
         {
-            return _repo.GetExerciseList(searchInput);
-        }
+            ResponseModelExerciseInList response = new();
 
+            try
+            {
+                response = await _repo.GetExerciseList(searchInput);
+            }
+            catch (CustomExceptionModel ex)
+            {
+                response.SetResponseFailed(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseFailed($"An exception occured in GetExerciseList inside of MainController.cs: {ex.Message}");
+            }
+
+            return response;
+        }
     }
 }
