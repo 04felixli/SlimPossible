@@ -2,6 +2,8 @@ using ftDB.Entities;
 using ftDB.Models;
 using ftDB.Models.Response;
 using System.Collections.Generic;
+using ftDB.BaseLibrary.Models;
+
 
 namespace ftDB.Interfaces
 {

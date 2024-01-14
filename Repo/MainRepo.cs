@@ -5,6 +5,7 @@ using System.Linq;
 using ftDB.Interfaces;
 using ftDB.Models;
 using ftDB.Exceptions;
+using ftDB.BaseLibrary.Models;
 
 namespace ftDB.Repo
 {

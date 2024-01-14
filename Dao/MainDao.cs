@@ -7,7 +7,7 @@ using ftDB.Models;
 using Microsoft.EntityFrameworkCore;
 using ftDB.Exceptions;
 using NpgsqlTypes;
-
+using ftDB.BaseLibrary.Models;
 
 namespace ftDB.Dao
 {
@@ -17,14 +17,12 @@ namespace ftDB.Dao
 
         public async Task<List<ModelExercise>> GetExerciseListAsync(string searchInput)
         {
-
             if (searchInput != "")
             {
                 return await GetExerciseListWhenStringExistsAsync(searchInput);
             }
 
             return await GetExerciseListEmptyStringAsync();
-
 
         }
 
@@ -40,8 +38,7 @@ namespace ftDB.Dao
                                                                         exercise.Id,
                                                                         exercise.Name,
                                                                         exercise.Equipment,
-                                                                        exercise.TargetMuscle,
-                                                                        exercise.CreatedDate
+                                                                        exercise.TargetMuscle
                                                                     )
                                                                     )
                                                             .ToListAsync();
@@ -58,8 +55,7 @@ namespace ftDB.Dao
                                                                         exercise.Id,
                                                                         exercise.Name,
                                                                         exercise.Equipment,
-                                                                        exercise.TargetMuscle,
-                                                                        exercise.CreatedDate
+                                                                        exercise.TargetMuscle
                                                                     )
                                                                     )
                                                             .ToListAsync();

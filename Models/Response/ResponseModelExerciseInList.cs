@@ -1,5 +1,6 @@
 using ftDB.Entities;
 using ftDB.BaseLibrary;
+using ftDB.BaseLibrary.Models;
 
 namespace ftDB.Models.Response
 {
