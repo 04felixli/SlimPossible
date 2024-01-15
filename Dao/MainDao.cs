@@ -30,7 +30,7 @@ namespace ftDB.Dao
 
         private async Task<List<ModelExercise>> GetExerciseListWhenStringExistsAsync(string searchInput)
         {
-            List<ModelExercise> exerciseList = await _context.All_Exercises
+            List<ModelExercise> exerciseList = await _context.Exercises
                                                             .Where(exercise => exercise.SearchVector.Matches(searchInput))
                                                             .OrderBy(exercise => exercise.Id)
                                                             .Select(exercise => new ModelExercise
@@ -48,7 +48,7 @@ namespace ftDB.Dao
 
         private async Task<List<ModelExercise>> GetExerciseListEmptyStringAsync()
         {
-            List<ModelExercise> exerciseList = await _context.All_Exercises
+            List<ModelExercise> exerciseList = await _context.Exercises
                                                             .OrderBy(exercise => exercise.Id)
                                                             .Select(exercise => new ModelExercise
                                                                     (
