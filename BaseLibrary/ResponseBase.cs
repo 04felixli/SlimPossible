@@ -11,10 +11,10 @@ namespace ftDB.BaseLibrary
         {
         }
 
-        public ResponseBase(ResponseBase resp)
+        public ResponseBase(bool success, string msg)
         {
-            Success = resp.Success;
-            Msg = resp.Msg;
+            Success = success;
+            Msg = msg;
         }
 
         public void SetResponseSuccess()

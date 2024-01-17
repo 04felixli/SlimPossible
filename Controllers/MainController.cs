@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using ftDB.Models.Response;
 using Microsoft.AspNetCore.Cors;
 using ftDB.Exceptions;
+using ftDB.BaseLibrary;
+using ftDB.Models.Request;
 
 namespace ftDB.Controllers
 {
@@ -32,6 +34,28 @@ namespace ftDB.Controllers
             catch (Exception ex)
             {
                 response.SetResponseFailed($"An exception occured in GetExerciseList inside of MainController.cs: {ex.Message}");
+            }
+
+            return response;
+        }
+
+        [EnableCors]
+        [HttpPost("PostWorkout")]
+        public async Task<ResponseBase> PostWorkoutAsync([FromBody] RequestModelPostWorkout completedWorkout)
+        {
+            ResponseBase response = new();
+
+            try
+            {
+                response = await _repo.PostWorkoutAsync(completedWorkout);
+            }
+            catch (CustomExceptionModel ex)
+            {
+                response.SetResponseFailed(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseFailed($"An exception occured in PostWorkout inside of MainController.cs | Message: {ex.Message} | Inner Message: {ex.InnerException}");
             }
 
             return response;

@@ -19,7 +19,7 @@ namespace ftDB.Dao
                 entity.HasKey(e => e.Id).HasName("PRIMARY");
                 entity.ToTable("exercises");
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id");
-                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp with time zone").HasColumnName("created_date");
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp").HasColumnName("created_date");
                 entity.Property(e => e.Name).HasColumnType("text").HasColumnName("name");
                 entity.Property(e => e.Equipment).HasColumnType("text").HasColumnName("equipment");
                 entity.Property(e => e.TargetMuscle).HasColumnType("text").HasColumnName("target_muscle");
@@ -36,7 +36,7 @@ namespace ftDB.Dao
                 entity.HasKey(e => e.Id);
                 entity.ToTable("sets");
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id");
-                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp with time zone").HasColumnName("created_date");
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp").HasColumnName("created_date");
                 entity.Property(e => e.Weight).HasColumnType("integer").HasColumnName("weight");
                 entity.Property(e => e.Reps).HasColumnType("integer").HasColumnName("reps");
                 entity.Property(e => e.SetNumber).HasColumnType("integer").HasColumnName("set_number");
@@ -48,11 +48,11 @@ namespace ftDB.Dao
                 entity.HasKey(e => e.Id);
                 entity.ToTable("exercises_in_workout");
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id");
-                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp with time zone").HasColumnName("created_date");
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp").HasColumnName("created_date");
                 entity.Property(e => e.ExerciseId).HasColumnType("integer").HasColumnName("exercise_id");
                 entity.Property(e => e.WorkoutId).HasColumnType("integer").HasColumnName("completed_workout_id");
                 entity.Property(e => e.Notes).HasColumnType("text").HasColumnName("notes");
-                entity.Property(e => e.WeightUnit).HasColumnType("integer").HasColumnName("weight_unit");
+                entity.Property(e => e.WeightUnit).HasColumnType("text").HasColumnName("weight_unit");
             });
 
             builder.Entity<CompletedWorkout>(entity =>
@@ -60,10 +60,10 @@ namespace ftDB.Dao
                 entity.HasKey(e => e.Id);
                 entity.ToTable("completed_workouts");
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id");
-                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp with time zone").HasColumnName("created_date");
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp").HasColumnName("created_date");
                 entity.Property(e => e.Duration).HasColumnType("integer").HasColumnName("duration");
                 entity.Property(e => e.Name).HasColumnType("text").HasColumnName("name");
-                entity.Property(e => e.Date).HasColumnType("timestamp with time zone").HasColumnName("date");
+                entity.Property(e => e.Date).HasColumnType("timestamp").HasColumnName("date");
             });
         }
 

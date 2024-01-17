@@ -3,12 +3,20 @@ using ftDB.BaseLibrary.Models;
 
 namespace ftDB.Models.PostWorkoutModels
 {
-    public class ModelCompletedExercise(int Id, string Name, string Equipment, string TargetMuscle, string WeightUnits, string Notes, ModelCompletedSet[] sets) : ModelExercise(Id, Name, Equipment, TargetMuscle)
+    public class ModelCompletedExercise : ModelExercise
     {
-        public string WeightUnits { get; set; } = WeightUnits;
-        public string Notes { get; set; } = Notes;
-        public ModelCompletedSet[] Sets = sets;
+        public string WeightUnit { get; set; } = null!;
+        public string Notes { get; set; } = null!;
+        public ModelCompletedSet[] Sets { get; set; } = null!;
 
+        public ModelCompletedExercise() : base() { }
+        public ModelCompletedExercise(int id, string name, string equipment, string targetMuscle, string weightUnit, string notes, ModelCompletedSet[] sets)
+        : base(id, name, equipment, targetMuscle)
+        {
+            WeightUnit = weightUnit;
+            Notes = notes;
+            Sets = sets;
+        }
 
     }
 

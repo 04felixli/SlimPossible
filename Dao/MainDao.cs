@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ftDB.Exceptions;
 using NpgsqlTypes;
 using ftDB.BaseLibrary.Models;
+using System.Runtime.CompilerServices;
 
 namespace ftDB.Dao
 {
@@ -24,6 +25,33 @@ namespace ftDB.Dao
 
             return await GetExerciseListEmptyStringAsync();
 
+        }
+
+        public async Task<int> PostCompletedWorkoutAsync(CompletedWorkout workoutToPost)
+        {
+            _context.CompletedWorkouts.Add(workoutToPost);
+
+            await _context.SaveChangesAsync();
+
+            return workoutToPost.Id;
+        }
+
+        public async Task<int> PostExerciseInWorkoutAsync(ExerciseInWorkout exerciseInWorkout)
+        {
+            _context.ExercisesInWorkouts.Add(exerciseInWorkout);
+
+            await _context.SaveChangesAsync();
+
+            return exerciseInWorkout.Id;
+        }
+
+        public async Task PostSetAsync(Set set)
+        {
+            _context.Sets.Add(set);
+
+            await _context.SaveChangesAsync();
+
+            return;
         }
 
         #region Private Methods 

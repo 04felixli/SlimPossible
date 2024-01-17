@@ -1,12 +1,22 @@
 using ftDB.Entities;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace ftDB.BaseLibrary.Models
 {
-    public class ModelExercise(int Id, string Name, string Equipment, string TargetMuscle)
+    public class ModelExercise
     {
-        public int Id { get; set; } = Id;
-        public string Name { get; set; } = Name;
-        public string Equipment { get; set; } = Equipment;
-        public string TargetMuscle { get; set; } = TargetMuscle;
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public string Equipment { get; set; } = null!;
+        public string TargetMuscle { get; set; } = null!;
+
+        public ModelExercise() { }
+        public ModelExercise(int id, string name, string equipment, string targetMuscle)
+        {
+            Id = id;
+            Name = name;
+            Equipment = equipment;
+            TargetMuscle = targetMuscle;
+        }
     }
 }
