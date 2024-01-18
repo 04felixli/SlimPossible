@@ -9,6 +9,8 @@ using ftDB.Exceptions;
 using NpgsqlTypes;
 using ftDB.BaseLibrary.Models;
 using System.Runtime.CompilerServices;
+using ftDB.Models.Request;
+using ftDB.Models.PostWorkoutModels;
 
 namespace ftDB.Dao
 {
@@ -27,7 +29,51 @@ namespace ftDB.Dao
 
         }
 
-        public async Task<int> PostCompletedWorkoutAsync(CompletedWorkout workoutToPost)
+        public async Task PostWorkoutAsync(RequestModelPostWorkout completedWorkout)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+
+            try
+            {
+                CompletedWorkout workoutToPost = new(completedWorkout.Date, completedWorkout.Duration, completedWorkout.Name); // Create new CompletedWorkout entity
+
+                int workoutId = await PostCompletedWorkoutAsync(workoutToPost);
+
+                foreach (ModelCompletedExercise exerciseInWorkout in completedWorkout.Exercises)
+                {
+                    ExerciseInWorkout exercise = new(exerciseInWorkout.Id, workoutId, exerciseInWorkout.Notes, exerciseInWorkout.WeightUnit); // create new ExercieInWorout entity
+
+                    int exerciseInWorkoutId = await PostExerciseInWorkoutAsync(exercise);
+
+                    int completedSetCounter = 0;
+
+                    foreach (ModelCompletedSet set in exerciseInWorkout.Sets)
+                    {
+                        set.SetNumber = completedSetCounter + 1;
+
+                        completedSetCounter++;
+
+                        Set setToPost = new(set.Weight, set.Reps, set.SetNumber, exerciseInWorkoutId); // Create new Set entity
+
+                        await PostSetAsync(setToPost);
+                    }
+                }
+
+                transaction.Commit();
+            }
+            catch (DbUpdateException ex)
+            {
+                transaction.Rollback();
+                throw new CustomExceptionModel("There was an error updating the database inside of MainDao.PostWorkoutAsync: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw new CustomExceptionModel("An exception occurred inside of MainDao.PostWorkoutAsync: " + ex.Message);
+            }
+        }
+
+        private async Task<int> PostCompletedWorkoutAsync(CompletedWorkout workoutToPost)
         {
             _context.CompletedWorkouts.Add(workoutToPost);
 
@@ -36,7 +82,7 @@ namespace ftDB.Dao
             return workoutToPost.Id;
         }
 
-        public async Task<int> PostExerciseInWorkoutAsync(ExerciseInWorkout exerciseInWorkout)
+        private async Task<int> PostExerciseInWorkoutAsync(ExerciseInWorkout exerciseInWorkout)
         {
             _context.ExercisesInWorkouts.Add(exerciseInWorkout);
 
@@ -45,13 +91,11 @@ namespace ftDB.Dao
             return exerciseInWorkout.Id;
         }
 
-        public async Task PostSetAsync(Set set)
+        private async Task PostSetAsync(Set set)
         {
             _context.Sets.Add(set);
 
             await _context.SaveChangesAsync();
-
-            return;
         }
 
         #region Private Methods 

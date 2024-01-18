@@ -1,5 +1,6 @@
 // Structure of the workout object sent in POST workout request
 
+using ftDB.Exceptions;
 using ftDB.Models.PostWorkoutModels;
 
 namespace ftDB.Models.Request

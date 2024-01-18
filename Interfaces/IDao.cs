@@ -4,6 +4,7 @@ using ftDB.Models.Response;
 using System.Collections.Generic;
 using ftDB.BaseLibrary.Models;
 using System.Runtime.CompilerServices;
+using ftDB.Models.Request;
 
 
 namespace ftDB.Interfaces
@@ -11,8 +12,6 @@ namespace ftDB.Interfaces
     public interface IDao
     {
         Task<List<ModelExercise>> GetExerciseListAsync(string searchInput);
-        Task<int> PostCompletedWorkoutAsync(CompletedWorkout workoutToPost);
-        Task<int> PostExerciseInWorkoutAsync(ExerciseInWorkout exerciseInWorkout);
-        Task PostSetAsync(Set set);
+        Task PostWorkoutAsync(RequestModelPostWorkout completedWorkout);
     }
 }

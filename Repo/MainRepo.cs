@@ -35,40 +35,44 @@ namespace ftDB.Repo
         {
             ResponseBase resp = new();
 
-            if (completedWorkout.Exercises.FirstOrDefault(exercise => exercise.Sets.Any(set => set.IsCompleted == true)) == null)
+            if (completedWorkout.Date == DateTime.MinValue)
             {
-                resp.SetResponseSuccess();
+                resp.SetResponseFailed("Invalid workout date");
+                return resp;
+            }
+
+            if (completedWorkout.Duration <= 0)
+            {
+                resp.SetResponseFailed("Workout duration must be larger than 0.");
+                return resp;
+            }
+
+            completedWorkout.Exercises = completedWorkout.Exercises
+                                                        .Where(exercise => exercise.Sets.Any(set => set.IsCompleted)) // Only keep exercises with at least one completed set
+                                                        .Select(exercise => new ModelCompletedExercise
+                                                        {
+                                                            Id = exercise.Id,
+                                                            Name = exercise.Name,
+                                                            Equipment = exercise.Equipment,
+                                                            TargetMuscle = exercise.TargetMuscle,
+                                                            WeightUnit = exercise.WeightUnit,
+                                                            Notes = exercise.Notes,
+                                                            Sets = exercise.Sets.Where(set => set.IsCompleted).ToArray() // Only keep completed sets
+                                                        }).ToArray();
+
+            if (completedWorkout.Exercises.Length == 0)
+            {
+                resp.SetResponseSuccessWithMsg("No workout was posted since there were no exercises completed.");
 
                 return resp;
             }
 
-            CompletedWorkout workoutToPost = new(completedWorkout.Date, completedWorkout.Duration, completedWorkout.Name); // Create new CompletedWorkout entity
-
-            int workoutId = await _dao.PostCompletedWorkoutAsync(workoutToPost);
-
-            foreach (ModelCompletedExercise exerciseInWorkout in completedWorkout.Exercises.Where(exercise => exercise.Sets.Any(set => set.IsCompleted == true) && exercise.Sets.Length != 0))
-            {
-                ExerciseInWorkout exercise = new(exerciseInWorkout.Id, workoutId, exerciseInWorkout.Notes, exerciseInWorkout.WeightUnit); // create new ExercieInWorout entity
-
-                int exerciseInWorkoutId = await _dao.PostExerciseInWorkoutAsync(exercise);
-
-                int completedSetCounter = 0;
-
-                foreach (ModelCompletedSet set in exerciseInWorkout.Sets.Where(set => set.IsCompleted == true))
-                {
-                    set.SetNumber = completedSetCounter + 1;
-
-                    completedSetCounter++;
-
-                    Set setToPost = new(set.Weight, set.Reps, set.SetNumber, exerciseInWorkoutId); // Create new Set entity
-
-                    await _dao.PostSetAsync(setToPost);
-                }
-            }
+            await _dao.PostWorkoutAsync(completedWorkout);
 
             resp.SetResponseSuccess();
 
             return resp;
         }
+
     }
 }

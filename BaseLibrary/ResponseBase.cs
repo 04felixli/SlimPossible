@@ -23,6 +23,12 @@ namespace ftDB.BaseLibrary
             Msg = "Response Successful";
         }
 
+        public void SetResponseSuccessWithMsg(string message)
+        {
+            Success = true;
+            Msg = message;
+        }
+
         public void SetResponseFailed(string message)
         {
             Success = false;

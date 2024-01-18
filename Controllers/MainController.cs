@@ -55,7 +55,7 @@ namespace ftDB.Controllers
             }
             catch (Exception ex)
             {
-                response.SetResponseFailed($"An exception occured in PostWorkout inside of MainController.cs | Message: {ex.Message} | Inner Message: {ex.InnerException}");
+                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
             }
 
             return response;
