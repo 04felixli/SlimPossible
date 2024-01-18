@@ -5,20 +5,11 @@ using ftDB.Models.PostWorkoutModels;
 
 namespace ftDB.Models.Request
 {
-    public class RequestModelPostWorkout
+    public class RequestModelPostWorkout(int duration, DateTime date, ModelCompletedExercise[] exercises, string name)
     {
-        public string Name { get; set; } = null!;
-        public int Duration { get; set; }
-        public DateTime Date { get; set; }
-        public ModelCompletedExercise[] Exercises { get; set; } = null!;
-
-        public RequestModelPostWorkout() { }
-        public RequestModelPostWorkout(int duration, DateTime date, ModelCompletedExercise[] exercises, string name)
-        {
-            Name = name;
-            Duration = duration;
-            Date = date;
-            Exercises = exercises;
-        }
+        public string Name { get; set; } = name; // Cannot be null
+        public int Duration { get; set; } = duration;
+        public DateTime Date { get; set; } = date; // Cannot be DateTime.MinValue
+        public ModelCompletedExercise[] Exercises { get; set; } = exercises; // Can be empty but not null
     }
 }

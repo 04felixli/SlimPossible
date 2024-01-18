@@ -35,30 +35,18 @@ namespace ftDB.Repo
         {
             ResponseBase resp = new();
 
-            if (completedWorkout.Date == DateTime.MinValue)
-            {
-                resp.SetResponseFailed("Invalid workout date");
-                return resp;
-            }
-
-            if (completedWorkout.Duration <= 0)
-            {
-                resp.SetResponseFailed("Workout duration must be larger than 0.");
-                return resp;
-            }
-
             completedWorkout.Exercises = completedWorkout.Exercises
                                                         .Where(exercise => exercise.Sets.Any(set => set.IsCompleted)) // Only keep exercises with at least one completed set
                                                         .Select(exercise => new ModelCompletedExercise
-                                                        {
-                                                            Id = exercise.Id,
-                                                            Name = exercise.Name,
-                                                            Equipment = exercise.Equipment,
-                                                            TargetMuscle = exercise.TargetMuscle,
-                                                            WeightUnit = exercise.WeightUnit,
-                                                            Notes = exercise.Notes,
-                                                            Sets = exercise.Sets.Where(set => set.IsCompleted).ToArray() // Only keep completed sets
-                                                        }).ToArray();
+                                                        (
+                                                            exercise.Id,
+                                                            exercise.Name,
+                                                            exercise.Equipment,
+                                                            exercise.TargetMuscle,
+                                                            exercise.WeightUnit,
+                                                            exercise.Notes,
+                                                            exercise.Sets.Where(set => set.IsCompleted).ToArray() // Only keep completed sets
+                                                        )).ToArray();
 
             if (completedWorkout.Exercises.Length == 0)
             {
