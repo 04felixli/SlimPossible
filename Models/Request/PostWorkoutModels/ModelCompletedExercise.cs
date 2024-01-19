@@ -1,7 +1,7 @@
 using ftDB.BaseLibrary.Models;
 
 
-namespace ftDB.Models.PostWorkoutModels
+namespace ftDB.Models.Request.PostWorkoutModels
 {
     public class ModelCompletedExercise(int id, string name, string equipment, string targetMuscle, string weightUnit, string notes, ModelCompletedSet[] sets) : ModelExercise(id, name, equipment, targetMuscle)
     {

@@ -1,6 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using ftDB.Entities;
 
+/*
+MIGRATING CHANGES TO DATABASE:
+
+1. dotnet ef migrations add <migration name>
+
+2. dotnet ef database update
+*/
+
 namespace ftDB.Dao
 {
     public class PostgressDBContext(DbContextOptions<PostgressDBContext> options) : DbContext(options)
