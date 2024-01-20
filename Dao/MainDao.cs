@@ -10,7 +10,9 @@ using NpgsqlTypes;
 using ftDB.BaseLibrary.Models;
 using System.Runtime.CompilerServices;
 using ftDB.Models.Request;
-using ftDB.Models.PostWorkoutModels;
+using ftDB.Models.Request.PostWorkoutModels;
+using ftDB.Models.Response.WorkoutHistoryModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace ftDB.Dao
 {
@@ -73,6 +75,52 @@ namespace ftDB.Dao
             }
         }
 
+        public async Task<List<ModelPastWorkout>> GetAllPastWorkoutsAsync()
+        {
+            // List<ModelPastWorkout> workouts = await (
+            //     from completedWorkouts in _context.CompletedWorkouts
+            //     join exercisesInWorkout in _context.ExercisesInWorkouts on completedWorkouts.Id equals exercisesInWorkout.WorkoutId
+            //     join sets in _context.Sets on exercisesInWorkout.Id equals sets.ExerciseInWorkoutId
+            //     join exercises in _context.Exercises on exercisesInWorkout.ExerciseId equals exercises.Id
+            //     select new ModelPastWorkout(
+            List<ModelPastWorkout> workouts = await _context.CompletedWorkouts.Select(completedWorkouts => new ModelPastWorkout(
+                    completedWorkouts.Name,
+                    completedWorkouts.Duration,
+                    completedWorkouts.Date,
+                    (
+                        from exerciseInWorkout in _context.ExercisesInWorkouts
+                        join exercise in _context.Exercises on exerciseInWorkout.ExerciseId equals exercise.Id
+                        join set in _context.Sets on exerciseInWorkout.Id equals set.ExerciseInWorkoutId
+                        where exerciseInWorkout.WorkoutId == completedWorkouts.Id
+                        orderby exerciseInWorkout.WorkoutId ascending
+                        select new ModelPastExercise(
+                            exercise.Id,
+                            exercise.Name,
+                            exercise.Equipment,
+                            exercise.TargetMuscle,
+                            exerciseInWorkout.WeightUnit,
+                            exerciseInWorkout.Notes,
+                            (
+                                from s in _context.Sets
+                                where s.ExerciseInWorkoutId == exerciseInWorkout.Id
+                                orderby s.SetNumber ascending
+                                select new ModelPastSet(
+                                    s.Weight,
+                                    s.Reps,
+                                    s.SetNumber
+                                )).ToArray()
+                        )).ToArray(),
+                    completedWorkouts.Id,
+                    completedWorkouts.CreatedDate
+                )
+            ).ToListAsync();
+
+            return workouts;
+
+        }
+
+        #region Private Methods 
+
         private async Task<int> PostCompletedWorkoutAsync(CompletedWorkout workoutToPost)
         {
             _context.CompletedWorkouts.Add(workoutToPost);
@@ -97,8 +145,6 @@ namespace ftDB.Dao
 
             await _context.SaveChangesAsync();
         }
-
-        #region Private Methods 
 
         private async Task<List<ModelExercise>> GetExerciseListWhenStringExistsAsync(string searchInput)
         {

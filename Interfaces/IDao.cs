@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using ftDB.BaseLibrary.Models;
 using System.Runtime.CompilerServices;
 using ftDB.Models.Request;
+using ftDB.Models.Response.WorkoutHistoryModels;
 
 
 namespace ftDB.Interfaces
@@ -13,5 +14,6 @@ namespace ftDB.Interfaces
     {
         Task<List<ModelExercise>> GetExerciseListAsync(string searchInput);
         Task PostWorkoutAsync(RequestModelPostWorkout completedWorkout);
+        Task<List<ModelPastWorkout>> GetAllPastWorkoutsAsync();
     }
 }

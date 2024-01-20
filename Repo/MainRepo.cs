@@ -9,7 +9,8 @@ using ftDB.BaseLibrary.Models;
 using ftDB.BaseLibrary;
 using ftDB.Models.Request;
 using System.Runtime.CompilerServices;
-using ftDB.Models.PostWorkoutModels;
+using ftDB.Models.Request.PostWorkoutModels;
+using ftDB.Models.Response.WorkoutHistoryModels;
 
 namespace ftDB.Repo
 {
@@ -62,5 +63,15 @@ namespace ftDB.Repo
             return resp;
         }
 
+        public async Task<ResponseModelViewAllWorkouts> GetAllPastWorkoutsAsync()
+        {
+            List<ModelPastWorkout> workouts = await _dao.GetAllPastWorkoutsAsync();
+
+            ResponseModelViewAllWorkouts response = new([.. workouts]);
+
+            response.SetResponseSuccess();
+
+            return response;
+        }
     }
 }
