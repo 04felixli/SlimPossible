@@ -8,6 +8,6 @@ namespace ftDB.Entities
         public int SetNumber { get; set; } = setNumber;
         public int ExerciseInWorkoutId { get; set; } = exerciseInWorkoutId; // FK to ExerciseInWorkout
         public DateTime CreatedDate { get; set; }
-        public ExerciseInWorkout ExerciseInWorkout { get; set; } // Each Set
+        public ExerciseInWorkout ExerciseInWorkout { get; set; } = null!; // Each Set
     }
 }
