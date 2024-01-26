@@ -6,7 +6,8 @@ namespace ftDB.Entities
         public int Weight { get; set; } = weight;
         public int Reps { get; set; } = reps;
         public int SetNumber { get; set; } = setNumber;
-        public int ExerciseInWorkoutId { get; set; } = exerciseInWorkoutId; // link to exercises_in_workout table
+        public int ExerciseInWorkoutId { get; set; } = exerciseInWorkoutId; // FK to ExerciseInWorkout
         public DateTime CreatedDate { get; set; }
+        public ExerciseInWorkout ExerciseInWorkout { get; set; } // Each Set
     }
 }

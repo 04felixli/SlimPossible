@@ -9,5 +9,6 @@ namespace ftDB.Entities
         public string Name { get; set; } = name;
         public DateTime Date { get; set; } = date;
         public DateTime CreatedDate { get; set; }
+        public ICollection<ExerciseInWorkout> ExercisesInWorkout { get; set; } = []; // Each workout has many exercises
     }
 }

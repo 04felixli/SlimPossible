@@ -37,6 +37,11 @@ namespace ftDB.Dao
                     "english",  // Text search config
                     p => new { p.Equipment, p.Name, p.TargetMuscle }  // Included properties
                 ).HasIndex(p => p.SearchVector).HasMethod("GIN"); // Index method on the search vector (GIN or GIST)
+                entity.HasMany(Exercise => Exercise.ExerciseInWorkout)
+                      .WithOne(ExerciseInWorkout => ExerciseInWorkout.Exercise)
+                      .HasForeignKey(ExerciseInWorkout => ExerciseInWorkout.ExerciseId)
+                      .OnDelete(DeleteBehavior.Cascade); // Deleting an exercise deletes all related ExerciseInWorkout, 
+                                                         // which also deletes all sets relating to ExerciseInWorkout
             });
 
             builder.Entity<Set>(entity =>
@@ -49,6 +54,9 @@ namespace ftDB.Dao
                 entity.Property(e => e.Reps).HasColumnType("integer").HasColumnName("reps").IsRequired();
                 entity.Property(e => e.SetNumber).HasColumnType("integer").HasColumnName("set_number").IsRequired();
                 entity.Property(e => e.ExerciseInWorkoutId).HasColumnType("integer").HasColumnName("exercise_in_workout_id").IsRequired();
+                entity.HasOne(Set => Set.ExerciseInWorkout)
+                      .WithMany(ExerciseInWorkout => ExerciseInWorkout.Sets)
+                      .HasForeignKey(e => e.ExerciseInWorkoutId);
             });
 
             builder.Entity<ExerciseInWorkout>(entity =>
@@ -58,9 +66,19 @@ namespace ftDB.Dao
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id").IsRequired();
                 entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp").HasColumnName("created_date").IsRequired();
                 entity.Property(e => e.ExerciseId).HasColumnType("integer").HasColumnName("exercise_id").IsRequired();
-                entity.Property(e => e.WorkoutId).HasColumnType("integer").HasColumnName("completed_workout_id").IsRequired();
+                entity.Property(e => e.CompletedWorkoutId).HasColumnType("integer").HasColumnName("completed_workout_id").IsRequired();
                 entity.Property(e => e.Notes).HasColumnType("text").HasColumnName("notes").IsRequired();
                 entity.Property(e => e.WeightUnit).HasColumnType("text").HasColumnName("weight_unit").IsRequired();
+                entity.HasOne(ExerciseInWorkout => ExerciseInWorkout.CompletedWorkout)
+                      .WithMany(CompletedWorkout => CompletedWorkout.ExercisesInWorkout)
+                      .HasForeignKey(ExerciseInWorkout => ExerciseInWorkout.CompletedWorkoutId);
+                entity.HasOne(ExerciseInWorkout => ExerciseInWorkout.Exercise)
+                      .WithMany(Exercise => Exercise.ExerciseInWorkout)
+                      .HasForeignKey(ExerciseInWorkout => ExerciseInWorkout.ExerciseId);
+                entity.HasMany(ExerciseInWorkout => ExerciseInWorkout.Sets)
+                      .WithOne(Set => Set.ExerciseInWorkout)
+                      .HasForeignKey(Set => Set.ExerciseInWorkoutId)
+                      .OnDelete(DeleteBehavior.Cascade); // Deleting an ExerciseInWorkout deletes related sets
             });
 
             builder.Entity<CompletedWorkout>(entity =>
@@ -72,6 +90,10 @@ namespace ftDB.Dao
                 entity.Property(e => e.Duration).HasColumnType("integer").HasColumnName("duration").IsRequired();
                 entity.Property(e => e.Name).HasColumnType("text").HasColumnName("name").IsRequired();
                 entity.Property(e => e.Date).HasColumnType("timestamp").HasColumnName("date").IsRequired();
+                entity.HasMany(CompletedWorkout => CompletedWorkout.ExercisesInWorkout)
+                      .WithOne(ExerciseInWorkout => ExerciseInWorkout.CompletedWorkout)
+                      .HasForeignKey(ExerciseInWorkout => ExerciseInWorkout.CompletedWorkoutId)
+                      .OnDelete(DeleteBehavior.Cascade); // Deleting a CompletedWorkout deletes all related ExercisesInWorkout and Sets
             });
         }
 

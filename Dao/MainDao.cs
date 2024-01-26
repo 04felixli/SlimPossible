@@ -77,46 +77,33 @@ namespace ftDB.Dao
 
         public async Task<List<ModelPastWorkout>> GetAllPastWorkoutsAsync()
         {
-            // List<ModelPastWorkout> workouts = await (
-            //     from completedWorkouts in _context.CompletedWorkouts
-            //     join exercisesInWorkout in _context.ExercisesInWorkouts on completedWorkouts.Id equals exercisesInWorkout.WorkoutId
-            //     join sets in _context.Sets on exercisesInWorkout.Id equals sets.ExerciseInWorkoutId
-            //     join exercises in _context.Exercises on exercisesInWorkout.ExerciseId equals exercises.Id
-            //     select new ModelPastWorkout(
-            List<ModelPastWorkout> workouts = await _context.CompletedWorkouts.Select(completedWorkouts => new ModelPastWorkout(
+            List<ModelPastWorkout> workouts = await _context.CompletedWorkouts
+                .Include(cw => cw.ExercisesInWorkout)
+                    .ThenInclude(eiw => eiw.Sets)
+                .OrderByDescending(completedWorkouts => completedWorkouts.Id)
+                .Select(completedWorkouts => new ModelPastWorkout(
                     completedWorkouts.Name,
                     completedWorkouts.Duration,
                     completedWorkouts.Date,
-                    (
-                        from exerciseInWorkout in _context.ExercisesInWorkouts
-                        join exercise in _context.Exercises on exerciseInWorkout.ExerciseId equals exercise.Id
-                        join set in _context.Sets on exerciseInWorkout.Id equals set.ExerciseInWorkoutId
-                        where exerciseInWorkout.WorkoutId == completedWorkouts.Id
-                        orderby exerciseInWorkout.WorkoutId ascending
-                        select new ModelPastExercise(
-                            exercise.Id,
-                            exercise.Name,
-                            exercise.Equipment,
-                            exercise.TargetMuscle,
+                    completedWorkouts.ExercisesInWorkout
+                        .OrderBy(eiw => eiw.CompletedWorkoutId)
+                        .Select(exerciseInWorkout => new ModelPastExercise(
+                            exerciseInWorkout.Exercise.Id,
+                            exerciseInWorkout.Exercise.Name,
+                            exerciseInWorkout.Exercise.Equipment,
+                            exerciseInWorkout.Exercise.TargetMuscle,
                             exerciseInWorkout.WeightUnit,
                             exerciseInWorkout.Notes,
-                            (
-                                from s in _context.Sets
-                                where s.ExerciseInWorkoutId == exerciseInWorkout.Id
-                                orderby s.SetNumber ascending
-                                select new ModelPastSet(
-                                    s.Weight,
-                                    s.Reps,
-                                    s.SetNumber
-                                )).ToArray()
+                            exerciseInWorkout.Sets
+                                .OrderBy(s => s.SetNumber)
+                                .Select(s => new ModelPastSet(s.Weight, s.Reps, s.SetNumber))
+                                .ToArray()
                         )).ToArray(),
                     completedWorkouts.Id,
                     completedWorkouts.CreatedDate
-                )
-            ).ToListAsync();
+                )).ToListAsync();
 
             return workouts;
-
         }
 
         #region Private Methods 
