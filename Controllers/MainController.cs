@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Cors;
 using ftDB.Exceptions;
 using ftDB.BaseLibrary;
 using ftDB.Models.Request;
+using ftDB.Models.Request.UpdateWorkoutModels;
 
 namespace ftDB.Controllers
 {
@@ -88,6 +89,28 @@ namespace ftDB.Controllers
         public async Task<ResponseBase> GetWorkoutAsync([FromQuery] int workoutId)
         {
             ResponseModelGetWorkout response = new();
+
+            try
+            {
+                response = await _repo.GetWorkoutAsync(workoutId);
+            }
+            catch (CustomExceptionModel ex)
+            {
+                response.SetResponseFailed(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
+            }
+
+            return response;
+        }
+
+        [EnableCors]
+        [HttpDelete("DeleteExerciseFromWorkout")]
+        public async Task<ResponseModelUpdatedWorkout> DeleteExerciseFromWorkoutAsync([FromBody] RequestModelUpdateWorkout exercises, [FromQuery] int exerciseId, [FromQuery] int setNumber)
+        {
+            ResponseModelUpdatedWorkout response = new();
 
             try
             {
