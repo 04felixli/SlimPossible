@@ -3,12 +3,12 @@ using ftDB.Models.Response.WorkoutHistoryModels;
 
 namespace ftDB.Models.Response
 {
-    public class ResponseModelViewAllWorkouts : ResponseBase
+    public class ResponseModelGetAllWorkouts : ResponseBase
     {
         public ModelPastWorkout[]? PastWorkouts { get; set; }
 
-        public ResponseModelViewAllWorkouts() { }
-        public ResponseModelViewAllWorkouts(ModelPastWorkout[]? pastWorkouts)
+        public ResponseModelGetAllWorkouts() { }
+        public ResponseModelGetAllWorkouts(ModelPastWorkout[]? pastWorkouts)
         {
             PastWorkouts = pastWorkouts;
         }

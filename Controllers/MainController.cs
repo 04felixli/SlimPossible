@@ -62,10 +62,10 @@ namespace ftDB.Controllers
         }
 
         [EnableCors]
-        [HttpGet("ViewAllPastWorkouts")]
+        [HttpGet("GetAllPastWorkouts")]
         public async Task<ResponseBase> GetAllPastWorkoutsAsync()
         {
-            ResponseModelViewAllWorkouts response = new();
+            ResponseModelGetAllWorkouts response = new();
 
             try
             {

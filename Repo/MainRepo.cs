@@ -63,11 +63,11 @@ namespace ftDB.Repo
             return resp;
         }
 
-        public async Task<ResponseModelViewAllWorkouts> GetAllPastWorkoutsAsync()
+        public async Task<ResponseModelGetAllWorkouts> GetAllPastWorkoutsAsync()
         {
             List<ModelPastWorkout> workouts = await _dao.GetAllPastWorkoutsAsync();
 
-            ResponseModelViewAllWorkouts response = new([.. workouts]);
+            ResponseModelGetAllWorkouts response = new([.. workouts]);
 
             response.SetResponseSuccess();
 
