@@ -9,6 +9,7 @@ namespace ftDB.Interfaces
     {
         Task<ResponseModelExerciseInList> GetExerciseListAsync(string searchInput);
         Task<ResponseBase> PostWorkoutAsync(RequestModelPostWorkout completedWorkout);
-        Task<ResponseModelGetAllWorkouts> GetAllPastWorkoutsAsync();
+        Task<ResponseModelGetAllWorkouts> GetAllWorkoutsAsync();
+        Task<ResponseModelGetWorkout> GetWorkoutAsync(int workoutId);
     }
 }

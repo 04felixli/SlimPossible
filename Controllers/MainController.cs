@@ -62,14 +62,36 @@ namespace ftDB.Controllers
         }
 
         [EnableCors]
-        [HttpGet("GetAllPastWorkouts")]
-        public async Task<ResponseBase> GetAllPastWorkoutsAsync()
+        [HttpGet("GetAllWorkouts")]
+        public async Task<ResponseBase> GetAllWorkoutsAsync()
         {
             ResponseModelGetAllWorkouts response = new();
 
             try
             {
-                response = await _repo.GetAllPastWorkoutsAsync();
+                response = await _repo.GetAllWorkoutsAsync();
+            }
+            catch (CustomExceptionModel ex)
+            {
+                response.SetResponseFailed(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
+            }
+
+            return response;
+        }
+
+        [EnableCors]
+        [HttpGet("GetWorkout")]
+        public async Task<ResponseBase> GetWorkoutAsync([FromQuery] int workoutId)
+        {
+            ResponseModelGetWorkout response = new();
+
+            try
+            {
+                response = await _repo.GetWorkoutAsync(workoutId);
             }
             catch (CustomExceptionModel ex)
             {

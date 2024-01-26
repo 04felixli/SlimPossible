@@ -14,6 +14,7 @@ namespace ftDB.Interfaces
     {
         Task<List<ModelExercise>> GetExerciseListAsync(string searchInput);
         Task PostWorkoutAsync(RequestModelPostWorkout completedWorkout);
-        Task<List<ModelPastWorkout>> GetAllPastWorkoutsAsync();
+        Task<List<ModelPastWorkout>> GetAllWorkoutsAsync();
+        Task<ModelPastWorkout> GetWorkoutAsync(int workoutId);
     }
 }

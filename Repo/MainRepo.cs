@@ -63,9 +63,9 @@ namespace ftDB.Repo
             return resp;
         }
 
-        public async Task<ResponseModelGetAllWorkouts> GetAllPastWorkoutsAsync()
+        public async Task<ResponseModelGetAllWorkouts> GetAllWorkoutsAsync()
         {
-            List<ModelPastWorkout> workouts = await _dao.GetAllPastWorkoutsAsync();
+            List<ModelPastWorkout> workouts = await _dao.GetAllWorkoutsAsync();
 
             ResponseModelGetAllWorkouts response = new([.. workouts]);
 
@@ -73,5 +73,18 @@ namespace ftDB.Repo
 
             return response;
         }
+
+        public async Task<ResponseModelGetWorkout> GetWorkoutAsync(int workoutId)
+        {
+            ModelPastWorkout workout = await _dao.GetWorkoutAsync(workoutId);
+
+            ResponseModelGetWorkout response = new(workout);
+
+            response.SetResponseSuccess();
+
+            return response;
+        }
+
+
     }
 }

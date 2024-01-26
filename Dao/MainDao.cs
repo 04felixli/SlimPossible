@@ -75,7 +75,7 @@ namespace ftDB.Dao
             }
         }
 
-        public async Task<List<ModelPastWorkout>> GetAllPastWorkoutsAsync()
+        public async Task<List<ModelPastWorkout>> GetAllWorkoutsAsync()
         {
             List<ModelPastWorkout> workouts = await _context.CompletedWorkouts
                 .Include(cw => cw.ExercisesInWorkout)
@@ -102,6 +102,37 @@ namespace ftDB.Dao
                     completedWorkouts.Id,
                     completedWorkouts.CreatedDate
                 )).ToListAsync();
+
+            return workouts;
+        }
+
+        public async Task<ModelPastWorkout> GetWorkoutAsync(int workoutId)
+        {
+            ModelPastWorkout workouts = await _context.CompletedWorkouts
+                .Include(cw => cw.ExercisesInWorkout)
+                    .ThenInclude(eiw => eiw.Sets)
+                .Where(completedWorkouts => completedWorkouts.Id == workoutId)
+                .Select(completedWorkouts => new ModelPastWorkout(
+                    completedWorkouts.Name,
+                    completedWorkouts.Duration,
+                    completedWorkouts.Date,
+                    completedWorkouts.ExercisesInWorkout
+                        .OrderBy(eiw => eiw.CompletedWorkoutId)
+                        .Select(exerciseInWorkout => new ModelPastExercise(
+                            exerciseInWorkout.Exercise.Id,
+                            exerciseInWorkout.Exercise.Name,
+                            exerciseInWorkout.Exercise.Equipment,
+                            exerciseInWorkout.Exercise.TargetMuscle,
+                            exerciseInWorkout.WeightUnit,
+                            exerciseInWorkout.Notes,
+                            exerciseInWorkout.Sets
+                                .OrderBy(s => s.SetNumber)
+                                .Select(s => new ModelPastSet(s.Weight, s.Reps, s.SetNumber))
+                                .ToArray()
+                        )).ToArray(),
+                    completedWorkouts.Id,
+                    completedWorkouts.CreatedDate
+                )).FirstAsync();
 
             return workouts;
         }
