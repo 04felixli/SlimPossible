@@ -11,6 +11,7 @@ using ftDB.Models.Request;
 using System.Runtime.CompilerServices;
 using ftDB.Models.Request.PostWorkoutModels;
 using ftDB.Models.Response.WorkoutHistoryModels;
+using ftDB.Models.Request.UpdateWorkoutModels;
 
 namespace ftDB.Repo
 {
@@ -85,11 +86,33 @@ namespace ftDB.Repo
             return response;
         }
 
-        public ResponseModelUpdatedWorkout DeleteExerciseFromWorkout(RequestModelUpdateWorkout exercises, int exerciseId)
+        public ResponseModelUpdatedWorkout DeleteExerciseFromWorkout(RequestModelUpdateWorkout workout, int exerciseId)
         {
-            exercises.Exercises = exercises.Exercises.Where(exercise => exercise.Id != exerciseId).ToArray();
+            workout.Exercises = workout.Exercises.Where(exercise => exercise.Id != exerciseId).ToArray();
 
-            ResponseModelUpdatedWorkout updatedExercises = new(exercises.Exercises);
+            ResponseModelUpdatedWorkout updatedExercises = new(workout.Exercises);
+
+            return updatedExercises;
+        }
+
+        public ResponseModelUpdatedWorkout DeleteSetFromWorkout(RequestModelUpdateWorkout workout, int exerciseId, int setNumber)
+        {
+            ModelExerciseToUpdate exercise = workout.Exercises.First(exercise => exercise.Id == exerciseId);
+
+            exercise.Sets = [.. exercise.Sets
+                .Where(set => set.SetNumber != setNumber)
+                .OrderBy(set => set.SetNumber)];
+
+            for (int i = 0; i < exercise.Sets.Length; i++)
+            {
+                exercise.Sets[i].SetNumber = i + 1;
+            }
+
+            int index = Array.FindIndex(workout.Exercises, ex => ex.Id == exerciseId);
+
+            workout.Exercises[index] = exercise;
+
+            ResponseModelUpdatedWorkout updatedExercises = new(workout.Exercises);
 
             return updatedExercises;
         }

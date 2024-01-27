@@ -108,13 +108,35 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpDelete("DeleteExerciseFromWorkout")]
-        public ResponseModelUpdatedWorkout DeleteExerciseFromWorkout([FromBody] RequestModelUpdateWorkout exercises, [FromQuery] int exerciseId, [FromQuery] int setNumber)
+        public ResponseModelUpdatedWorkout DeleteExerciseFromWorkout([FromBody] RequestModelUpdateWorkout workout, [FromQuery] int exerciseId)
         {
             ResponseModelUpdatedWorkout response = new();
 
             try
             {
-                response = _repo.DeleteExerciseFromWorkout(exercises, exerciseId);
+                response = _repo.DeleteExerciseFromWorkout(workout, exerciseId);
+            }
+            catch (CustomExceptionModel ex)
+            {
+                response.SetResponseFailed(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
+            }
+
+            return response;
+        }
+
+        [EnableCors]
+        [HttpDelete("DeleteSetFromWorkout")]
+        public ResponseModelUpdatedWorkout DeleteSetFromWorkout([FromBody] RequestModelUpdateWorkout workout, [FromQuery] int exerciseId, [FromQuery] int setNumber)
+        {
+            ResponseModelUpdatedWorkout response = new();
+
+            try
+            {
+                response = _repo.DeleteSetFromWorkout(workout, exerciseId, setNumber);
             }
             catch (CustomExceptionModel ex)
             {
