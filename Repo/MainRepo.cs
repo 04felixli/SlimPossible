@@ -85,6 +85,17 @@ namespace ftDB.Repo
             return response;
         }
 
+        public ResponseModelUpdatedWorkout DeleteExerciseFromWorkout(RequestModelUpdateWorkout exercises, int exerciseId)
+        {
+            exercises.Exercises = exercises.Exercises.Where(exercise => exercise.Id != exerciseId).ToArray();
+
+            ResponseModelUpdatedWorkout updatedExercises = new(exercises.Exercises);
+
+            return updatedExercises;
+        }
+
+
+
 
     }
 }

@@ -108,13 +108,13 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpDelete("DeleteExerciseFromWorkout")]
-        public async Task<ResponseModelUpdatedWorkout> DeleteExerciseFromWorkoutAsync([FromBody] RequestModelUpdateWorkout exercises, [FromQuery] int exerciseId, [FromQuery] int setNumber)
+        public ResponseModelUpdatedWorkout DeleteExerciseFromWorkout([FromBody] RequestModelUpdateWorkout exercises, [FromQuery] int exerciseId, [FromQuery] int setNumber)
         {
             ResponseModelUpdatedWorkout response = new();
 
             try
             {
-                response = await _repo.GetWorkoutAsync(workoutId);
+                response = _repo.DeleteExerciseFromWorkout(exercises, exerciseId);
             }
             catch (CustomExceptionModel ex)
             {
