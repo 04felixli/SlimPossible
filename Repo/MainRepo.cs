@@ -117,6 +117,23 @@ namespace ftDB.Repo
             return updatedExercises;
         }
 
+        public ResponseModelUpdatedWorkout AddSetToWorkout(RequestModelUpdateWorkout workout, int exerciseId)
+        {
+            ModelExerciseToUpdate exercise = workout.Exercises.First(exercise => exercise.Id == exerciseId);
+
+            ModelSetToUpdate[] newSet = [new ModelSetToUpdate(-1, -1, exercise.Sets.Length + 1, false)];
+
+            exercise.Sets = [.. exercise.Sets, .. newSet];
+
+            int index = Array.FindIndex(workout.Exercises, ex => ex.Id == exerciseId);
+
+            workout.Exercises[index] = exercise;
+
+            ResponseModelUpdatedWorkout updatedExercises = new(workout.Exercises);
+
+            return updatedExercises;
+        }
+
 
 
 

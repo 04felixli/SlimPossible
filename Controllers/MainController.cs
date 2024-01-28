@@ -149,5 +149,27 @@ namespace ftDB.Controllers
 
             return response;
         }
+
+        [EnableCors]
+        [HttpPatch("AddSetToWorkout")]
+        public ResponseModelUpdatedWorkout AddSetToWorkout([FromBody] RequestModelUpdateWorkout workout, [FromQuery] int exerciseId)
+        {
+            ResponseModelUpdatedWorkout response = new();
+
+            try
+            {
+                response = _repo.AddSetToWorkout(workout, exerciseId);
+            }
+            catch (CustomExceptionModel ex)
+            {
+                response.SetResponseFailed(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
+            }
+
+            return response;
+        }
     }
 }
