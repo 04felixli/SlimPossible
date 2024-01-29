@@ -180,7 +180,29 @@ namespace ftDB.Controllers
 
             try
             {
-                response = await _repo.ReplaceExerciseFromWorkout(workout, oldExerciseId, newExerciseId);
+                response = await _repo.ReplaceExerciseFromWorkoutAsync(workout, oldExerciseId, newExerciseId);
+            }
+            catch (CustomExceptionModel ex)
+            {
+                response.SetResponseFailed(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
+            }
+
+            return response;
+        }
+
+        [EnableCors]
+        [HttpPatch("AddExerciseToWorkout")]
+        public async Task<ResponseModelUpdatedWorkout> AddExerciseToWorkout([FromBody] RequestModelUpdateWorkout workout, [FromQuery] int exerciseId)
+        {
+            ResponseModelUpdatedWorkout response = new();
+
+            try
+            {
+                response = await _repo.AddExerciseToWorkoutAsync(workout, exerciseId);
             }
             catch (CustomExceptionModel ex)
             {
