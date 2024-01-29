@@ -107,7 +107,7 @@ namespace ftDB.Controllers
         }
 
         [EnableCors]
-        [HttpDelete("DeleteExerciseFromWorkout")]
+        [HttpPatch("DeleteExerciseFromWorkout")]
         public ResponseModelUpdatedWorkout DeleteExerciseFromWorkout([FromBody] RequestModelUpdateWorkout workout, [FromQuery] int exerciseId)
         {
             ResponseModelUpdatedWorkout response = new();
@@ -129,7 +129,7 @@ namespace ftDB.Controllers
         }
 
         [EnableCors]
-        [HttpDelete("DeleteSetFromWorkout")]
+        [HttpPatch("DeleteSetFromWorkout")]
         public ResponseModelUpdatedWorkout DeleteSetFromWorkout([FromBody] RequestModelUpdateWorkout workout, [FromQuery] int exerciseId, [FromQuery] int setNumber)
         {
             ResponseModelUpdatedWorkout response = new();
@@ -159,6 +159,28 @@ namespace ftDB.Controllers
             try
             {
                 response = _repo.AddSetToWorkout(workout, exerciseId);
+            }
+            catch (CustomExceptionModel ex)
+            {
+                response.SetResponseFailed(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
+            }
+
+            return response;
+        }
+
+        [EnableCors]
+        [HttpPatch("ReplaceExerciseFromWorkout")]
+        public async Task<ResponseModelUpdatedWorkout> ReplaceExerciseFromWorkout([FromBody] RequestModelUpdateWorkout workout, [FromQuery] int oldExerciseId, int newExerciseId)
+        {
+            ResponseModelUpdatedWorkout response = new();
+
+            try
+            {
+                response = await _repo.ReplaceExerciseFromWorkout(workout, oldExerciseId, newExerciseId);
             }
             catch (CustomExceptionModel ex)
             {

@@ -13,6 +13,7 @@ using ftDB.Models.Request;
 using ftDB.Models.Request.PostWorkoutModels;
 using ftDB.Models.Response.WorkoutHistoryModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using ftDB.Models.Request.UpdateWorkoutModels;
 
 namespace ftDB.Dao
 {
@@ -135,6 +136,44 @@ namespace ftDB.Dao
                 )).FirstAsync();
 
             return workouts;
+        }
+
+        public async Task<ModelExerciseToUpdate> GetNewExerciseByIdAsync(int id)
+        {
+            ModelExerciseToUpdate? newExercise = await _context.ExercisesInWorkouts
+                                               .OrderByDescending(e => e.Id)
+                                               .Where(e => e.ExerciseId == id)
+                                               .Include(e => e.Exercise)
+                                               .Select(e => new ModelExerciseToUpdate(
+                                                   e.ExerciseId,
+                                                   e.Exercise.Name,
+                                                   e.Exercise.Equipment,
+                                                   e.Exercise.TargetMuscle,
+                                                   e.WeightUnit,
+                                                   "",
+                                                   new ModelSetToUpdate[]
+                                                   {
+                                                        new(-1, -1, 1, false),
+                                                   }
+                                               ))
+                                               .FirstOrDefaultAsync();
+
+            newExercise ??= await _context.Exercises
+                              .Where(e => e.Id == id)
+                              .Select(e => new ModelExerciseToUpdate(
+                                e.Id,
+                                e.Name,
+                                e.Equipment,
+                                e.TargetMuscle,
+                                "lbs",
+                                "",
+                                new ModelSetToUpdate[]
+                                {
+                                    new(-1, -1, 1, false),
+                                }
+                              )).FirstAsync();
+
+            return newExercise;
         }
 
         #region Private Methods 

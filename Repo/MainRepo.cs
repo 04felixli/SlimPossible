@@ -134,6 +134,19 @@ namespace ftDB.Repo
             return updatedExercises;
         }
 
+        public async Task<ResponseModelUpdatedWorkout> ReplaceExerciseFromWorkout(RequestModelUpdateWorkout workout, int oldExerciseId, int newExerciseId)
+        {
+            ModelExerciseToUpdate newExercise = await _dao.GetNewExerciseByIdAsync(newExerciseId);
+
+            int index = Array.FindIndex(workout.Exercises, ex => ex.Id == oldExerciseId);
+
+            workout.Exercises[index] = newExercise;
+
+            ResponseModelUpdatedWorkout updatedExercises = new(workout.Exercises);
+
+            return updatedExercises;
+        }
+
 
 
 
