@@ -14,5 +14,6 @@ namespace ftDB.Entities
         public NpgsqlTsVector SearchVector { get; private set; } = null!;
         public DateTime CreatedDate { get; set; }
         public ICollection<ExerciseInWorkout> ExerciseInWorkout { get; set; } = []; // Each exercise can be done by many ExercisesInWorkouts
+        public ICollection<ExerciseTemplate> ExerciseTemplate { get; set; } = [];
     }
 }
