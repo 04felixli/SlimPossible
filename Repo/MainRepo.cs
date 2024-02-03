@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 using ftDB.Models.Request.PostWorkoutModels;
 using ftDB.Models.Response.WorkoutHistoryModels;
 using ftDB.Models.Request.UpdateWorkoutModels;
+using ftDB.Models.Request.PostWorkoutTemplateModels;
 
 namespace ftDB.Repo
 {
@@ -156,6 +157,37 @@ namespace ftDB.Repo
             ResponseModelUpdatedWorkout updatedExercises = new(workout.Exercises);
 
             return updatedExercises;
+        }
+
+        public async Task<ResponseBase> PostWorkoutTemplateAsync(RequestModelPostWorkoutTemplate workoutTemplate)
+        {
+            ResponseBase resp = new();
+
+            workoutTemplate.Exercises = workoutTemplate.Exercises
+                                                        .Where(exercise => exercise.Sets.Any(set => set.Weight >= 0 && set.Reps >= 0)) // Only keep exercises with at least one valid set in them
+                                                        .Select(exercise => new ModelPostExerciseTemplate
+                                                        (
+                                                            exercise.Id,
+                                                            exercise.Name,
+                                                            exercise.Equipment,
+                                                            exercise.TargetMuscle,
+                                                            exercise.WeightUnit,
+                                                            exercise.Notes,
+                                                            exercise.Sets.Where(set => set.Weight >= 0 && set.Reps >= 0).ToArray() // Only keep valid sets
+                                                        )).ToArray();
+
+            if (workoutTemplate.Exercises.Length == 0)
+            {
+                resp.SetResponseSuccessWithMsg("No workout template was posted since there were no exercises.");
+
+                return resp;
+            }
+
+            await _dao.PostWorkoutTemplateAsync(workoutTemplate);
+
+            resp.SetResponseSuccess();
+
+            return resp;
         }
 
 

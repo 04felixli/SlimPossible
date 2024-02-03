@@ -17,6 +17,9 @@ namespace ftDB.Dao
         public virtual DbSet<Set> Sets { get; set; }
         public virtual DbSet<ExerciseInWorkout> ExercisesInWorkouts { get; set; }
         public virtual DbSet<CompletedWorkout> CompletedWorkouts { get; set; }
+        public virtual DbSet<WorkoutTemplate> WorkoutTemplates { get; set; }
+        public virtual DbSet<ExerciseTemplate> ExerciseTemplates { get; set; }
+        public virtual DbSet<SetTemplate> SetTemplates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -1,6 +1,6 @@
 namespace ftDB.Entities
 {
-    public class SetTemplate(int exerciseTemplateId, int setNumber, int reps, int weight)
+    public class SetTemplate(int weight, int reps, int setNumber, int exerciseTemplateId)
     {
         public int Id { get; set; }
         public int ExerciseTemplateId { get; set; } = exerciseTemplateId;

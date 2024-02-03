@@ -217,14 +217,14 @@ namespace ftDB.Controllers
         }
 
         [EnableCors]
-        [HttpPost("AddWorkoutTemplate")]
-        public async Task<ResponseBase> AddWorkoutTemplateAsync([FromBody] RequestModelPostWorkout completedWorkout)
+        [HttpPost("PostWorkoutTemplate")]
+        public async Task<ResponseBase> PostWorkoutTemplateAsync([FromBody] RequestModelPostWorkoutTemplate workoutTemplate)
         {
             ResponseBase response = new();
 
             try
             {
-                response = await _repo.PostWorkoutAsync(completedWorkout);
+                response = await _repo.PostWorkoutTemplateAsync(workoutTemplate);
             }
             catch (CustomExceptionModel ex)
             {
