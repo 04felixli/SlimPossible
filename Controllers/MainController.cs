@@ -215,5 +215,27 @@ namespace ftDB.Controllers
 
             return response;
         }
+
+        [EnableCors]
+        [HttpPost("AddWorkoutTemplate")]
+        public async Task<ResponseBase> AddWorkoutTemplateAsync([FromBody] RequestModelPostWorkout completedWorkout)
+        {
+            ResponseBase response = new();
+
+            try
+            {
+                response = await _repo.PostWorkoutAsync(completedWorkout);
+            }
+            catch (CustomExceptionModel ex)
+            {
+                response.SetResponseFailed(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
+            }
+
+            return response;
+        }
     }
 }
