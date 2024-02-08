@@ -15,6 +15,7 @@ using ftDB.Models.Response.WorkoutHistoryModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ftDB.Models.Request.UpdateWorkoutModels;
 using ftDB.Models.Request.PostWorkoutTemplateModels;
+using ftDB.Models.Response.GetWorkoutTemplateModels;
 
 namespace ftDB.Dao
 {
@@ -219,6 +220,33 @@ namespace ftDB.Dao
                 transaction.Rollback();
                 throw new CustomExceptionModel("An exception occurred inside of MainDao.PostWorkoutTemplateAsync: " + ex.Message);
             }
+        }
+
+        public async Task<ResponseModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId)
+        {
+            ResponseModelGetWorkoutTemplate template = await _context.WorkoutTemplates
+                .Include(wt => wt.ExerciseTemplates)
+                .ThenInclude(et => et.SetTemplates)
+                .Where(workoutTemplate => workoutTemplate.Id == workoutTemplateId)
+                .Select(workoutTemplate => new ResponseModelGetWorkoutTemplate(
+                    workoutTemplate.Name,
+                    workoutTemplate.ExerciseTemplates
+                                   .OrderBy(et => et.Id)
+                                   .Select(exerciseTemplate => new ModelGetExerciseTemplate(
+                                        exerciseTemplate.Exercise.Id,
+                                        exerciseTemplate.Exercise.Name,
+                                        exerciseTemplate.Exercise.Equipment,
+                                        exerciseTemplate.Exercise.TargetMuscle,
+                                        exerciseTemplate.WeightUnit,
+                                        exerciseTemplate.Notes,
+                                        exerciseTemplate.SetTemplates
+                                            .OrderBy(s => s.SetNumber)
+                                            .Select(s => new ModelGetSetTemplate(s.Weight, s.Reps, s.SetNumber, false))
+                                            .ToArray()
+                                   )).ToArray()
+                )).FirstAsync();
+
+            return template;
         }
 
         #region Private Methods 

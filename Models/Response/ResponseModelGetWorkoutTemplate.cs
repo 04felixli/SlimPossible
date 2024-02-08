@@ -1,8 +1,9 @@
+using ftDB.BaseLibrary;
 using ftDB.Models.Response.GetWorkoutTemplateModels;
 
 namespace ftDB.Models.Response
 {
-    public class ResponseModelGetWorkoutTemplate
+    public class ResponseModelGetWorkoutTemplate : ResponseBase
     {
         public string? Name { get; set; }
         public ModelGetExerciseTemplate[]? Exercises { get; set; }

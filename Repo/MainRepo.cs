@@ -13,6 +13,7 @@ using ftDB.Models.Request.PostWorkoutModels;
 using ftDB.Models.Response.WorkoutHistoryModels;
 using ftDB.Models.Request.UpdateWorkoutModels;
 using ftDB.Models.Request.PostWorkoutTemplateModels;
+using ftDB.Models.Response.GetWorkoutTemplateModels;
 
 namespace ftDB.Repo
 {
@@ -190,7 +191,14 @@ namespace ftDB.Repo
             return resp;
         }
 
+        public async Task<ResponseModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId)
+        {
+            ResponseModelGetWorkoutTemplate response = await _dao.GetWorkoutTemplateAsync(workoutTemplateId);
 
+            response.SetResponseSuccess();
+
+            return response;
+        }
 
 
     }

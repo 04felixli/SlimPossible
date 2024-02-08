@@ -19,5 +19,6 @@ namespace ftDB.Interfaces
         Task<ModelPastWorkout> GetWorkoutAsync(int workoutId);
         Task<ModelExerciseToUpdate> GetNewExerciseByIdAsync(int exerciseId);
         Task PostWorkoutTemplateAsync(RequestModelPostWorkoutTemplate workoutTemplate);
+        Task<ResponseModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId);
     }
 }
