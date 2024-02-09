@@ -200,6 +200,17 @@ namespace ftDB.Repo
             return response;
         }
 
+        public async Task<ResponseModelGetAllWorkoutTemplates> GetAllWorkoutTemplatesAsync()
+        {
+            List<ModelGetWorkoutTemplate> templates = await _dao.GetAllTemplatesAsync();
+
+            ResponseModelGetAllWorkoutTemplates response = new([.. templates]);
+
+            response.SetResponseSuccess();
+
+            return response;
+        }
+
 
     }
 }

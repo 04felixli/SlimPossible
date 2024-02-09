@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using ftDB.Models.Request;
 using ftDB.Models.Response.WorkoutHistoryModels;
 using ftDB.Models.Request.UpdateWorkoutModels;
+using ftDB.Models.Response.GetWorkoutTemplateModels;
 
 
 namespace ftDB.Interfaces
@@ -20,5 +21,6 @@ namespace ftDB.Interfaces
         Task<ModelExerciseToUpdate> GetNewExerciseByIdAsync(int exerciseId);
         Task PostWorkoutTemplateAsync(RequestModelPostWorkoutTemplate workoutTemplate);
         Task<ResponseModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId);
+        Task<List<ModelGetWorkoutTemplate>> GetAllTemplatesAsync();
     }
 }

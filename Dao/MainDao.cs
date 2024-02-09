@@ -249,6 +249,35 @@ namespace ftDB.Dao
             return template;
         }
 
+        public async Task<List<ModelGetWorkoutTemplate>> GetAllTemplatesAsync()
+        {
+            List<ModelGetWorkoutTemplate> templates = await _context.WorkoutTemplates
+                .Include(wt => wt.ExerciseTemplates)
+                .ThenInclude(et => et.SetTemplates)
+                .OrderByDescending(template => template.Id)
+                .Select(template => new ModelGetWorkoutTemplate(
+                    template.Id,
+                    template.Name,
+                    template.ExerciseTemplates
+                                   .OrderBy(et => et.Id)
+                                   .Select(exerciseTemplate => new ModelGetExerciseTemplate(
+                                        exerciseTemplate.Exercise.Id,
+                                        exerciseTemplate.Exercise.Name,
+                                        exerciseTemplate.Exercise.Equipment,
+                                        exerciseTemplate.Exercise.TargetMuscle,
+                                        exerciseTemplate.WeightUnit,
+                                        exerciseTemplate.Notes,
+                                        exerciseTemplate.SetTemplates
+                                            .OrderBy(s => s.SetNumber)
+                                            .Select(s => new ModelGetSetTemplate(s.Weight, s.Reps, s.SetNumber, false))
+                                            .ToArray()
+                                   )).ToArray(),
+                    template.CreatedDate
+                )).ToListAsync();
+
+            return templates;
+        }
+
         #region Private Methods 
 
         private async Task<int> PostCompletedWorkoutAsync(CompletedWorkout workoutToPost)
