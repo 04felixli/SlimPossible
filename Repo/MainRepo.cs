@@ -211,6 +211,24 @@ namespace ftDB.Repo
             return response;
         }
 
+        public async Task<ResponseBase> DeleteWorkoutTemplateAsync(int workoutTemplateId)
+        {
+            ResponseBase resp = new();
+
+            bool isDeleted = await _dao.DeleteWorkoutTemplateAsync(workoutTemplateId);
+
+            if (isDeleted)
+            {
+                resp.SetResponseSuccess();
+
+                return resp;
+            }
+
+            resp.SetResponseSuccessWithMsg("There was nothing to delete");
+
+            return resp;
+        }
+
 
     }
 }

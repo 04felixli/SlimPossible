@@ -64,7 +64,7 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpGet("GetAllWorkouts")]
-        public async Task<ResponseBase> GetAllWorkoutsAsync()
+        public async Task<ResponseModelGetAllWorkouts> GetAllWorkoutsAsync()
         {
             ResponseModelGetAllWorkouts response = new();
 
@@ -86,7 +86,7 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpGet("GetWorkout")]
-        public async Task<ResponseBase> GetWorkoutAsync([FromQuery] int workoutId)
+        public async Task<ResponseModelGetWorkout> GetWorkoutAsync([FromQuery] int workoutId)
         {
             ResponseModelGetWorkout response = new();
 
@@ -240,7 +240,7 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpGet("GetWorkoutTemplate")]
-        public async Task<ResponseBase> GetWorkoutTemplateAsync([FromQuery] int workoutTemplateId)
+        public async Task<ResponseModelGetWorkoutTemplate> GetWorkoutTemplateAsync([FromQuery] int workoutTemplateId)
         {
             ResponseModelGetWorkoutTemplate response = new();
 
@@ -262,13 +262,35 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpGet("GetAllWorkoutTemplates")]
-        public async Task<ResponseBase> GetAllWorkoutTemplatesAsync()
+        public async Task<ResponseModelGetAllWorkoutTemplates> GetAllWorkoutTemplatesAsync()
         {
             ResponseModelGetAllWorkoutTemplates response = new();
 
             try
             {
                 response = await _repo.GetAllWorkoutTemplatesAsync();
+            }
+            catch (CustomExceptionModel ex)
+            {
+                response.SetResponseFailed(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
+            }
+
+            return response;
+        }
+
+        [EnableCors]
+        [HttpDelete("DeleteWorkoutTemplate")]
+        public async Task<ResponseBase> DeleteWorkoutTemplateAsync([FromQuery] int workoutTemplateId)
+        {
+            ResponseBase response = new();
+
+            try
+            {
+                response = await _repo.DeleteWorkoutTemplateAsync(workoutTemplateId);
             }
             catch (CustomExceptionModel ex)
             {

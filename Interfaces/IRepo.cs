@@ -19,6 +19,7 @@ namespace ftDB.Interfaces
         Task<ResponseBase> PostWorkoutTemplateAsync(RequestModelPostWorkoutTemplate workoutTemplate);
         Task<ResponseModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId);
         Task<ResponseModelGetAllWorkoutTemplates> GetAllWorkoutTemplatesAsync();
+        Task<ResponseBase> DeleteWorkoutTemplateAsync(int workoutTemplateId);
 
     }
 }

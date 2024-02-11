@@ -278,6 +278,24 @@ namespace ftDB.Dao
             return templates;
         }
 
+        public async Task<bool> DeleteWorkoutTemplateAsync(int workoutTemplateId)
+        {
+            WorkoutTemplate? templateToDelete = await _context.WorkoutTemplates.FindAsync(workoutTemplateId);
+
+            if (templateToDelete != null)
+            {
+                // Remove the entity from the DbSet
+                _context.WorkoutTemplates.Remove(templateToDelete);
+
+                // Save changes to the database
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
+        }
+
         #region Private Methods 
 
         private async Task<int> PostCompletedWorkoutAsync(CompletedWorkout workoutToPost)
