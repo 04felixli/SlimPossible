@@ -9,6 +9,7 @@ import "../globals.css";
 import TemplateSubheading from './components/TemplateSubheading';
 import Button from '../global components/Buttons/Button';
 import MobileNavBar from '../global components/MobileNavBar';
+import Link from 'next/link';
 // import Button from '../global components/Buttons/Button';
 
 const workout = async () => {
@@ -19,7 +20,9 @@ const workout = async () => {
         <PageLayout>
             <PageName name={pageName} />
             <div className='flex justify-center mb-5'>
-                <Button text={"Quick Start"} />
+                <Link href="/start">
+                    <Button text={"Quick Start"} />
+                </Link>
             </div>
             <TemplateSubheading />
             <TemplateCards templates={templates} />

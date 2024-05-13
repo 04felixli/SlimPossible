@@ -7,6 +7,7 @@ export default function Home() {
       <div className="text-xl">Home Page</div>
       <Link href="/workout">Workout</Link>
       <Link href="/history">History</Link>
+      <Link href="/exercises">Exercises</Link>
     </>
   );
 }
