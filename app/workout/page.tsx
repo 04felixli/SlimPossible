@@ -20,7 +20,7 @@ const workout = async () => {
         <PageLayout>
             <PageName name={pageName} />
             <div className='flex justify-center mb-5'>
-                <Link href="/start">
+                <Link href="/workout/start">
                     <Button text={"Quick Start"} />
                 </Link>
             </div>

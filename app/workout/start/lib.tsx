@@ -11,3 +11,4 @@ export const GetWorkoutTime = (): string => {
         return "Night";
     }
 }
+

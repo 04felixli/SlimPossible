@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
+import ExercisesToTrackContextProvider from "./contexts/exercisesToTrackContext";
+import SelectedExercisesContextProvider from "./contexts/selectedExercisesContext";
 
-const roboto = Roboto({ subsets: ["latin"], weight: ['400', '100'] });
+const roboto = Roboto({ subsets: ["latin"], weight: ['700', '500', '400', '100'] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`max-w-screen min-w-screen min-h-screen flex justify-center ${roboto.className}`}>{children}</body>
+      <ExercisesToTrackContextProvider>
+        <SelectedExercisesContextProvider>
+          <body className={`max-w-screen min-w-screen min-h-screen flex justify-center ${roboto.className}`}>{children}</body>
+        </SelectedExercisesContextProvider>
+      </ExercisesToTrackContextProvider>
     </html>
   );
 }

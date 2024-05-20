@@ -5,9 +5,17 @@ import './button.css';
 
 interface Props {
     text: string;
+    onClickFunction?: () => void; // Make onClickFunction optional
 }
 
 const Button = (props: Props) => {
+    // Temporary default function if none is provided
+    const handleClick = () => {
+        console.log("Default button click!");
+    };
+
+    const onClick = props.onClickFunction || handleClick;
+
     return (
         <motion.button
             // @ts-ignore
@@ -31,7 +39,7 @@ const Button = (props: Props) => {
                 },
             }}
             className="px-6 py-0.5 rounded-full relative radial-gradient shadow-lg"
-            onClick={() => console.log("oh hello!")}
+            onClick={onClick}
         >
             <span className="tracking-wide h-full w-full block relative linear-mask">
                 {props.text}

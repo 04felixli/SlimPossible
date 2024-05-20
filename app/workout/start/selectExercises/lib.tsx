@@ -1,11 +1,10 @@
 import { ResponseGetExerciseInList } from "./interfaces/apiInterfaces";
-import { ExerciseInList } from "./interfaces/exercises";
+import { SelectableExercise } from "./interfaces/exercises";
 
 const url = process.env.API_KEY;
 
-export const GetExerciseList = async (searchInput: string): Promise<ExerciseInList[]> => {
+export const GetSelectableExercisesList = async (searchInput: string = ""): Promise<SelectableExercise[]> => {
     try {
-        // console.log("Fetching exercise list at: " + `${url}/api/Main/GetExerciseList?searchInput=${searchInput}`)
         const res = await fetch(`${url}/api/Main/GetExerciseList?searchInput=${searchInput}`, { cache: 'no-store' });
 
         if (res.status !== 200) {
@@ -13,11 +12,11 @@ export const GetExerciseList = async (searchInput: string): Promise<ExerciseInLi
         }
 
         const response: ResponseGetExerciseInList = await res.json();
-        const histories: ExerciseInList[] = response.exercises;
-        return histories;
+        const exerciseList: SelectableExercise[] = response.exercises;
+        return exerciseList;
 
     } catch (error) {
-        console.error('There was an error fetching workout histories: ', error);
+        console.error('There was an error fetching exercise list: ', error);
         throw error;
     }
 }

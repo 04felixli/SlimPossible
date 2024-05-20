@@ -22,11 +22,6 @@ const MobileNavBar = () => {
                 </Link>
             </li>
             <li>
-                <Link href="/start">
-                    <VscDebugStart className='h-5 w-5' />
-                </Link>
-            </li>
-            <li>
                 <Link href="/history">
                     <FaCalendar className='h-5 w-5' />
                 </Link>

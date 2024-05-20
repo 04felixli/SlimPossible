@@ -5,7 +5,7 @@ export class Workout {
     name: string;
     duration: number;
     date: Date;
-    exercises: Exercises[];
+    exercises: Exercise[];
 
     constructor() {
         this.name = GetWorkoutTime() + " Workout";
@@ -15,28 +15,37 @@ export class Workout {
     }
 }
 
-export class Exercises {
+
+export class Exercise {
+    id: number;
+    name: string;
+    equipment: string;
+    targetMuscle: string;
     weightUnit: string;
     notes: string;
-    sets: Sets[]
+    sets: Set[];
 
-    constructor() {
-        this.weightUnit = "lbs";
+    constructor(id: number, name: string, equipment: string, targetMuscle: string, weightUnit: string) {
+        this.id = id;
+        this.name = name;
+        this.equipment = equipment;
+        this.targetMuscle = targetMuscle;
+        this.weightUnit = weightUnit;
         this.notes = "";
-        this.sets = []
+        this.sets = [new Set(1)];
     }
 }
 
-export class Sets {
+export class Set {
     weight: number;
     reps: number;
     setNumber: number;
     isCompleted: boolean;
 
-    constructor() {
+    constructor(setNumber: number) {
         this.weight = -1;
         this.reps = -1;
-        this.setNumber = -1;
+        this.setNumber = setNumber;
         this.isCompleted = false;
     }
 }
