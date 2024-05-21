@@ -4,8 +4,6 @@ import PageName from '@/app/global components/PageName';
 import SearchBar from '@/app/global components/SearchBar';
 import React from 'react'
 import SelectExercisesList from './components/SelectExercisesList';
-import SelectedExercisesContextProvider from '../../../contexts/selectedExercisesContext';
-import ExercisesToTrackContextProvider from '../../../contexts/exercisesToTrackContext';
 import AddButton from './components/AddButton';
 import Link from 'next/link';
 

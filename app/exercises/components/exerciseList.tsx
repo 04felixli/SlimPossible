@@ -1,6 +1,6 @@
 import React from 'react'
 import { ExerciseInList } from '../interfaces/exercises';
-import { GetExerciseList } from '../lib';
+import { GetExerciseList } from '@/app/global components/Library/apiCalls';
 
 interface Props {
     query: string;

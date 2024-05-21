@@ -3,8 +3,8 @@ import PageLayout from '../global components/layout'
 import PageName from '../global components/PageName'
 import Button from '../global components/Buttons/Button'
 import { WorkoutHistory } from './interfaces/history'
-import { GetAllWorkoutHistoryAsync } from './lib'
 import HistoryCards from './components/HistoryCards'
+import { GetAllWorkoutHistoryAsync } from '../global components/Library/apiCalls'
 
 const history = async () => {
     const workoutHistories: WorkoutHistory[] = await GetAllWorkoutHistoryAsync();

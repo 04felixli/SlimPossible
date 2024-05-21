@@ -1,8 +1,6 @@
 import React from 'react'
 import { Exercise } from '../objects/classes'
-import NumericInput from './NumericInput';
 import { FaCheck } from "react-icons/fa";
-import { FaRegCheckCircle } from "react-icons/fa";
 import { useExercisesToTrack } from '@/app/contexts/exercisesToTrackContext';
 
 interface Props {
@@ -30,7 +28,7 @@ const TrackSets = ({ exercise }: Props) => {
   }
 
   const handleWeightInput = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number) => {
-    const newWeight = parseFloat(event.target.value);
+    const newWeight = event.target.value ? parseFloat(event.target.value) : -1;
     setExercisesToTrack(prevExercises => {
       return prevExercises.map(exercise => {
         if (exercise.id === exerciseId) {
@@ -48,7 +46,7 @@ const TrackSets = ({ exercise }: Props) => {
   };
 
   const handleRepInput = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number) => {
-    const newReps = parseInt(event.target.value, 10);
+    const newReps = event.target.value ? parseInt(event.target.value, 10) : -1;
     setExercisesToTrack(prevExercises => {
       return prevExercises.map(exercise => {
         if (exercise.id === exerciseId) {

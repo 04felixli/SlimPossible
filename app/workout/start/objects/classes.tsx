@@ -1,5 +1,4 @@
-import { GetWorkoutTime } from "../lib";
-
+import { GetWorkoutTime } from "@/app/global components/Library/utilFunctions";
 
 export class Workout {
     name: string;
@@ -14,7 +13,6 @@ export class Workout {
         this.exercises = []
     }
 }
-
 
 export class Exercise {
     id: number;

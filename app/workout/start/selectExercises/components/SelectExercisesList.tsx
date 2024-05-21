@@ -1,14 +1,14 @@
 import React from 'react'
-import { SelectableExercise } from '../interfaces/exercises';
-import { GetSelectableExercisesList } from '../lib';
 import SelectableExerciseCard from './SelectableExerciseCard';
+import { GetExerciseList } from '@/app/global components/Library/apiCalls';
+import { ExerciseInList } from '@/app/exercises/interfaces/exercises';
 
 interface Props {
     query: string;
 }
 
 const SelectExercisesList = async (props: Props) => {
-    const exercises: SelectableExercise[] = await GetSelectableExercisesList(props.query);
+    const exercises: ExerciseInList[] = await GetExerciseList(props.query);
     return (
         <div>
             <SelectableExerciseCard exercises={exercises} />

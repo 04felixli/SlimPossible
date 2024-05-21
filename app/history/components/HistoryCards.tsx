@@ -2,7 +2,7 @@ import React from 'react'
 import { WorkoutHistory } from '../interfaces/history'
 import { FaCalendar } from "react-icons/fa";
 import { FaClock } from "react-icons/fa";
-import { formatTime } from '../lib';
+import { formatTime } from '@/app/global components/Library/utilFunctions';
 
 interface Props {
     workoutHistories: WorkoutHistory[];

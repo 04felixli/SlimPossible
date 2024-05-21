@@ -1,17 +1,17 @@
 'use client';
 import React from 'react'
-import { SelectableExercise } from '../interfaces/exercises';
 import { useSelectedExercises } from '../../../../contexts/selectedExercisesContext';
 import { Exercise } from '../../objects/classes';
+import { ExerciseInList } from '@/app/exercises/interfaces/exercises';
 
 interface Props {
-    exercises: SelectableExercise[];
+    exercises: ExerciseInList[];
 }
 
 const SelectableExerciseCard = (props: Props) => {
     const { selectedExercises, setSelectedExercises } = useSelectedExercises();
 
-    const handleExerciseSelection = (selectedExercise: SelectableExercise): void => {
+    const handleExerciseSelection = (selectedExercise: ExerciseInList): void => {
         const exercise = new Exercise(selectedExercise.id, selectedExercise.name, selectedExercise.equipment, selectedExercise.targetMuscle, 'lbs');
         const isSelected = selectedExercises.some(selected => selected.id === exercise.id);
 
