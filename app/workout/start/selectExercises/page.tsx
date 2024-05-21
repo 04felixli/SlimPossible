@@ -14,8 +14,8 @@ const selectExercises = (
             page?: string;
         }
     }) => {
-    const pageName = "Select Exercises";
-    const query = searchParams?.query || '';
+    const pageName: string = "Select Exercises";
+    const query: string = searchParams?.query || '';
 
     return (
         <PageLayout>

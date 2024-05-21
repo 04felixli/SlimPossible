@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import ExercisesToTrackContextProvider from "./contexts/exercisesToTrackContext";
 import SelectedExercisesContextProvider from "./contexts/selectedExercisesContext";
+import ReplacementExerciseContextProvider from "./contexts/replacementExerciseContext";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ['700', '500', '400', '100'] });
 
@@ -20,7 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <ExercisesToTrackContextProvider>
         <SelectedExercisesContextProvider>
-          <body className={`max-w-screen min-w-screen min-h-screen flex justify-center ${roboto.className}`}>{children}</body>
+          <ReplacementExerciseContextProvider>
+            <body className={`max-w-screen min-w-screen min-h-screen flex justify-center ${roboto.className}`}>{children}</body>
+          </ReplacementExerciseContextProvider>
         </SelectedExercisesContextProvider>
       </ExercisesToTrackContextProvider>
     </html>

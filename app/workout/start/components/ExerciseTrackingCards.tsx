@@ -8,6 +8,7 @@ import { RiDeleteBin2Fill } from "react-icons/ri";
 import { FaPlus } from "react-icons/fa";
 import ActionButton from './ActionButton';
 import { Set } from '../objects/classes';
+import Link from 'next/link';
 
 const ExerciseTrackingCards = () => {
     const { exercisesToTrack, setExercisesToTrack } = useExercisesToTrack();
@@ -63,9 +64,11 @@ const ExerciseTrackingCards = () => {
                         <div className='flex flex-row justify-between items-center mt-5'>
 
                             {/* Replace exercise button */}
-                            <ActionButton>
-                                <TbSwitch3 />
-                            </ActionButton>
+                            <Link href={`/workout/start/replaceExercise?id=${exercise.id}`}>
+                                <ActionButton>
+                                    <TbSwitch3 />
+                                </ActionButton>
+                            </Link>
 
                             {/* Show/hide notes for exercise button */}
                             <ActionButton>
