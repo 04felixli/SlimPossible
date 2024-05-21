@@ -43,6 +43,28 @@ const ExerciseTrackingCards = () => {
         });
     }
 
+    const handleNotesChange = (exerciseId: number, value: string): void => {
+        setExercisesToTrack((prevExercises) => {
+            return prevExercises.map(exercise => {
+                if (exercise.id === exerciseId) {
+                    return { ...exercise, notes: value };
+                }
+                return exercise;
+            });
+        });
+    }
+
+    const toggleNotes = (exerciseId: number): void => {
+        setExercisesToTrack((prevExercises) => {
+            return prevExercises.map(exercise => {
+                if (exercise.id === exerciseId) {
+                    return { ...exercise, showNotes: !exercise.showNotes };
+                }
+                return exercise;
+            });
+        });
+    }
+
     return (
         <div>
             <ul>
@@ -60,6 +82,22 @@ const ExerciseTrackingCards = () => {
                             <div>{exercise.equipment}</div>
                             <div>{exercise.targetMuscle}</div>
                         </div>
+
+                        {/* Input field for notes */}
+                        {exercise.showNotes && <div>
+                            <textarea
+                                id={`notes_${exercise.id}`}
+                                value={exercise.notes ? exercise.notes : ''}
+                                onChange={(e) => {
+                                    handleNotesChange(exercise.id, e.target.value);
+                                    e.target.style.height = 'auto'; // Reset height to auto
+                                    e.target.style.height = `${e.target.scrollHeight}px`; // Set height to scrollHeight
+                                }}
+                                className="focus:outline-none bg-transparent border-b w-full mt-2 resize-none overflow-hidden min-h-8 h-auto text-sm"
+                                placeholder={exercise.notes ? exercise.notes : 'Add Notes'}
+                            />
+                        </div>}
+
                         <TrackSets exercise={exercise} />
                         <div className='flex flex-row justify-between items-center mt-5'>
 
@@ -71,13 +109,13 @@ const ExerciseTrackingCards = () => {
                             </Link>
 
                             {/* Show/hide notes for exercise button */}
-                            <ActionButton>
+                            <ActionButton onClickFunction={() => toggleNotes(exercise.id)}>
                                 <FaNoteSticky />
                             </ActionButton>
 
                             {/* Change weight unit for exercise button */}
                             <ActionButton onClickFunction={() => handleWeightUnitChange(exercise.id)}>
-                                <span className='text-xs'>{exercise.weightUnit}</span>
+                                <span className='text-xs'>{exercise.weightUnit === 'lbs' ? 'kgs' : 'lbs'}</span>
                             </ActionButton>
 
                             {/* Add set button */}
