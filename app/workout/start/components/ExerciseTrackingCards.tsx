@@ -98,6 +98,7 @@ const ExerciseTrackingCards = () => {
                             />
                         </div>}
 
+                        {/* Component for actual set tracking */}
                         <TrackSets exercise={exercise} />
                         <div className='flex flex-row justify-between items-center mt-5'>
 

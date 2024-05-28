@@ -2,6 +2,7 @@ import React from 'react'
 import { Exercise } from '../objects/classes'
 import { FaCheck } from "react-icons/fa";
 import { useExercisesToTrack } from '@/app/contexts/exercisesToTrackContext';
+import NumericInput from './NumericInput';
 
 interface Props {
   exercise: Exercise;
@@ -33,8 +34,10 @@ const TrackSets = ({ exercise }: Props) => {
       return prevExercises.map(exercise => {
         if (exercise.id === exerciseId) {
           const updatedSets = exercise.sets.map(set => {
-            if (set.setNumber === setNumber) {
+            if (set.setNumber === setNumber && newWeight !== -1) {
               return { ...set, weight: newWeight };
+            } else if (set.setNumber === setNumber && newWeight === -1) {
+              return { ...set, weight: newWeight, isCompleted: false };
             }
             return set;
           });
@@ -51,8 +54,10 @@ const TrackSets = ({ exercise }: Props) => {
       return prevExercises.map(exercise => {
         if (exercise.id === exerciseId) {
           const updatedSets = exercise.sets.map(set => {
-            if (set.setNumber === setNumber) {
+            if (set.setNumber === setNumber && newReps !== -1) {
               return { ...set, reps: newReps };
+            } else if (set.setNumber === setNumber && newReps === -1) {
+              return { ...set, reps: newReps, isCompleted: false };
             }
             return set;
           });
@@ -77,49 +82,61 @@ const TrackSets = ({ exercise }: Props) => {
 
   return (
     <div>
-      <div className='flex flex-row justify-between items-center'>
-        <div>Set</div>
-        <div>Previous</div>
-        <div>{exercise.weightUnit}</div>
-        <div>Reps</div>
-        <div><FaCheck /></div>
-      </div>
       <ul>
         {exercise.sets.map((set) => (
           <li key={set.setNumber}>
-            <div className={`flex flex-row justify-between items-center rounded-sm px-2 py-1 ${set.isCompleted ? 'bg-green-400' : ''}`}>
-              <div className='px-3 rounded-full border'>{set.setNumber}</div>
-              <div className='thin-font'>210 {exercise.weightUnit} * 10</div>
+            <div className={`flex flex-row justify-between items-center rounded-sm py-1`}>
+              {/* Set number */}
+              <div className='flex flex-col'>
+                {set.setNumber == 1 && <div className='mb-2 flex justify-center'>Set</div>}
+                <div className={`px-2 rounded-full border ${set.isCompleted ? 'border-disabled-color text-disabled-color' : ''}`}>{set.setNumber}</div>
+              </div>
+
+              {/* Previous */}
+              <div className='flex flex-col'>
+                {set.setNumber == 1 && <div className='mb-2 flex justify-center'>Previous</div>}
+                <div className={`thin-font ${set.isCompleted ? '' : ''}`}>210 {exercise.weightUnit} * 10</div>
+              </div>
 
               {/* input field for weight */}
-              <div className='w-2/12 flex justify-center'>
-                <input
-                  type="number"
-                  className={`input input-bordered max-w-xs bg-card-bg-gradient-dark rounded-full py-1 h-full w-full leading-tight ${set.isCompleted ? 'bg-green-500' : ''}`}
-                  onChange={(e) => handleWeightInput(e, exercise.id, set.setNumber)}
-                  onKeyDown={preventInvalidInput} // Prevent '-' character
-                  value={set.weight < 0 ? '' : set.weight}
-                />
+              <div className='flex flex-col w-2/12'>
+                {set.setNumber == 1 && <div className='mb-2 flex justify-center'>{exercise.weightUnit}</div>}
+                <div className='flex justify-center'>
+                  <NumericInput
+                    name="Weight Input"
+                    value={set.weight < 0 ? '' : set.weight}
+                    onChange={(e) => handleWeightInput(e, exercise.id, set.setNumber)}
+                    onKeyDown={preventInvalidInput} // Prevent '-' character
+                    className={`max-w-xs bg-card-bg-gradient-dark rounded-full py-1 px-2 h-full w-full ${set.isCompleted ? 'text-disabled-color' : ''}`}
+                  />
+                </div>
               </div>
 
               {/* input field for reps */}
-              <div className='w-2/12 flex justify-center'>
-                <input
-                  type="number"
-                  className={`input input-bordered max-w-xs bg-card-bg-gradient-dark rounded-full py-1 h-full w-full leading-tight ${set.isCompleted ? 'bg-green-500' : ''}`}
-                  onChange={(e) => handleRepInput(e, exercise.id, set.setNumber)}
-                  onKeyDown={preventInvalidInput} // Prevent '-' character
-                  value={set.reps < 0 ? '' : set.reps}
-                />
+              <div className='flex flex-col w-2/12'>
+                {set.setNumber == 1 && <div className='mb-2 flex justify-center'>Reps</div>}
+                <div className='flex justify-center'>
+                  <NumericInput
+                    name="Rep Input"
+                    value={set.reps < 0 ? '' : set.reps}
+                    onChange={(e) => handleRepInput(e, exercise.id, set.setNumber)}
+                    onKeyDown={preventInvalidInput} // Prevent '-' character
+                    className={`max-w-xs bg-card-bg-gradient-dark rounded-full py-1 h-full w-full ${set.isCompleted ? 'text-disabled-color' : ''}`}
+                  />
+                </div>
               </div>
 
-              {/* complete set button */}
-              <button className='border p-1 rounded-full'
-                onClick={() => handleCompletedSet(exercise.id, set.setNumber)}
-              >
-                <FaCheck />
-              </button>
 
+              {/* complete set button */}
+              <div className='flex flex-col'>
+                {set.setNumber == 1 && <div className='mb-2 flex justify-center p-1 rounded-full'><FaCheck /></div>}
+                <button className={`p-1 rounded-full ${set.isCompleted ? 'bg-green-500 border border-green-500' : 'border'}`}
+                  onClick={() => handleCompletedSet(exercise.id, set.setNumber)}
+                  disabled={(set.reps < 0 || set.weight < 0) ? true : false}
+                >
+                  <FaCheck />
+                </button>
+              </div>
             </div>
           </li>
         ))}

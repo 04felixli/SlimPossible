@@ -3,11 +3,8 @@ import PageLayout from '../global components/layout'
 import PageName from '../global components/PageName'
 import SearchBar from '../global components/SearchBar'
 import Button from '../global components/Buttons/Button'
-import ExerciseList from './components/ExerciseList'
+import ExerciseList from './components/exerciseList'
 
-interface Props {
-  query: string;
-}
 const exercises = (
   { searchParams }: {
     searchParams?: {
