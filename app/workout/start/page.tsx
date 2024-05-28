@@ -6,6 +6,7 @@ import Button from '@/app/global components/Buttons/Button'
 import Link from 'next/link'
 import ExerciseTrackingCards from './components/ExerciseTrackingCards'
 import { GetWorkoutTime } from '@/app/global components/Library/utilFunctions'
+import StartWorkoutButtons from './components/StartWorkoutButtons'
 
 const start = () => {
     return (
@@ -13,13 +14,7 @@ const start = () => {
             <PageName name={GetWorkoutTime() + " Workout"} />
             <Timer />
             <ExerciseTrackingCards />
-            <div className='flex justify-around mt-5'>
-                <Link href="/workout/start/selectExercises">
-                    <Button text={'Add'} />
-                </Link>
-                <Button text={'Finish'} />
-                <Button text={'Cancel'} />
-            </div>
+            <StartWorkoutButtons />
         </PageLayout>
     )
 }

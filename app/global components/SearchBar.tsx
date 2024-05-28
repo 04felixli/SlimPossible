@@ -1,5 +1,4 @@
 'use client';
-import Button from '@/app/global components/Buttons/Button';
 import React from 'react'
 import { FaSearch } from "react-icons/fa";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
