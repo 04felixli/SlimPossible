@@ -2,7 +2,7 @@
 import Button from '@/app/global components/Buttons/Button'
 import React from 'react'
 import { useExercisesToTrack } from '../../../../contexts/exercisesToTrackContext';
-import { Exercise } from '../../objects/classes';
+import { Exercise } from '../../../objects/classes';
 import { useReplacementExercise } from '@/app/contexts/replacementExerciseContext';
 
 interface Props {

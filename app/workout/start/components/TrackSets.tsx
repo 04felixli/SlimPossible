@@ -1,8 +1,8 @@
 import React from 'react'
-import { Exercise } from '../objects/classes'
+import { Exercise } from '../../objects/classes'
 import { FaCheck } from "react-icons/fa";
 import { useExercisesToTrack } from '@/app/contexts/exercisesToTrackContext';
-import NumericInput from './NumericInput';
+import NumericInput from '../../components/NumericInput';
 
 interface Props {
   exercise: Exercise;

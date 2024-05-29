@@ -2,10 +2,10 @@
 import React, { useState } from 'react'
 import Button from '@/app/global components/Buttons/Button';
 import Link from 'next/link';
-import PopUp from './popups/PopUp';
-import { IPopUp } from '../../interfaces/popup';
+import PopUp from '../start/components/popups/PopUp';
+import { IPopUp } from '../interfaces/popup';
 
-const StartWorkoutButtons = () => {
+const WorkoutButtons = () => {
     const [cancelWorkout, setCancelWorkout] = useState<boolean>(false);
     const [finishWorkout, setFinishWorkout] = useState<boolean>(false);
 
@@ -36,4 +36,4 @@ const StartWorkoutButtons = () => {
     )
 }
 
-export default StartWorkoutButtons
+export default WorkoutButtons

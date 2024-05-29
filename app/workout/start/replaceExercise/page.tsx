@@ -6,6 +6,8 @@ import React from 'react'
 import Link from 'next/link';
 import ReplaceButton from './components/ReplaceButton';
 import ReplaceExerciseList from './components/ReplaceExerciseList';
+import ExercisesList from '../../components/ExerciseList';
+import AddOrReplaceButton from '../../components/AddOrReplaceButton';
 
 const replaceExercises = (
     { searchParams }: {
@@ -23,12 +25,12 @@ const replaceExercises = (
             <PageName name={pageName} />
             <div className='mb-5 flex justify-between'>
                 <Link href="/workout/start">
-                    <ReplaceButton exerciseToReplaceId={exerciseToReplaceId} />
+                    <AddOrReplaceButton isAddButton={false} exerciseToReplaceId={exerciseToReplaceId} />
                 </Link>
                 <Button text={'Create New Exercise'} />
             </div>
             <SearchBar />
-            <ReplaceExerciseList query={query} />
+            <ExercisesList query={query} singleSelect={true} />
         </PageLayout>
     )
 }

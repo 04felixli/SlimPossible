@@ -6,6 +6,8 @@ import React from 'react'
 import SelectExercisesList from './components/SelectExercisesList';
 import AddButton from './components/AddButton';
 import Link from 'next/link';
+import ExercisesList from '../../components/ExerciseList';
+import AddOrReplaceButton from '../../components/AddOrReplaceButton';
 
 const selectExercises = (
     { searchParams }: {
@@ -22,12 +24,12 @@ const selectExercises = (
             <PageName name={pageName} />
             <div className='mb-5 flex justify-between'>
                 <Link href="/workout/start">
-                    <AddButton />
+                    <AddOrReplaceButton isAddButton={true} />
                 </Link>
                 <Button text={'Create New Exercise'} />
             </div>
             <SearchBar />
-            <SelectExercisesList query={query} />
+            <ExercisesList query={query} singleSelect={false} />
         </PageLayout>
     )
 }

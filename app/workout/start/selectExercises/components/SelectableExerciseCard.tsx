@@ -1,7 +1,7 @@
 'use client';
 import React from 'react'
 import { useSelectedExercises } from '../../../../contexts/selectedExercisesContext';
-import { Exercise } from '../../objects/classes';
+import { Exercise } from '../../../objects/classes';
 import { ExerciseInList } from '@/app/exercises/interfaces/exercises';
 
 interface Props {

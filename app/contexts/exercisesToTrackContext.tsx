@@ -2,7 +2,7 @@
 
 'use client';
 import React, { createContext, useState, ReactNode, useContext } from 'react';
-import { Exercise } from '../workout/start/objects/classes';
+import { Exercise } from '../workout/objects/classes';
 
 // Define the shape of the context
 interface ExercisesToTrackContextType {

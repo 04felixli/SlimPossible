@@ -2,6 +2,7 @@ import React from 'react';
 import './PopUp.css'; // Make sure to import the CSS file
 import { IPopUp } from '@/app/workout/interfaces/popup';
 import Button from '@/app/global components/Buttons/Button';
+import Link from 'next/link';
 
 interface Props {
   popUp: IPopUp;
@@ -22,7 +23,9 @@ const PopUp = ({ popUp, onDoIt, onDontDoIt }: Props) => {
           >
             {popUp.noDontDoIt}
           </button>
-          <Button text={popUp.doIt} onClickFunction={onDoIt} />
+          <Link href={'/workout'}>
+            <Button text={popUp.doIt} onClickFunction={onDoIt} />
+          </Link>
         </div>
       </div>
     </div>

@@ -6,8 +6,8 @@ import { TbSwitch3 } from "react-icons/tb";
 import { FaNoteSticky } from "react-icons/fa6";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { FaPlus } from "react-icons/fa";
-import ActionButton from './ActionButton';
-import { Set } from '../objects/classes';
+import ActionButton from '../../components/ActionButton';
+import { Set } from '../../objects/classes';
 import Link from 'next/link';
 
 const ExerciseTrackingCards = () => {
