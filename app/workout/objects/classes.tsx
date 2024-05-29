@@ -21,7 +21,7 @@ export class Exercise {
     targetMuscle: string;
     weightUnit: string;
     notes: string;
-    sets: Set[];
+    sets: WorkoutSet[];
     showNotes: boolean;
 
     constructor(id: number, name: string, equipment: string, targetMuscle: string, weightUnit: string) {
@@ -31,12 +31,12 @@ export class Exercise {
         this.targetMuscle = targetMuscle;
         this.weightUnit = weightUnit;
         this.notes = "";
-        this.sets = [new Set(1)];
+        this.sets = [new WorkoutSet(1)];
         this.showNotes = false;
     }
 }
 
-export class Set {
+export class WorkoutSet {
     weight: number;
     reps: number;
     setNumber: number;

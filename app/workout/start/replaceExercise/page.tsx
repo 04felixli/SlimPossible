@@ -4,8 +4,6 @@ import PageName from '@/app/global components/PageName';
 import SearchBar from '@/app/global components/SearchBar';
 import React from 'react'
 import Link from 'next/link';
-import ReplaceButton from './components/ReplaceButton';
-import ReplaceExerciseList from './components/ReplaceExerciseList';
 import ExercisesList from '../../components/ExerciseList';
 import AddOrReplaceButton from '../../components/AddOrReplaceButton';
 

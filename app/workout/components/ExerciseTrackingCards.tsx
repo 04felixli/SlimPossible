@@ -1,23 +1,27 @@
 'use client';
-import React from 'react';
-import { useExercisesToTrack } from '../../../contexts/exercisesToTrackContext';
-import TrackSets from './TrackSets';
+import React, { ReactNode } from 'react';
 import { TbSwitch3 } from "react-icons/tb";
 import { FaNoteSticky } from "react-icons/fa6";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { FaPlus } from "react-icons/fa";
-import ActionButton from '../../components/ActionButton';
-import { Set } from '../../objects/classes';
 import Link from 'next/link';
+import { Exercise, WorkoutSet } from '../objects/classes';
+import ActionButton from './ActionButton';
+import TrackSets from './TrackSets';
 
-const ExerciseTrackingCards = () => {
-    const { exercisesToTrack, setExercisesToTrack } = useExercisesToTrack();
+interface Props {
+    exercises: Exercise[];
+    setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>
+    isTemplate: boolean;
+}
+
+const ExerciseTrackingCards = ({ exercises, setExercises, isTemplate }: Props) => {
 
     const handleAddSet = (exerciseId: number) => {
-        setExercisesToTrack(prevExercises => {
+        setExercises(prevExercises => {
             return prevExercises.map(exercise => {
                 if (exercise.id === exerciseId) {
-                    const newSet = new Set(exercise.sets.length + 1);
+                    const newSet = new WorkoutSet(exercise.sets.length + 1);
                     const updatedSets = [...exercise.sets, { ...newSet, setNumber: exercise.sets.length + 1 }];
                     return { ...exercise, sets: updatedSets };
                 }
@@ -27,13 +31,13 @@ const ExerciseTrackingCards = () => {
     }
 
     const handleRemoveExercise = (exerciseId: number) => {
-        setExercisesToTrack(prevExercises => {
+        setExercises(prevExercises => {
             return prevExercises.filter(exercise => exercise.id !== exerciseId);
         });
     }
 
     const handleWeightUnitChange = (exerciseId: number) => {
-        setExercisesToTrack(prevExercises => {
+        setExercises(prevExercises => {
             return prevExercises.map(exercise => {
                 if (exercise.id === exerciseId) {
                     return { ...exercise, weightUnit: exercise.weightUnit === 'lbs' ? 'kgs' : 'lbs' };
@@ -44,7 +48,7 @@ const ExerciseTrackingCards = () => {
     }
 
     const handleNotesChange = (exerciseId: number, value: string): void => {
-        setExercisesToTrack((prevExercises) => {
+        setExercises((prevExercises) => {
             return prevExercises.map(exercise => {
                 if (exercise.id === exerciseId) {
                     return { ...exercise, notes: value };
@@ -55,7 +59,7 @@ const ExerciseTrackingCards = () => {
     }
 
     const toggleNotes = (exerciseId: number): void => {
-        setExercisesToTrack((prevExercises) => {
+        setExercises((prevExercises) => {
             return prevExercises.map(exercise => {
                 if (exercise.id === exerciseId) {
                     return { ...exercise, showNotes: !exercise.showNotes };
@@ -68,7 +72,7 @@ const ExerciseTrackingCards = () => {
     return (
         <div>
             <ul>
-                {exercisesToTrack.map((exercise) => (
+                {exercises.map((exercise) => (
                     <li key={exercise.id} className='card-bg'>
                         <div className='flex flex-row justify-between items-center'>
                             <div className='items-center card-title-font'>{exercise.name}</div>
@@ -99,7 +103,7 @@ const ExerciseTrackingCards = () => {
                         </div>}
 
                         {/* Component for actual set tracking */}
-                        <TrackSets exercise={exercise} />
+                        <TrackSets exercise={exercise} exercises={exercises} setExercises={setExercises} isTemplate={isTemplate} />
                         <div className='flex flex-row justify-between items-center mt-5'>
 
                             {/* Replace exercise button */}
