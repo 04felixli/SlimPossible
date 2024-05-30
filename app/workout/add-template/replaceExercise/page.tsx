@@ -5,7 +5,6 @@ import SearchBar from '@/app/global components/SearchBar';
 import React from 'react'
 import Link from 'next/link';
 import ExercisesList from '../../components/ExerciseList';
-import AddOrReplaceButton from '../../components/AddOrReplaceButton';
 import AddOrReplaceButtonWrapper from '../components/AddOrReplaceButtonWrapper';
 
 const replaceExercises = (
@@ -23,7 +22,7 @@ const replaceExercises = (
         <PageLayout>
             <PageName name={pageName} />
             <div className='mb-5 flex justify-between'>
-                <Link href="/workout/start">
+                <Link href="/workout/add-template">
                     <AddOrReplaceButtonWrapper isAddButton={false} exerciseToReplaceId={exerciseToReplaceId} />
                 </Link>
                 <Button text={'Create New Exercise'} />

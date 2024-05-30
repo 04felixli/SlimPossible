@@ -8,30 +8,29 @@ import ExercisesList from '../../components/ExerciseList';
 import AddOrReplaceButton from '../../components/AddOrReplaceButton';
 import AddOrReplaceButtonWrapper from '../components/AddOrReplaceButtonWrapper';
 
-const replaceExercises = (
+const selectExercises = (
     { searchParams }: {
-        searchParams: {
+        searchParams?: {
             query?: string;
-            id: string;
+            page?: string;
         }
     }) => {
-    const pageName: string = "Replace Exercise";
-    const query: string = searchParams.query || '';
-    const exerciseToReplaceId: number = parseInt(searchParams.id);
+    const pageName: string = "Select Exercises";
+    const query: string = searchParams?.query || '';
 
     return (
         <PageLayout>
             <PageName name={pageName} />
             <div className='mb-5 flex justify-between'>
-                <Link href="/workout/start">
-                    <AddOrReplaceButtonWrapper isAddButton={false} exerciseToReplaceId={exerciseToReplaceId} />
+                <Link href="/workout/add-template">
+                    <AddOrReplaceButtonWrapper isAddButton={true} />
                 </Link>
                 <Button text={'Create New Exercise'} />
             </div>
             <SearchBar />
-            <ExercisesList query={query} singleSelect={true} />
+            <ExercisesList query={query} singleSelect={false} />
         </PageLayout>
     )
 }
 
-export default replaceExercises
+export default selectExercises

@@ -4,25 +4,27 @@ import { useReplacementExercise } from '@/app/contexts/replacementExerciseContex
 import { useSelectedExercises } from '@/app/contexts/selectedExercisesContext';
 import Button from '@/app/global components/Buttons/Button'
 import React from 'react'
+import { Exercise } from '../objects/classes';
 
 interface Props {
+    exercises: Exercise[];
+    setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
     isAddButton: boolean; // If it is not an add button, it is a replace button
     exerciseToReplaceId?: number;
 }
 
-const AddOrReplaceButton = ({ isAddButton, exerciseToReplaceId }: Props) => {
+const AddOrReplaceButton = ({ exercises, setExercises, isAddButton, exerciseToReplaceId }: Props) => {
     const { selectedExercises, setSelectedExercises } = useSelectedExercises();
-    const { exercisesToTrack, setExercisesToTrack } = useExercisesToTrack();
     const { replacementExercise, setReplacementExercise } = useReplacementExercise();
 
     const handleAddExercises = () => {
-        setExercisesToTrack([...exercisesToTrack, ...selectedExercises]);
+        setExercises([...exercises, ...selectedExercises]);
         setSelectedExercises([]);
     }
 
 
     const handleReplaceExercise = () => {
-        setExercisesToTrack(prevExercises => {
+        setExercises(prevExercises => {
             return prevExercises.map(exercise => {
                 if (exercise.id === exerciseToReplaceId && replacementExercise) {
                     return replacementExercise;

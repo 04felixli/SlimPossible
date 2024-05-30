@@ -13,9 +13,10 @@ interface Props {
     exercises: Exercise[];
     setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>
     isTemplate: boolean;
+    replaceExerciseRedirectURL: string;
 }
 
-const ExerciseTrackingCards = ({ exercises, setExercises, isTemplate }: Props) => {
+const ExerciseTrackingCards = ({ exercises, setExercises, isTemplate, replaceExerciseRedirectURL }: Props) => {
 
     const handleAddSet = (exerciseId: number) => {
         setExercises(prevExercises => {
@@ -107,7 +108,7 @@ const ExerciseTrackingCards = ({ exercises, setExercises, isTemplate }: Props) =
                         <div className='flex flex-row justify-between items-center mt-5'>
 
                             {/* Replace exercise button */}
-                            <Link href={`/workout/start/replaceExercise?id=${exercise.id}`}>
+                            <Link href={`${replaceExerciseRedirectURL}?id=${exercise.id}`}>
                                 <ActionButton>
                                     <TbSwitch3 />
                                 </ActionButton>

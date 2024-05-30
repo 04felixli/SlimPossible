@@ -4,6 +4,7 @@ import "./globals.css";
 import ExercisesToTrackContextProvider from "./contexts/exercisesToTrackContext";
 import SelectedExercisesContextProvider from "./contexts/selectedExercisesContext";
 import ReplacementExerciseContextProvider from "./contexts/replacementExerciseContext";
+import TemplateExercisesContextProvider from "./contexts/workoutTemplateContext";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ['700', '500', '400', '100'] });
 
@@ -22,7 +23,9 @@ export default function RootLayout({
       <ExercisesToTrackContextProvider>
         <SelectedExercisesContextProvider>
           <ReplacementExerciseContextProvider>
-            <body className={`max-w-screen min-w-screen min-h-screen flex justify-center ${roboto.className}`}>{children}</body>
+            <TemplateExercisesContextProvider>
+              <body className={`max-w-screen min-w-screen min-h-screen flex justify-center ${roboto.className}`}>{children}</body>
+            </TemplateExercisesContextProvider>
           </ReplacementExerciseContextProvider>
         </SelectedExercisesContextProvider>
       </ExercisesToTrackContextProvider>

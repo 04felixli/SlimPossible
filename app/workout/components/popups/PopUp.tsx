@@ -13,7 +13,7 @@ interface Props {
 const PopUp = ({ popUp, onDoIt, onDontDoIt }: Props) => {
   return (
     <div className='popup-overlay hover:cursor-pointer' onClick={onDontDoIt}>
-      <div className='popup-content hover:cursor-default'>
+      <div className='popup-content hover:cursor-default' onClick={(e) => e.stopPropagation()}>
         <div className='card-title-font items-center flex justify-center'>{popUp.header}</div>
         <div className='thin-font'>{popUp.subHeading}</div>
         <div className='flex flex-row justify-around mt-5'>

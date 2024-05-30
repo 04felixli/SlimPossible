@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 import { FaCheck } from "react-icons/fa";
-import { useExercisesToTrack } from '@/app/contexts/exercisesToTrackContext';
 import { Exercise } from '../objects/classes';
 import NumericInput from './NumericInput';
 

@@ -7,7 +7,7 @@ const WorkoutTrackingCards = () => {
     const { exercisesToTrack, setExercisesToTrack } = useExercisesToTrack();
     return (
         <>
-            <ExerciseTrackingCards exercises={exercisesToTrack} setExercises={setExercisesToTrack} isTemplate={false} />
+            <ExerciseTrackingCards exercises={exercisesToTrack} setExercises={setExercisesToTrack} isTemplate={false} replaceExerciseRedirectURL='/workout/start/replaceExercise' />
         </>
     )
 }
