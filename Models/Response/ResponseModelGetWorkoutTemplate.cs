@@ -5,14 +5,12 @@ namespace ftDB.Models.Response
 {
     public class ResponseModelGetWorkoutTemplate : ResponseBase
     {
-        public string? Name { get; set; }
-        public ModelGetExerciseTemplate[]? Exercises { get; set; }
+        public ModelGetWorkoutTemplate? WorkoutTemplate { get; set; }
 
         public ResponseModelGetWorkoutTemplate() { }
-        public ResponseModelGetWorkoutTemplate(string? name, ModelGetExerciseTemplate[]? exercises)
+        public ResponseModelGetWorkoutTemplate(ModelGetWorkoutTemplate workoutTemplate)
         {
-            Name = name;
-            Exercises = exercises;
+            WorkoutTemplate = workoutTemplate;
         }
 
     }

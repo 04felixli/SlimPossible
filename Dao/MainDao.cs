@@ -222,13 +222,14 @@ namespace ftDB.Dao
             }
         }
 
-        public async Task<ResponseModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId)
+        public async Task<ModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId)
         {
-            ResponseModelGetWorkoutTemplate template = await _context.WorkoutTemplates
+            ModelGetWorkoutTemplate template = await _context.WorkoutTemplates
                 .Include(wt => wt.ExerciseTemplates)
                 .ThenInclude(et => et.SetTemplates)
                 .Where(workoutTemplate => workoutTemplate.Id == workoutTemplateId)
-                .Select(workoutTemplate => new ResponseModelGetWorkoutTemplate(
+                .Select(workoutTemplate => new ModelGetWorkoutTemplate(
+                    workoutTemplate.Id,
                     workoutTemplate.Name,
                     workoutTemplate.ExerciseTemplates
                                    .OrderBy(et => et.Id)
@@ -243,7 +244,8 @@ namespace ftDB.Dao
                                             .OrderBy(s => s.SetNumber)
                                             .Select(s => new ModelGetSetTemplate(s.Weight, s.Reps, s.SetNumber, false))
                                             .ToArray()
-                                   )).ToArray()
+                                   )).ToArray(),
+                    workoutTemplate.CreatedDate
                 )).FirstAsync();
 
             return template;

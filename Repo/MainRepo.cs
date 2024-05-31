@@ -193,7 +193,8 @@ namespace ftDB.Repo
 
         public async Task<ResponseModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId)
         {
-            ResponseModelGetWorkoutTemplate response = await _dao.GetWorkoutTemplateAsync(workoutTemplateId);
+            ModelGetWorkoutTemplate template = await _dao.GetWorkoutTemplateAsync(workoutTemplateId);
+            ResponseModelGetWorkoutTemplate response = new(template);
 
             response.SetResponseSuccess();
 
