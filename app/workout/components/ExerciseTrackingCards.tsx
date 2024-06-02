@@ -12,7 +12,7 @@ import TrackSets from './TrackSets';
 interface Props {
     exercises: Exercise[];
     setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>
-    isTemplate: boolean;
+    isTemplate: boolean; // Only true when creating a new template (not editing one)
     replaceExerciseRedirectURL: string;
 }
 

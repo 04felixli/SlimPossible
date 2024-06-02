@@ -4,9 +4,8 @@ import PageName from '@/app/global components/PageName';
 import SearchBar from '@/app/global components/SearchBar';
 import React from 'react'
 import Link from 'next/link';
-import ExercisesList from '../../components/ExerciseList';
-import AddOrReplaceButton from '../../components/AddOrReplaceButton';
-import AddOrReplaceButtonWrapper from '../components/AddOrReplaceButtonWrapper';
+import ExercisesList from '../../../components/ExerciseList';
+import AddOrReplaceButtonWrapper from '../../components/AddOrReplaceButtonWrapper';
 
 const selectExercises = (
     { searchParams }: {
@@ -22,7 +21,7 @@ const selectExercises = (
         <PageLayout>
             <PageName name={pageName} />
             <div className='mb-5 flex justify-between'>
-                <Link href="/workout/add-template">
+                <Link href="/workout/templates/add-template">
                     <AddOrReplaceButtonWrapper isAddButton={true} />
                 </Link>
                 <Button text={'Create New Exercise'} />

@@ -1,8 +1,8 @@
 'use client'
 import React from 'react'
-import WorkoutButtons from '../../components/WorkoutButtons';
-import { IPopUp } from '../../interfaces/popup';
 import { useTemplateExercises } from '@/app/contexts/workoutTemplateContext';
+import WorkoutButtons from '@/app/workout/components/WorkoutButtons';
+import { IPopUp } from '@/app/workout/interfaces/popup';
 
 const WorkoutButtonsWrapper = () => {
     const { templateExercises, setTemplateExercises } = useTemplateExercises();
@@ -24,7 +24,7 @@ const WorkoutButtonsWrapper = () => {
     }
 
     return (
-        <WorkoutButtons exercises={templateExercises} setExercises={setTemplateExercises} finishPopUpContent={saveWorkoutTemplatePopUpContent} cancelPopUpContent={discardWorkoutTemplatePopUpContent} onAddRedirectRoute='/workout/add-template/selectExercises' />
+        <WorkoutButtons exercises={templateExercises} setExercises={setTemplateExercises} finishPopUpContent={saveWorkoutTemplatePopUpContent} cancelPopUpContent={discardWorkoutTemplatePopUpContent} onAddRedirectRoute='/workout/templates/add-template/selectExercises' />
     )
 }
 

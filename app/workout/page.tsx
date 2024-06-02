@@ -22,7 +22,7 @@ const workout = async () => {
             </div>
             <div className='flex flex-row justify-between items-center'>
                 <div className='subheading-font'>Templates</div>
-                <Link href={'/workout/add-template'}>
+                <Link href={'/workout/templates/add-template'}>
                     <Button text={"Add"} />
                 </Link>
             </div>

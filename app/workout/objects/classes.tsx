@@ -1,3 +1,4 @@
+import { IWorkoutTemplate } from "@/app/global components/Interfaces/templateInterfaces";
 import { GetWorkoutTime } from "@/app/global components/Library/utilFunctions";
 
 export class Workout {
@@ -24,14 +25,14 @@ export class Exercise {
     sets: WorkoutSet[];
     showNotes: boolean;
 
-    constructor(id: number, name: string, equipment: string, targetMuscle: string, weightUnit: string) {
+    constructor(id: number, name: string, equipment: string, targetMuscle: string, weightUnit: string, sets?: WorkoutSet[]) {
         this.id = id;
         this.name = name;
         this.equipment = equipment;
         this.targetMuscle = targetMuscle;
         this.weightUnit = weightUnit;
         this.notes = "";
-        this.sets = [new WorkoutSet(1)];
+        this.sets = sets ? sets : [new WorkoutSet(1)];
         this.showNotes = false;
     }
 }

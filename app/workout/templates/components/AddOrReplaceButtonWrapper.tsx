@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
-import AddOrReplaceButton from '../../components/AddOrReplaceButton'
 import { useTemplateExercises } from '@/app/contexts/workoutTemplateContext';
+import AddOrReplaceButton from '@/app/workout/components/AddOrReplaceButton';
 
 interface Props {
   isAddButton: boolean;
