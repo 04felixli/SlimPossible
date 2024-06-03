@@ -4,9 +4,11 @@ import Button from '@/app/global components/Buttons/Button';
 import Link from 'next/link';
 import PopUp from './popups/PopUp';
 import { IPopUp } from '../interfaces/popup';
-import { Exercise } from '../objects/classes';
+import { Exercise, Workout } from '../objects/classes';
 
 interface Props {
+    workout: Workout; 
+    setWorkout: React.Dispatch<React.SetStateAction<Workout>>; 
     exercises: Exercise[];
     setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
     finishPopUpContent: IPopUp;
@@ -14,7 +16,7 @@ interface Props {
     onAddRedirectRoute: string; // The url path to redirect to after the user clicks 'add'
 }
 
-const WorkoutButtons = ({ exercises, setExercises, finishPopUpContent, cancelPopUpContent, onAddRedirectRoute }: Props) => {
+const WorkoutButtons = ({ workout, setWorkout, setExercises, finishPopUpContent, cancelPopUpContent, onAddRedirectRoute }: Props) => {
     const [openCancelPopUp, setOpenCancelPopUp] = useState<boolean>(false);
     const [openFinishPopUp, setOpenFinishPopUp] = useState<boolean>(false);
 

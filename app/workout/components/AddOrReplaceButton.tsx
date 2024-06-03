@@ -1,51 +1,63 @@
 'use client'
-import { useExercisesToTrack } from '@/app/contexts/exercisesToTrackContext';
-import { useReplacementExercise } from '@/app/contexts/replacementExerciseContext';
-import { useSelectedExercises } from '@/app/contexts/selectedExercisesContext';
 import Button from '@/app/global components/Buttons/Button'
 import React from 'react'
-import { Exercise } from '../objects/classes';
+import { Workout } from '../objects/classes';
 
 interface Props {
-    exercises: Exercise[];
-    setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
+    workout: Workout;
+    setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
     isAddButton: boolean; // If it is not an add button, it is a replace button
     exerciseToReplaceId?: number;
+    insertionNumberOfExerciseToReplace?: number;
 }
 
-const AddOrReplaceButton = ({ exercises, setExercises, isAddButton, exerciseToReplaceId }: Props) => {
-    const { selectedExercises, setSelectedExercises } = useSelectedExercises();
-    const { replacementExercise, setReplacementExercise } = useReplacementExercise();
-
+const AddOrReplaceButton = ({ workout, setWorkout, isAddButton, exerciseToReplaceId, insertionNumberOfExerciseToReplace }: Props) => {
     const handleAddExercises = () => {
-        setExercises([...exercises, ...selectedExercises]);
-        setSelectedExercises([]);
+        setWorkout(prevWorkout => {
+            // Update each exercises insertion number
+            const processedExercisesToAdd = prevWorkout.exercisesToAdd.map((exercise, index) => {
+                const newInsertionNumber = prevWorkout.totalNumExercisesAddedEver + index
+                console.log("Exercise Id: " + exercise.id + " insertionNumber: " + newInsertionNumber);
+                return { ...exercise, insertionNumber: newInsertionNumber }
+            })
+
+            // 1. Update workout.exercises
+            // 2. Clear workout.exercisesToAdd
+            // 3. Increment workout.totalNumExercisesAddedEver by the number of workouts added
+            return { ...prevWorkout, exercises: [...prevWorkout.exercises, ...processedExercisesToAdd], exercisesToAdd: [], totalNumExercisesAddedEver: prevWorkout.totalNumExercisesAddedEver + processedExercisesToAdd.length }
+        })
     }
 
-
     const handleReplaceExercise = () => {
-        setExercises(prevExercises => {
-            return prevExercises.map(exercise => {
-                if (exercise.id === exerciseToReplaceId && replacementExercise) {
-                    return replacementExercise;
+        setWorkout(prevWorkout => {
+            // Update the exercise to replace with workout.replacementExercise
+            const updatedExercises = prevWorkout.exercises.map(exercise => {
+                if (exercise.id === exerciseToReplaceId && exercise.insertionNumber === insertionNumberOfExerciseToReplace && prevWorkout.replacementExercise) {
+                    const replacementExercise = { ...prevWorkout.replacementExercise, insertionNumber: insertionNumberOfExerciseToReplace }
+
+                    return replacementExercise
                 }
-                return exercise;
-            });
-        });
-        setReplacementExercise(null);
+
+                return exercise
+            })
+
+            // 1. Update workout.exercises 
+            // 2. Clear workout.replacementExercise
+            return { ...prevWorkout, exercises: updatedExercises, replacementExercise: undefined }
+        })
     }
 
     if (isAddButton) {
         return (
             <>
-                <Button text={`Add (${selectedExercises.length})`} onClickFunction={handleAddExercises} />
+                <Button text={`Add (${workout.exercisesToAdd.length})`} onClickFunction={handleAddExercises} />
             </>
         )
     }
 
     return (
         <>
-            <Button text={`Replace (${replacementExercise ? '1' : '0'})`} onClickFunction={handleReplaceExercise} />
+            <Button text={`Replace (${workout.replacementExercise ? '1' : '0'})`} onClickFunction={handleReplaceExercise} />
         </>
     )
 

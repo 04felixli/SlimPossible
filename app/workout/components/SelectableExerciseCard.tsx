@@ -4,6 +4,7 @@ import { ExerciseInList } from '@/app/exercises/interfaces/exercises';
 import { useReplacementExercise } from '@/app/contexts/replacementExerciseContext';
 import { useSelectedExercises } from '@/app/contexts/selectedExercisesContext';
 import { Exercise } from '../objects/classes';
+import { useWorkout } from '@/app/contexts/workoutContext';
 
 interface Props {
     exercises: ExerciseInList[];
@@ -11,30 +12,37 @@ interface Props {
 }
 
 const SelectableExerciseCard = ({ exercises, singleSelect }: Props) => {
-    const { selectedExercises, setSelectedExercises } = useSelectedExercises();
-    const { replacementExercise, setReplacementExercise } = useReplacementExercise();
+    const { workout, setWorkout } = useWorkout();
 
     // Set selected exercises
     const handleMultipleSelect = (selectedExercise: ExerciseInList): void => {
+        // Create a new exercise object from selectedExercise
         const exercise = new Exercise(selectedExercise.id, selectedExercise.name, selectedExercise.equipment, selectedExercise.targetMuscle, 'lbs');
-        const isSelected = selectedExercises.some(selected => selected.id === exercise.id);
+
+        // Check if the exercise is already selected
+        const isSelected = workout.exercisesToAdd.some(selected => selected.id === exercise.id);
 
         if (isSelected) {
-            setSelectedExercises(selectedExercises.filter(selected => selected.id !== exercise.id));
+            // Remove the exercise if it's already selected
+            const updatedExercises = workout.exercisesToAdd.filter(selected => selected.id !== exercise.id);
+            setWorkout({ ...workout, exercisesToAdd: updatedExercises });
         } else {
-            setSelectedExercises([...selectedExercises, exercise]);
+            // Add the exercise if it's not already selected
+            const updatedExercises = [...workout.exercisesToAdd, exercise];
+            setWorkout({ ...workout, exercisesToAdd: updatedExercises });
         }
     };
 
-    // Set replacement exercises
+    // Set replacement exercise
     const handleSingleSelect = (selectedExercise: ExerciseInList): void => {
         const exercise = new Exercise(selectedExercise.id, selectedExercise.name, selectedExercise.equipment, selectedExercise.targetMuscle, 'lbs');
-        const isSelected = replacementExercise?.id === exercise.id ? true : false;
+        const isSelected = workout.replacementExercise?.id === exercise.id ? true : false;
 
         if (isSelected) {
-            setReplacementExercise(null);
+            setWorkout({ ...workout, replacementExercise: undefined });
         } else {
-            setReplacementExercise(exercise);
+            const exercise = new Exercise(selectedExercise.id, selectedExercise.name, selectedExercise.equipment, selectedExercise.targetMuscle, 'lbs');
+            setWorkout({ ...workout, replacementExercise: exercise });
         }
     };
 
@@ -44,7 +52,7 @@ const SelectableExerciseCard = ({ exercises, singleSelect }: Props) => {
                 <ul>
                     {exercises.map((exercise) => (
                         <li key={exercise.id}>
-                            <div className={`card-bg ${selectedExercises.some(selectedExercise => selectedExercise.id === exercise.id) ? 'border' : ''}`} onClick={() => handleMultipleSelect(exercise)}>
+                            <div className={`card-bg ${workout.exercisesToAdd.some(selectedExercise => selectedExercise.id === exercise.id) ? 'border' : ''}`} onClick={() => handleMultipleSelect(exercise)}>
                                 <div className='items-center card-title-font'>{exercise.name}</div>
                                 <div className='flex justify-between font-thin text-sm'>
                                     <div>{exercise.equipment}</div>
@@ -63,7 +71,7 @@ const SelectableExerciseCard = ({ exercises, singleSelect }: Props) => {
             <ul>
                 {exercises.map((exercise) => (
                     <li key={exercise.id}>
-                        <div className={`card-bg ${replacementExercise?.id === exercise.id ? 'border' : ''}`} onClick={() => handleSingleSelect(exercise)}>
+                        <div className={`card-bg ${workout.replacementExercise?.id === exercise.id ? 'border' : ''}`} onClick={() => handleSingleSelect(exercise)}>
                             <div className='items-center card-title-font'>{exercise.name}</div>
                             <div className='flex justify-between font-thin text-sm'>
                                 <div>{exercise.equipment}</div>

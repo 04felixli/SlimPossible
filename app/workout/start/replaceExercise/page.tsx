@@ -13,18 +13,20 @@ const replaceExercises = (
         searchParams: {
             query?: string;
             id: string;
+            inoetr: string; // insertion number of the exercise to replace
         }
     }) => {
     const pageName: string = "Replace Exercise";
     const query: string = searchParams.query || '';
     const exerciseToReplaceId: number = parseInt(searchParams.id);
+    const insertionNumberOfExerciseToReplace: number = parseInt(searchParams.inoetr);
 
     return (
         <PageLayout>
             <PageName name={pageName} />
             <div className='mb-5 flex justify-between'>
                 <Link href="/workout/start">
-                    <AddOrReplaceButtonWrapper isAddButton={false} exerciseToReplaceId={exerciseToReplaceId} />
+                    <AddOrReplaceButtonWrapper isAddButton={false} exerciseToReplaceId={exerciseToReplaceId} insertionNumberOfExerciseToReplace={insertionNumberOfExerciseToReplace} />
                 </Link>
                 <Button text={'Create New Exercise'} />
             </div>

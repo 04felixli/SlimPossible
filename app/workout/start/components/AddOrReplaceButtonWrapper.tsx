@@ -1,18 +1,19 @@
 'use client'
 import React from 'react'
 import AddOrReplaceButton from '../../components/AddOrReplaceButton'
-import { useExercisesToTrack } from '@/app/contexts/exercisesToTrackContext';
+import { useWorkout } from '@/app/contexts/workoutContext';
 
 interface Props {
     isAddButton: boolean;
     exerciseToReplaceId?: number;
+    insertionNumberOfExerciseToReplace?: number;
 }
 
-const AddOrReplaceButtonWrapper = ({ isAddButton, exerciseToReplaceId }: Props) => {
-    const { exercisesToTrack, setExercisesToTrack } = useExercisesToTrack();
+const AddOrReplaceButtonWrapper = ({ isAddButton, exerciseToReplaceId, insertionNumberOfExerciseToReplace }: Props) => {
+    const { workout, setWorkout } = useWorkout();
 
     return (
-        <AddOrReplaceButton exercises={exercisesToTrack} setExercises={setExercisesToTrack} isAddButton={isAddButton} exerciseToReplaceId={exerciseToReplaceId} />
+        <AddOrReplaceButton workout={workout} setWorkout={setWorkout} isAddButton={isAddButton} exerciseToReplaceId={exerciseToReplaceId} insertionNumberOfExerciseToReplace={insertionNumberOfExerciseToReplace} />
     )
 }
 

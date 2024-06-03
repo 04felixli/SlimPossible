@@ -2,12 +2,14 @@
 import { useExercisesToTrack } from '@/app/contexts/exercisesToTrackContext';
 import React from 'react'
 import ExerciseTrackingCards from '../../components/ExerciseTrackingCards';
+import { useWorkout } from '@/app/contexts/workoutContext';
 
 const WorkoutTrackingCards = () => {
     const { exercisesToTrack, setExercisesToTrack } = useExercisesToTrack();
+    const { workout, setWorkout } = useWorkout();
     return (
         <>
-            <ExerciseTrackingCards exercises={exercisesToTrack} setExercises={setExercisesToTrack} isTemplate={false} replaceExerciseRedirectURL='/workout/start/replaceExercise' />
+            <ExerciseTrackingCards workout={workout} setWorkout={setWorkout} exercises={exercisesToTrack} setExercises={setExercisesToTrack} isTemplate={false} replaceExerciseRedirectURL='/workout/start/replaceExercise' />
         </>
     )
 }

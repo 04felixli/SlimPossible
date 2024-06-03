@@ -9,8 +9,6 @@ import { IPopUp } from '../interfaces/popup'
 import WorkoutButtonsWrapper from './components/WorkoutButtonsWrapper'
 
 const start = () => {
-
-
     return (
         <PageLayout>
             <PageName name={GetWorkoutTime() + " Workout"} />

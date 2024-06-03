@@ -5,18 +5,20 @@ import { FaNoteSticky } from "react-icons/fa6";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { FaPlus } from "react-icons/fa";
 import Link from 'next/link';
-import { Exercise, WorkoutSet } from '../objects/classes';
+import { Exercise, Workout, WorkoutSet } from '../objects/classes';
 import ActionButton from './ActionButton';
 import TrackSets from './TrackSets';
 
 interface Props {
+    workout: Workout;
+    setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
     exercises: Exercise[];
     setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>
     isTemplate: boolean; // Only true when creating a new template (not editing one)
     replaceExerciseRedirectURL: string;
 }
 
-const ExerciseTrackingCards = ({ exercises, setExercises, isTemplate, replaceExerciseRedirectURL }: Props) => {
+const ExerciseTrackingCards = ({ workout, setWorkout, exercises, setExercises, isTemplate, replaceExerciseRedirectURL }: Props) => {
 
     const handleAddSet = (exerciseId: number) => {
         setExercises(prevExercises => {
@@ -31,10 +33,12 @@ const ExerciseTrackingCards = ({ exercises, setExercises, isTemplate, replaceExe
         });
     }
 
-    const handleRemoveExercise = (exerciseId: number) => {
-        setExercises(prevExercises => {
-            return prevExercises.filter(exercise => exercise.id !== exerciseId);
-        });
+    const handleRemoveExercise = (exerciseId: number, insertionNumber: number) => {
+        console.log("Exercise Id: " + exerciseId + " insertionNumber: " + insertionNumber);
+        setWorkout(prevWorkout => {
+            const updatedExercises = prevWorkout.exercises.filter(exercise => exercise.id !== exerciseId || exercise.insertionNumber !== insertionNumber);
+            return { ...prevWorkout, exercises: updatedExercises };
+        })
     }
 
     const handleWeightUnitChange = (exerciseId: number) => {
@@ -73,13 +77,13 @@ const ExerciseTrackingCards = ({ exercises, setExercises, isTemplate, replaceExe
     return (
         <div>
             <ul>
-                {exercises.map((exercise) => (
-                    <li key={exercise.id} className='card-bg'>
+                {workout.exercises.map((exercise) => (
+                    <li key={`${exercise.id} - ${exercise.insertionNumber}`} className='card-bg'>
                         <div className='flex flex-row justify-between items-center'>
                             <div className='items-center card-title-font'>{exercise.name}</div>
 
                             {/* Remove exercise button */}
-                            <ActionButton isRemoveExercise={true} onClickFunction={() => handleRemoveExercise(exercise.id)}>
+                            <ActionButton isRemoveExercise={true} onClickFunction={() => handleRemoveExercise(exercise.id, exercise.insertionNumber)}>
                                 <RiDeleteBin2Fill />
                             </ActionButton>
                         </div>
@@ -108,7 +112,7 @@ const ExerciseTrackingCards = ({ exercises, setExercises, isTemplate, replaceExe
                         <div className='flex flex-row justify-between items-center mt-5'>
 
                             {/* Replace exercise button */}
-                            <Link href={`${replaceExerciseRedirectURL}?id=${exercise.id}`}>
+                            <Link href={`${replaceExerciseRedirectURL}?id=${exercise.id}&inoetr=${exercise.insertionNumber}`}>
                                 <ActionButton>
                                     <TbSwitch3 />
                                 </ActionButton>

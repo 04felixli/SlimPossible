@@ -3,9 +3,11 @@ import { useExercisesToTrack } from '@/app/contexts/exercisesToTrackContext';
 import React from 'react'
 import WorkoutButtons from '../../components/WorkoutButtons';
 import { IPopUp } from '../../interfaces/popup';
+import { useWorkout } from '@/app/contexts/workoutContext';
 
 const WorkoutButtonsWrapper = () => {
     const { exercisesToTrack, setExercisesToTrack } = useExercisesToTrack();
+    const { workout, setWorkout } = useWorkout();
 
     const cancelWorkoutPopUpContent: IPopUp = {
         buttonText: 'Cancel',
@@ -24,7 +26,7 @@ const WorkoutButtonsWrapper = () => {
     }
 
     return (
-        <WorkoutButtons exercises={exercisesToTrack} setExercises={setExercisesToTrack} finishPopUpContent={finishWorkoutPopUpContent} cancelPopUpContent={cancelWorkoutPopUpContent} onAddRedirectRoute='/workout/start/selectExercises' />
+        <WorkoutButtons workout={workout} setWorkout={setWorkout} exercises={exercisesToTrack} setExercises={setExercisesToTrack} finishPopUpContent={finishWorkoutPopUpContent} cancelPopUpContent={cancelWorkoutPopUpContent} onAddRedirectRoute='/workout/start/selectExercises' />
     )
 }
 
