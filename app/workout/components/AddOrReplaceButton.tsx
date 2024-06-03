@@ -17,7 +17,6 @@ const AddOrReplaceButton = ({ workout, setWorkout, isAddButton, exerciseToReplac
             // Update each exercises insertion number
             const processedExercisesToAdd = prevWorkout.exercisesToAdd.map((exercise, index) => {
                 const newInsertionNumber = prevWorkout.totalNumExercisesAddedEver + index
-                console.log("Exercise Id: " + exercise.id + " insertionNumber: " + newInsertionNumber);
                 return { ...exercise, insertionNumber: newInsertionNumber }
             })
 

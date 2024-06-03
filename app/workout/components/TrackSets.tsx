@@ -1,41 +1,44 @@
 'use client'
 import React from 'react'
 import { FaCheck } from "react-icons/fa";
-import { Exercise } from '../objects/classes';
+import { Exercise, Workout } from '../objects/classes';
 import NumericInput from './NumericInput';
 
 interface Props {
+    workout: Workout;
+    setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
     exercise: Exercise; // The actual exercise we are rendering sets from
-    exercises: Exercise[]; // List of all exercises in a workout template, workout, or workout history 
-    setExercises: React.Dispatch<React.SetStateAction<Exercise[]>>;
     isTemplate: boolean; // Sets are not completeable for templates, but are completeable for normal tracking and edit history
 }
 
-const TrackSets = ({ exercise, exercises, setExercises, isTemplate }: Props) => {
+const TrackSets = ({ workout, setWorkout, exercise, isTemplate }: Props) => {
+    const insertionNumber = exercise.insertionNumber;
 
     const handleCompletedSet = (exerciseId: number, setNumber: number) => {
-        setExercises(prevExercises => {
-            return prevExercises.map(exercise => {
-                if (exercise.id === exerciseId) {
-                    const updatedSets = exercise.sets.map(set => {
+        setWorkout(prevWorkout => {
+            const updatedExercises = prevWorkout.exercises.map(ex => {
+                if (ex.id === exerciseId && ex.insertionNumber === insertionNumber) {
+                    const updatedSets = ex.sets.map(set => {
                         if (set.setNumber === setNumber) {
                             return { ...set, isCompleted: !set.isCompleted };
                         }
                         return set;
                     });
-                    return { ...exercise, sets: updatedSets };
+                    return { ...ex, sets: updatedSets };
                 }
-                return exercise;
-            });
-        });
+                return ex;
+            })
+            return { ...prevWorkout, exercises: updatedExercises };
+        })
     }
 
     const handleWeightInput = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number) => {
         const newWeight = event.target.value ? parseFloat(event.target.value) : -1;
-        setExercises(prevExercises => {
-            return prevExercises.map(exercise => {
-                if (exercise.id === exerciseId) {
-                    const updatedSets = exercise.sets.map(set => {
+
+        setWorkout(prevWorkout => {
+            const updatedExercises = prevWorkout.exercises.map(ex => {
+                if (ex.id === exerciseId && ex.insertionNumber === insertionNumber) {
+                    const updatedSets = ex.sets.map(set => {
                         if (set.setNumber === setNumber && newWeight !== -1) {
                             return { ...set, weight: newWeight };
                         } else if (set.setNumber === setNumber && newWeight === -1) {
@@ -43,19 +46,21 @@ const TrackSets = ({ exercise, exercises, setExercises, isTemplate }: Props) => 
                         }
                         return set;
                     });
-                    return { ...exercise, sets: updatedSets };
+                    return { ...ex, sets: updatedSets };
                 }
-                return exercise;
-            });
-        });
+                return ex
+            })
+            return { ...prevWorkout, exercises: updatedExercises };
+        })
     };
 
     const handleRepInput = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number) => {
         const newReps = event.target.value ? parseInt(event.target.value, 10) : -1;
-        setExercises(prevExercises => {
-            return prevExercises.map(exercise => {
-                if (exercise.id === exerciseId) {
-                    const updatedSets = exercise.sets.map(set => {
+
+        setWorkout(prevWorkout => {
+            const updatedExercises = prevWorkout.exercises.map(ex => {
+                if (ex.id === exerciseId && ex.insertionNumber === insertionNumber) {
+                    const updatedSets = ex.sets.map(set => {
                         if (set.setNumber === setNumber && newReps !== -1) {
                             return { ...set, reps: newReps };
                         } else if (set.setNumber === setNumber && newReps === -1) {
@@ -63,11 +68,12 @@ const TrackSets = ({ exercise, exercises, setExercises, isTemplate }: Props) => 
                         }
                         return set;
                     });
-                    return { ...exercise, sets: updatedSets };
+                    return { ...ex, sets: updatedSets };
                 }
-                return exercise;
-            });
-        });
+                return ex
+            })
+            return { ...prevWorkout, exercises: updatedExercises };
+        })
     };
 
     const preventInvalidInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
