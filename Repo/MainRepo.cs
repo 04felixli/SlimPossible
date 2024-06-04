@@ -174,6 +174,7 @@ namespace ftDB.Repo
                                                             exercise.TargetMuscle,
                                                             exercise.WeightUnit,
                                                             exercise.Notes,
+                                                            exercise.InsertionNumber,
                                                             exercise.Sets.Where(set => set.Weight >= 0 && set.Reps >= 0).ToArray() // Only keep valid sets
                                                         )).ToArray();
 

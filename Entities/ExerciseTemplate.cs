@@ -1,6 +1,6 @@
 namespace ftDB.Entities
 {
-    public class ExerciseTemplate(int exerciseId, int workoutTemplateId, string notes, string weightUnit)
+    public class ExerciseTemplate(int exerciseId, int workoutTemplateId, string notes, string weightUnit, int insertionNumber)
     {
         public int Id { get; set; }
         public int ExerciseId { get; set; } = exerciseId;
@@ -11,5 +11,7 @@ namespace ftDB.Entities
         public WorkoutTemplate WorkoutTemplate { get; set; } = null!;
         public Exercise Exercise { get; set; } = null!;
         public ICollection<SetTemplate> SetTemplates { get; set; } = [];
+        public int InsertionNumber { get; set; } = insertionNumber;
+
     }
 }

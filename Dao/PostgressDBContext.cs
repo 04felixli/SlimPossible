@@ -128,6 +128,7 @@ namespace ftDB.Dao
                 entity.Property(e => e.WorkoutTemplateId).HasColumnType("integer").HasColumnName("workout_template_id").IsRequired();
                 entity.Property(e => e.Notes).HasColumnType("text").HasColumnName("notes").IsRequired();
                 entity.Property(e => e.WeightUnit).HasColumnType("text").HasColumnName("weight_unit").IsRequired();
+                entity.Property(e => e.InsertionNumber).HasColumnType("integer").HasColumnName("insertion_number").IsRequired();
                 entity.HasOne(ExerciseTemplate => ExerciseTemplate.WorkoutTemplate)
                       .WithMany(WorkoutTemplate => WorkoutTemplate.ExerciseTemplates)
                       .HasForeignKey(ExerciseTemplate => ExerciseTemplate.WorkoutTemplateId);

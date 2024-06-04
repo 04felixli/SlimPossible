@@ -190,7 +190,7 @@ namespace ftDB.Dao
 
                 foreach (ModelPostExerciseTemplate exerciseTemplate in workoutTemplate.Exercises)
                 {
-                    ExerciseTemplate exerciseToPost = new(exerciseTemplate.Id, postedTemplateId, exerciseTemplate.Notes, exerciseTemplate.WeightUnit); // create new ExercieInWorout entity
+                    ExerciseTemplate exerciseToPost = new(exerciseTemplate.Id, postedTemplateId, exerciseTemplate.Notes, exerciseTemplate.WeightUnit, exerciseTemplate.InsertionNumber); // create new ExercieInWorout entity
 
                     int postedExerciseId = await PostExerciseTemplateAsync(exerciseToPost);
 
@@ -232,7 +232,9 @@ namespace ftDB.Dao
                     workoutTemplate.Id,
                     workoutTemplate.Name,
                     workoutTemplate.ExerciseTemplates
-                                   .OrderBy(et => et.Id)
+                                   .OrderBy(et => et.Id) // This already orders duplicate exercises in a template properly 
+                                                         // since the earlier exercise will have a lower id value in the 
+                                                         // exercise_templates table
                                    .Select(exerciseTemplate => new ModelGetExerciseTemplate(
                                         exerciseTemplate.Exercise.Id,
                                         exerciseTemplate.Exercise.Name,
@@ -240,6 +242,7 @@ namespace ftDB.Dao
                                         exerciseTemplate.Exercise.TargetMuscle,
                                         exerciseTemplate.WeightUnit,
                                         exerciseTemplate.Notes,
+                                        exerciseTemplate.InsertionNumber,
                                         exerciseTemplate.SetTemplates
                                             .OrderBy(s => s.SetNumber)
                                             .Select(s => new ModelGetSetTemplate(s.Weight, s.Reps, s.SetNumber, false))
@@ -269,6 +272,7 @@ namespace ftDB.Dao
                                         exerciseTemplate.Exercise.TargetMuscle,
                                         exerciseTemplate.WeightUnit,
                                         exerciseTemplate.Notes,
+                                        exerciseTemplate.InsertionNumber,
                                         exerciseTemplate.SetTemplates
                                             .OrderBy(s => s.SetNumber)
                                             .Select(s => new ModelGetSetTemplate(s.Weight, s.Reps, s.SetNumber, false))
