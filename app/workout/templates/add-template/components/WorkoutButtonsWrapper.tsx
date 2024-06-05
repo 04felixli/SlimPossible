@@ -3,8 +3,10 @@ import React from 'react'
 import { useTemplateExercises } from '@/app/contexts/workoutTemplateContext';
 import WorkoutButtons from '@/app/workout/components/WorkoutButtons';
 import { IPopUp } from '@/app/workout/interfaces/popup';
+import { useTemplate } from '@/app/contexts/templateContext';
 
 const WorkoutButtonsWrapper = () => {
+    const { template, setTemplate } = useTemplate();
     const { templateExercises, setTemplateExercises } = useTemplateExercises();
 
     const discardWorkoutTemplatePopUpContent: IPopUp = {
@@ -24,7 +26,7 @@ const WorkoutButtonsWrapper = () => {
     }
 
     return (
-        <WorkoutButtons exercises={templateExercises} setExercises={setTemplateExercises} finishPopUpContent={saveWorkoutTemplatePopUpContent} cancelPopUpContent={discardWorkoutTemplatePopUpContent} onAddRedirectRoute='/workout/templates/add-template/selectExercises' />
+        <WorkoutButtons workout={template} setWorkout={setTemplate} finishPopUpContent={saveWorkoutTemplatePopUpContent} cancelPopUpContent={discardWorkoutTemplatePopUpContent} onAddRedirectRoute='/workout/templates/add-template/selectExercises' />
     )
 }
 

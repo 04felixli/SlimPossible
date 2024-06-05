@@ -1,18 +1,18 @@
 'use client';
 import React from 'react'
 import { ExerciseInList } from '@/app/exercises/interfaces/exercises';
-import { useReplacementExercise } from '@/app/contexts/replacementExerciseContext';
-import { useSelectedExercises } from '@/app/contexts/selectedExercisesContext';
-import { Exercise } from '../objects/classes';
+import { Exercise, Workout } from '../objects/classes';
 import { useWorkout } from '@/app/contexts/workoutContext';
 
 interface Props {
+    workout: Workout;
+    setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
     exercises: ExerciseInList[];
     singleSelect: boolean; // true for replace exercise, false otherwise
 }
 
-const SelectableExerciseCard = ({ exercises, singleSelect }: Props) => {
-    const { workout, setWorkout } = useWorkout();
+const SelectableExerciseCard = ({ workout, setWorkout, exercises, singleSelect }: Props) => {
+    // const { workout, setWorkout } = useWorkout();
 
     // Set selected exercises
     const handleMultipleSelect = (selectedExercise: ExerciseInList): void => {

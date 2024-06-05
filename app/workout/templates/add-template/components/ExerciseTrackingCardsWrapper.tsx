@@ -1,13 +1,13 @@
 'use client'
 import React from 'react'
-import { useTemplateExercises } from '@/app/contexts/workoutTemplateContext';
 import ExerciseTrackingCards from '@/app/workout/components/ExerciseTrackingCards';
+import { useTemplate } from '@/app/contexts/templateContext';
 
 const ExerciseTrackingCardsWrapper = () => {
-    const { templateExercises, setTemplateExercises } = useTemplateExercises();
+    const { template, setTemplate } = useTemplate();
     return (
         <>
-            <ExerciseTrackingCards exercises={templateExercises} setExercises={setTemplateExercises} isTemplate={true} replaceExerciseRedirectURL='/workout/templates/add-template/replaceExercise' />
+            <ExerciseTrackingCards workout={template} setWorkout={setTemplate} isTemplate={true} replaceExerciseRedirectURL='/workout/templates/add-template/replaceExercise' />
         </>
     )
 }

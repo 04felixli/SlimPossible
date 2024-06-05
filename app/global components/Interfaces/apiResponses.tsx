@@ -16,7 +16,7 @@ export interface ResponseGetAllWorkoutHistory {
 }
 
 export interface ResponseGetAllWorkoutTemplates {
-    workoutTemplates: WorkoutTemplate[]
+    workoutTemplates: IWorkoutTemplate[]
     success: string;
     msg: string;
 }

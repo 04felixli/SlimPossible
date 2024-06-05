@@ -2,6 +2,7 @@ import { IWorkoutTemplate } from "@/app/global components/Interfaces/templateInt
 import { GetWorkoutTime } from "@/app/global components/Library/utilFunctions";
 
 export class Workout {
+    id?: number
     name: string;
     duration: number;
     date: Date;

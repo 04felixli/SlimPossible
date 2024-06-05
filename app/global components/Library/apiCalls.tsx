@@ -44,7 +44,7 @@ export const GetAllWorkoutHistoryAsync = async (): Promise<WorkoutHistory[]> => 
     }
 }
 
-export const GetAllWorkoutTemplatesAsync = async (): Promise<WorkoutTemplate[]> => {
+export const GetAllWorkoutTemplatesAsync = async (): Promise<IWorkoutTemplate[]> => {
     try {
         const res = await fetch(`${url}/api/Main/GetAllWorkoutTemplates`, { cache: 'no-store' });
 
@@ -53,7 +53,7 @@ export const GetAllWorkoutTemplatesAsync = async (): Promise<WorkoutTemplate[]> 
         }
 
         const response: ResponseGetAllWorkoutTemplates = await res.json();
-        const templates: WorkoutTemplate[] = response.workoutTemplates;
+        const templates: IWorkoutTemplate[] = response.workoutTemplates;
         return templates;
 
     } catch (error) {
@@ -86,9 +86,10 @@ export const GetWorkoutTemplateById = async (id: number): Promise<Workout> => {
 // Helper function to convert IWorkoutTemplate to Workout object
 const convertIWorkoutTemplateToWorkout = (rawTemplate: IWorkoutTemplate): Workout => {
     const workout = new Workout();
+    workout.id = rawTemplate.id;
     workout.name = rawTemplate.name;
     workout.duration = rawTemplate.duration;
-    workout.date = new Date(rawTemplate.date);
+    workout.date = new Date(rawTemplate.createdDate);
     workout.exercises = rawTemplate.exercises.map(exercise => convertIExerciseTemplateToExercise(exercise));
     return workout;
 }
@@ -101,6 +102,7 @@ const convertIExerciseTemplateToExercise = (rawExercise: IExerciseTemplate): Exe
         rawExercise.equipment,
         rawExercise.targetMuscle,
         rawExercise.weightUnit,
+        rawExercise.insertionNumber,
         rawExercise.sets.map(set => convertIWorkoutSetTemplateToWorkoutSet(set))
     );
     exercise.notes = rawExercise.notes;

@@ -1,18 +1,20 @@
 'use client'
 import React from 'react'
-import { useTemplateExercises } from '@/app/contexts/workoutTemplateContext';
-import AddOrReplaceButton from '@/app/workout/components/AddOrReplaceButton';
+import AddOrReplaceButton from '../../components/AddOrReplaceButton'
+import { useWorkout } from '@/app/contexts/workoutContext';
+import { useTemplate } from '@/app/contexts/templateContext';
 
 interface Props {
   isAddButton: boolean;
   exerciseToReplaceId?: number;
+  insertionNumberOfExerciseToReplace?: number;
 }
 
-const AddOrReplaceButtonWrapper = ({ isAddButton, exerciseToReplaceId }: Props) => {
-  const { templateExercises, setTemplateExercises } = useTemplateExercises();
+const AddOrReplaceButtonWrapper = ({ isAddButton, exerciseToReplaceId, insertionNumberOfExerciseToReplace }: Props) => {
+  const { template, setTemplate } = useTemplate();
 
   return (
-    <AddOrReplaceButton exercises={templateExercises} setExercises={setTemplateExercises} isAddButton={isAddButton} exerciseToReplaceId={exerciseToReplaceId} />
+    <AddOrReplaceButton workout={template} setWorkout={setTemplate} isAddButton={isAddButton} exerciseToReplaceId={exerciseToReplaceId} insertionNumberOfExerciseToReplace={insertionNumberOfExerciseToReplace} />
   )
 }
 

@@ -4,8 +4,8 @@ import PageName from '@/app/global components/PageName';
 import SearchBar from '@/app/global components/SearchBar';
 import React from 'react'
 import Link from 'next/link';
-import ExercisesList from '../../../components/ExerciseList';
 import AddOrReplaceButtonWrapper from '../../components/AddOrReplaceButtonWrapper';
+import ExerciseListWrapper from '../../components/ExerciseListWrapper';
 
 const selectExercises = (
     { searchParams }: {
@@ -28,7 +28,7 @@ const selectExercises = (
                 <Button text={'Create New Exercise'} />
             </div>
             <SearchBar />
-            <ExercisesList query={query} singleSelect={false} />
+            <ExerciseListWrapper query={query} singleSelect={false} />
         </PageLayout>
     )
 }

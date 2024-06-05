@@ -1,26 +1,26 @@
 'use client'
 import React, { useEffect } from 'react'
-import { useTemplateExercises } from '@/app/contexts/workoutTemplateContext';
 import { Exercise } from '@/app/workout/objects/classes';
 import ExerciseTrackingCards from '@/app/workout/components/ExerciseTrackingCards';
+import { useTemplate } from '@/app/contexts/templateContext';
 
 interface Props {
     exercises: Exercise[];
 }
 
 const ExerciseTrackingCardsWrapper = ({ exercises }: Props) => {
-    const { templateExercises, setTemplateExercises } = useTemplateExercises();
+    const { template, setTemplate } = useTemplate();
 
     // Load the exercises in the current template, if it has not been loaded already
     useEffect(() => {
-        if (templateExercises.length === 0) {
-            setTemplateExercises(exercises);
-        }
+        setTemplate(prevTemplate => {
+            return { ...prevTemplate, exercises: exercises };
+        })
     }, [])
 
     return (
         <>
-            <ExerciseTrackingCards exercises={templateExercises} setExercises={setTemplateExercises} isTemplate={true} replaceExerciseRedirectURL='/workout/templates/edit-template/replace-exercise' />
+            <ExerciseTrackingCards workout={template} setWorkout={setTemplate} isTemplate={true} replaceExerciseRedirectURL='/workout/templates/edit-template/replace-exercise' />
         </>
     )
 }

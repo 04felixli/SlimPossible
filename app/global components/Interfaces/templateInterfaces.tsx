@@ -1,7 +1,8 @@
 export interface IWorkoutTemplate {
+    id: number;
     name: string;
     duration: number;
-    date: Date;
+    createdDate: Date;
     exercises: IExerciseTemplate[];
 }
 
@@ -12,6 +13,7 @@ export interface IExerciseTemplate {
     targetMuscle: string;
     weightUnit: string;
     notes: string;
+    insertionNumber: number;
     sets: IWorkoutSetTemplate[];
 }
 

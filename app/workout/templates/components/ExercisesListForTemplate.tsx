@@ -1,0 +1,19 @@
+'use client'
+import { useTemplate } from '@/app/contexts/templateContext';
+import { ExerciseInList } from '@/app/exercises/interfaces/exercises'
+import SelectableExerciseCard from '@/app/workout/components/SelectableExerciseCard';
+import React from 'react'
+
+interface Props {
+    exercises: ExerciseInList[];
+    singleSelect: boolean;
+}
+
+const ExercisesListForWorkout = ({ exercises, singleSelect }: Props) => {
+    const { template, setTemplate } = useTemplate();
+    return (
+        <SelectableExerciseCard workout={template} setWorkout={setTemplate} exercises={exercises} singleSelect={singleSelect} />
+    )
+}
+
+export default ExercisesListForWorkout

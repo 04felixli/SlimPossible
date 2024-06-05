@@ -3,12 +3,14 @@ import React from 'react'
 import { useTemplateExercises } from '@/app/contexts/workoutTemplateContext';
 import WorkoutButtons from '@/app/workout/components/WorkoutButtons';
 import { IPopUp } from '@/app/workout/interfaces/popup';
+import { useTemplate } from '@/app/contexts/templateContext';
 
 interface Props {
     templateId: number;
 }
 
 const WorkoutButtonsWrapper = ({ templateId }: Props) => {
+    const { template, setTemplate } = useTemplate();
     const { templateExercises, setTemplateExercises } = useTemplateExercises();
 
     const cancelTemplateChangesPopUpContent: IPopUp = {
@@ -28,7 +30,7 @@ const WorkoutButtonsWrapper = ({ templateId }: Props) => {
     }
 
     return (
-        <WorkoutButtons exercises={templateExercises} setExercises={setTemplateExercises} finishPopUpContent={saveTemplateChangesPopUpContent} cancelPopUpContent={cancelTemplateChangesPopUpContent} onAddRedirectRoute={`/workout/templates/edit-template/select-exercises?id=${templateId}`} />
+        <WorkoutButtons workout={template} setWorkout={setTemplate} finishPopUpContent={saveTemplateChangesPopUpContent} cancelPopUpContent={cancelTemplateChangesPopUpContent} onAddRedirectRoute={`/workout/templates/edit-template/select-exercises?id=${templateId}`} />
     )
 }
 
