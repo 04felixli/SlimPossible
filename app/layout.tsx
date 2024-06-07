@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
-// import ExercisesToTrackContextProvider from "./contexts/exercisesToTrackContext";
-import SelectedExercisesContextProvider from "./contexts/selectedExercisesContext";
-import ReplacementExerciseContextProvider from "./contexts/replacementExerciseContext";
-import TemplateExercisesContextProvider from "./contexts/workoutTemplateContext";
 import WorkoutContextProvider from "./contexts/workoutContext";
 import TemplateContextProvider from "./contexts/templateContext";
 
@@ -24,15 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <WorkoutContextProvider>
         <TemplateContextProvider>
-          {/* <ExercisesToTrackContextProvider> */}
-          <SelectedExercisesContextProvider>
-            <ReplacementExerciseContextProvider>
-              <TemplateExercisesContextProvider>
-                <body className={`max-w-screen min-w-screen min-h-screen flex justify-center ${roboto.className}`}>{children}</body>
-              </TemplateExercisesContextProvider>
-            </ReplacementExerciseContextProvider>
-          </SelectedExercisesContextProvider>
-          {/* </ExercisesToTrackContextProvider> */}
+          <body className={`max-w-screen min-w-screen min-h-screen flex justify-center ${roboto.className}`}>{children}</body>
         </TemplateContextProvider>
       </WorkoutContextProvider>
 

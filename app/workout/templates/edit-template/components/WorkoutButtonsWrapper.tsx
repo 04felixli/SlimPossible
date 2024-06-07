@@ -1,6 +1,5 @@
 'use client'
 import React from 'react'
-import { useTemplateExercises } from '@/app/contexts/workoutTemplateContext';
 import WorkoutButtons from '@/app/workout/components/WorkoutButtons';
 import { IPopUp } from '@/app/workout/interfaces/popup';
 import { useTemplate } from '@/app/contexts/templateContext';
@@ -11,7 +10,6 @@ interface Props {
 
 const WorkoutButtonsWrapper = ({ templateId }: Props) => {
     const { template, setTemplate } = useTemplate();
-    const { templateExercises, setTemplateExercises } = useTemplateExercises();
 
     const cancelTemplateChangesPopUpContent: IPopUp = {
         buttonText: 'Cancel',
