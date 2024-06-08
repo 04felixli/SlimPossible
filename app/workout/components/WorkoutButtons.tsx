@@ -12,11 +12,13 @@ interface Props {
     finishPopUpContent: IPopUp;
     cancelPopUpContent: IPopUp;
     onAddRedirectRoute: string; // The url path to redirect to after the user clicks 'add'
+    deleteButtonPopUpContent?: IPopUp;
 }
 
-const WorkoutButtons = ({ workout, setWorkout, finishPopUpContent, cancelPopUpContent, onAddRedirectRoute }: Props) => {
+const WorkoutButtons = ({ workout, setWorkout, finishPopUpContent, cancelPopUpContent, onAddRedirectRoute, deleteButtonPopUpContent }: Props) => {
     const [openCancelPopUp, setOpenCancelPopUp] = useState<boolean>(false);
     const [openFinishPopUp, setOpenFinishPopUp] = useState<boolean>(false);
+    const [openDeletePopUp, setOpenDeletePopUp] = useState<boolean>(false);
 
     enum action {
         complete = 'complete', // finish or save workout or workout template
@@ -36,14 +38,23 @@ const WorkoutButtons = ({ workout, setWorkout, finishPopUpContent, cancelPopUpCo
     }
 
     return (
-        <div className='flex justify-around mt-5'>
-            <Link href={onAddRedirectRoute}>
-                <Button text={'Add'} />
+        <div className='flex flex-col'>
+            <Link href={onAddRedirectRoute} className='mt-3 flex justify-center items-center'>
+                <Button text={'Add Exercise'} className='w-full' />
             </Link>
-            <Button text={finishPopUpContent.buttonText} onClickFunction={() => setOpenFinishPopUp(true)} />
-            <Button text={cancelPopUpContent.buttonText} onClickFunction={() => setOpenCancelPopUp(true)} />
+            <div className='mt-5 flex justify-center items-center'>
+                <Button text={finishPopUpContent.buttonText} onClickFunction={() => setOpenFinishPopUp(true)} className='w-full' />
+            </div>
+            <div className='mt-3 flex justify-center items-center'>
+                <Button text={cancelPopUpContent.buttonText} onClickFunction={() => setOpenCancelPopUp(true)} className='w-full' />
+            </div>
             {openCancelPopUp && <PopUp popUpContent={cancelPopUpContent} onDoIt={() => clearExercises(action.cancel)} onDontDoIt={() => setOpenCancelPopUp(false)} />}
             {openFinishPopUp && <PopUp popUpContent={finishPopUpContent} onDoIt={() => clearExercises(action.complete)} onDontDoIt={() => setOpenFinishPopUp(false)} />}
+            {deleteButtonPopUpContent &&
+                <div className='mt-3 flex justify-center items-center'>
+                    <Button text={deleteButtonPopUpContent.buttonText} onClickFunction={() => setOpenDeletePopUp(true)} className='w-full' />
+                </div>}
+            {openDeletePopUp && deleteButtonPopUpContent && <PopUp popUpContent={deleteButtonPopUpContent} onDoIt={() => clearExercises(action.complete)} onDontDoIt={() => setOpenDeletePopUp(false)} />}
         </div>
     )
 }

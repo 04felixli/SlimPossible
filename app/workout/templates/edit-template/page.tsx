@@ -11,7 +11,6 @@ const editTemplate = async () => {
             <ExistingTemplateName />
             <ExerciseTrackingCardsWrapper from={'edit-template'} />
             <WorkoutButtonsWrapper from={'edit-template'} />
-            <DeleteTemplateButton />
         </PageLayout>
     )
 }

@@ -11,6 +11,32 @@ interface Props {
 const WorkoutButtonsWrapper = ({ from }: Props) => {
     const { template, setTemplate } = useTemplate();
 
+    // edit-template pop-ups
+    const discardChangesToWorkoutTemplatePopUpContent: IPopUp = {
+        buttonText: 'Discard Changes',
+        header: 'Discard Changes?',
+        subHeading: 'Are you sure you want to discard all changes? All changes will be lost.',
+        doIt: 'Discard Changes',
+        noDontDoIt: 'Go Back'
+    }
+
+    const saveChangesToWorkoutTemplatePopUpContent: IPopUp = {
+        buttonText: 'Save Changes',
+        header: 'Save Changes?',
+        subHeading: 'This workout template will be updated.',
+        doIt: 'Save Changes',
+        noDontDoIt: 'Go Back'
+    }
+
+    const deleteWorkoutTemplatePopUpContent: IPopUp = {
+        buttonText: 'Delete Template',
+        header: 'Delete Workout Template?',
+        subHeading: 'This workout template will be deleted. This action is irreversible.',
+        doIt: 'Delete',
+        noDontDoIt: 'Go Back'
+    }
+
+    // add-template pop-ups
     const discardWorkoutTemplatePopUpContent: IPopUp = {
         buttonText: 'Discard',
         header: 'Discard Template?',
@@ -27,9 +53,17 @@ const WorkoutButtonsWrapper = ({ from }: Props) => {
         noDontDoIt: 'Go Back'
     }
 
+    if (from === "edit-template") {
+        return (
+            <WorkoutButtons workout={template} setWorkout={setTemplate} finishPopUpContent={saveChangesToWorkoutTemplatePopUpContent} cancelPopUpContent={discardChangesToWorkoutTemplatePopUpContent} deleteButtonPopUpContent={deleteWorkoutTemplatePopUpContent} onAddRedirectRoute={`/workout/templates/selectExercises?from=${from}`} />
+        )
+    }
+
+    // add-template page has no "Delete Template" option
     return (
         <WorkoutButtons workout={template} setWorkout={setTemplate} finishPopUpContent={saveWorkoutTemplatePopUpContent} cancelPopUpContent={discardWorkoutTemplatePopUpContent} onAddRedirectRoute={`/workout/templates/selectExercises?from=${from}`} />
     )
+
 }
 
 export default WorkoutButtonsWrapper

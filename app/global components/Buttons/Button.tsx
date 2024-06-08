@@ -6,6 +6,7 @@ import './button.css';
 interface Props {
     text: string;
     onClickFunction?: () => void; // Make onClickFunction optional
+    className?: string; // Additional styles if needed
 }
 
 const Button = (props: Props) => {
@@ -38,7 +39,7 @@ const Button = (props: Props) => {
                     mass: 0.1,
                 },
             }}
-            className="px-6 py-0.5 rounded-full relative radial-gradient shadow-lg"
+            className={`px-6 py-0.5 rounded-full relative radial-gradient shadow-lg ${props.className}`}
             onClick={onClick}
         >
             <span className="tracking-wide h-full w-full block relative linear-mask">
