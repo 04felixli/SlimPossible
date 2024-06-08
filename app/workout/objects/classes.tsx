@@ -44,7 +44,7 @@ export class Exercise {
         this.notes = "";
         this.sets = sets ? sets : [new WorkoutSet(1)];
         this.showNotes = false;
-        this.insertionNumber = insertionNumber ? insertionNumber : -1;
+        this.insertionNumber = insertionNumber ? insertionNumber : (insertionNumber === 0 ? insertionNumber : -1);
     }
 }
 

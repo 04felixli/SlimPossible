@@ -1,25 +1,16 @@
 import React from 'react'
-import { GetWorkoutTemplateById } from '@/app/global components/Library/apiCalls';
 import PageLayout from '@/app/global components/layout';
-import PageName from '@/app/global components/PageName';
+import ExerciseTrackingCardsWrapper from '../components/ExerciseTrackingCardsWrapper';
+import WorkoutButtonsWrapper from '../components/WorkoutButtonsWrapper';
 import DeleteTemplateButton from './components/DeleteTemplateButton';
-import { Workout } from '../../objects/classes';
-import ExerciseTrackingCardsWrapper from './components/ExerciseTrackingCardsWrapper';
-import WorkoutButtonsWrapper from './components/WorkoutButtonsWrapper';
+import ExistingTemplateName from './components/ExistingTemplateName';
 
-const editTemplate = async ({ searchParams }: {
-    searchParams: {
-        id: string;
-    }
-}) => {
-    const templateId: number = parseInt(searchParams.id);
-    const template: Workout = await GetWorkoutTemplateById(templateId);
-
+const editTemplate = async () => {
     return (
         <PageLayout>
-            <PageName name={template.name} />
-            <ExerciseTrackingCardsWrapper exercises={JSON.parse(JSON.stringify(template.exercises))} />
-            <WorkoutButtonsWrapper templateId={templateId} />
+            <ExistingTemplateName />
+            <ExerciseTrackingCardsWrapper from={'edit-template'} />
+            <WorkoutButtonsWrapper from={'edit-template'} />
             <DeleteTemplateButton />
         </PageLayout>
     )

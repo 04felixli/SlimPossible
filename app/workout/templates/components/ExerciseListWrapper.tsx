@@ -1,7 +1,7 @@
 import React from 'react'
 import { ExerciseInList } from '@/app/exercises/interfaces/exercises';
 import { GetExerciseList } from '@/app/global components/Library/apiCalls';
-import ExercisesListForWorkout from './ExercisesListForTemplate';
+import ExercisesListForTemplate from './ExercisesListForTemplate';
 
 interface Props {
     query: string;
@@ -11,7 +11,7 @@ interface Props {
 const ExerciseListWrapper = async ({ query, singleSelect }: Props) => {
     const exercises: ExerciseInList[] = await GetExerciseList(query);
     return (
-        <ExercisesListForWorkout exercises={exercises} singleSelect={singleSelect} />
+        <ExercisesListForTemplate exercises={exercises} singleSelect={singleSelect} />
     )
 }
 

@@ -4,7 +4,11 @@ import WorkoutButtons from '@/app/workout/components/WorkoutButtons';
 import { IPopUp } from '@/app/workout/interfaces/popup';
 import { useTemplate } from '@/app/contexts/templateContext';
 
-const WorkoutButtonsWrapper = () => {
+interface Props {
+    from: string;
+}
+
+const WorkoutButtonsWrapper = ({ from }: Props) => {
     const { template, setTemplate } = useTemplate();
 
     const discardWorkoutTemplatePopUpContent: IPopUp = {
@@ -24,7 +28,7 @@ const WorkoutButtonsWrapper = () => {
     }
 
     return (
-        <WorkoutButtons workout={template} setWorkout={setTemplate} finishPopUpContent={saveWorkoutTemplatePopUpContent} cancelPopUpContent={discardWorkoutTemplatePopUpContent} onAddRedirectRoute='/workout/templates/add-template/selectExercises' />
+        <WorkoutButtons workout={template} setWorkout={setTemplate} finishPopUpContent={saveWorkoutTemplatePopUpContent} cancelPopUpContent={discardWorkoutTemplatePopUpContent} onAddRedirectRoute={`/workout/templates/selectExercises?from=${from}`} />
     )
 }
 

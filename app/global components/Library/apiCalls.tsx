@@ -84,7 +84,7 @@ export const GetWorkoutTemplateById = async (id: number): Promise<Workout> => {
 }
 
 // Helper function to convert IWorkoutTemplate to Workout object
-const convertIWorkoutTemplateToWorkout = (rawTemplate: IWorkoutTemplate): Workout => {
+export const convertIWorkoutTemplateToWorkout = (rawTemplate: IWorkoutTemplate): Workout => {
     const workout = new Workout();
     workout.id = rawTemplate.id;
     workout.name = rawTemplate.name;
@@ -95,7 +95,7 @@ const convertIWorkoutTemplateToWorkout = (rawTemplate: IWorkoutTemplate): Workou
 }
 
 // Helper function to convert IExerciseTemplate to Exercise object
-const convertIExerciseTemplateToExercise = (rawExercise: IExerciseTemplate): Exercise => {
+export const convertIExerciseTemplateToExercise = (rawExercise: IExerciseTemplate): Exercise => {
     const exercise = new Exercise(
         rawExercise.id,
         rawExercise.name,
@@ -111,7 +111,7 @@ const convertIExerciseTemplateToExercise = (rawExercise: IExerciseTemplate): Exe
 }
 
 // Helper function to convert IWorkoutSetTemplate to WorkoutSet object
-const convertIWorkoutSetTemplateToWorkoutSet = (rawSet: IWorkoutSetTemplate): WorkoutSet => {
+export const convertIWorkoutSetTemplateToWorkoutSet = (rawSet: IWorkoutSetTemplate): WorkoutSet => {
     const set = new WorkoutSet(rawSet.setNumber);
     set.weight = rawSet.weight;
     set.reps = rawSet.reps;

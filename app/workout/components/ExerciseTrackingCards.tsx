@@ -1,22 +1,23 @@
 'use client';
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { TbSwitch3 } from "react-icons/tb";
 import { FaNoteSticky } from "react-icons/fa6";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { FaPlus } from "react-icons/fa";
 import Link from 'next/link';
-import { Exercise, Workout, WorkoutSet } from '../objects/classes';
+import { Workout, WorkoutSet } from '../objects/classes';
 import ActionButton from './ActionButton';
 import TrackSets from './TrackSets';
 
 interface Props {
     workout: Workout;
     setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
+    from?: string // "add-template" or "edit-template" to show whether or not we got here from add or edit template page
     isTemplate: boolean; // Only true when creating a new template (not editing one)
     replaceExerciseRedirectURL: string;
 }
 
-const ExerciseTrackingCards = ({ workout, setWorkout, isTemplate, replaceExerciseRedirectURL }: Props) => {
+const ExerciseTrackingCards = ({ workout, setWorkout, from, isTemplate, replaceExerciseRedirectURL }: Props) => {
 
     const handleAddSet = (exerciseId: number, insertionNumber: number) => {
         setWorkout(prevWorkout => {
@@ -113,7 +114,7 @@ const ExerciseTrackingCards = ({ workout, setWorkout, isTemplate, replaceExercis
                         <div className='flex flex-row justify-between items-center mt-5'>
 
                             {/* Replace exercise button */}
-                            <Link href={`${replaceExerciseRedirectURL}?id=${exercise.id}&inoetr=${exercise.insertionNumber}`}>
+                            <Link href={`${replaceExerciseRedirectURL}?id=${exercise.id}&inoetr=${exercise.insertionNumber}${from ? `&from=${from}` : ''}`}>
                                 <ActionButton>
                                     <TbSwitch3 />
                                 </ActionButton>

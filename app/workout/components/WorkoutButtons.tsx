@@ -10,7 +10,7 @@ interface Props {
     workout: Workout;
     setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
     finishPopUpContent: IPopUp;
-    cancelPopUpContent: IPopUp
+    cancelPopUpContent: IPopUp;
     onAddRedirectRoute: string; // The url path to redirect to after the user clicks 'add'
 }
 

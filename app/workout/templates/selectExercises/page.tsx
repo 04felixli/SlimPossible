@@ -4,25 +4,25 @@ import PageName from '@/app/global components/PageName';
 import SearchBar from '@/app/global components/SearchBar';
 import React from 'react'
 import Link from 'next/link';
-import AddOrReplaceButtonWrapper from '../../components/AddOrReplaceButtonWrapper';
-import ExerciseListWrapper from '../../components/ExerciseListWrapper';
+import AddOrReplaceButtonWrapper from '../components/AddOrReplaceButtonWrapper';
+import ExerciseListWrapper from '../components/ExerciseListWrapper';
 
 const selectExercises = (
     { searchParams }: {
         searchParams: {
             query?: string;
-            id: string;
+            from: string; // Either came to replace exercises page from add or edit template page
         }
     }) => {
     const pageName: string = "Select Exercises";
     const query: string = searchParams.query || '';
-    const templateId: number = parseInt(searchParams.id);
+    const from: string = searchParams.from;
 
     return (
         <PageLayout>
             <PageName name={pageName} />
             <div className='mb-5 flex justify-between'>
-                <Link href={`/workout/templates/edit-template?id=${templateId}`}>
+                <Link href={`/workout/templates/${from}`}>
                     <AddOrReplaceButtonWrapper isAddButton={true} />
                 </Link>
                 <Button text={'Create New Exercise'} />

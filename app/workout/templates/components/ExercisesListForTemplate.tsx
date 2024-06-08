@@ -9,11 +9,11 @@ interface Props {
     singleSelect: boolean;
 }
 
-const ExercisesListForWorkout = ({ exercises, singleSelect }: Props) => {
+const ExercisesListForTemplate = ({ exercises, singleSelect }: Props) => {
     const { template, setTemplate } = useTemplate();
     return (
         <SelectableExerciseCard workout={template} setWorkout={setTemplate} exercises={exercises} singleSelect={singleSelect} />
     )
 }
 
-export default ExercisesListForWorkout
+export default ExercisesListForTemplate
