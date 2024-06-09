@@ -76,6 +76,7 @@ namespace ftDB.Dao
                 entity.Property(e => e.CompletedWorkoutId).HasColumnType("integer").HasColumnName("completed_workout_id").IsRequired();
                 entity.Property(e => e.Notes).HasColumnType("text").HasColumnName("notes").IsRequired();
                 entity.Property(e => e.WeightUnit).HasColumnType("text").HasColumnName("weight_unit").IsRequired();
+                entity.Property(e => e.InsertionNumber).HasColumnType("integer").HasColumnName("insertion_number").IsRequired();
                 entity.HasOne(ExerciseInWorkout => ExerciseInWorkout.CompletedWorkout)
                       .WithMany(CompletedWorkout => CompletedWorkout.ExercisesInWorkout)
                       .HasForeignKey(ExerciseInWorkout => ExerciseInWorkout.CompletedWorkoutId);

@@ -49,6 +49,7 @@ namespace ftDB.Repo
                                                             exercise.TargetMuscle,
                                                             exercise.WeightUnit,
                                                             exercise.Notes,
+                                                            exercise.InsertionNumber,
                                                             exercise.Sets.Where(set => set.IsCompleted).ToArray() // Only keep completed sets
                                                         )).ToArray();
 

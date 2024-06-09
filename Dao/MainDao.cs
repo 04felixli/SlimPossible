@@ -46,7 +46,7 @@ namespace ftDB.Dao
 
                 foreach (ModelCompletedExercise exerciseInWorkout in completedWorkout.Exercises)
                 {
-                    ExerciseInWorkout exercise = new(exerciseInWorkout.Id, workoutId, exerciseInWorkout.Notes, exerciseInWorkout.WeightUnit); // create new ExercieInWorout entity
+                    ExerciseInWorkout exercise = new(exerciseInWorkout.Id, workoutId, exerciseInWorkout.Notes, exerciseInWorkout.WeightUnit, exerciseInWorkout.InsertionNumber); // create new ExercieInWorout entity
 
                     int exerciseInWorkoutId = await PostExerciseInWorkoutAsync(exercise);
 
@@ -90,6 +90,7 @@ namespace ftDB.Dao
                     completedWorkouts.Date,
                     completedWorkouts.ExercisesInWorkout
                         .OrderBy(eiw => eiw.CompletedWorkoutId)
+                        .ThenBy(eiw => eiw.Id)
                         .Select(exerciseInWorkout => new ModelPastExercise(
                             exerciseInWorkout.Exercise.Id,
                             exerciseInWorkout.Exercise.Name,
@@ -97,6 +98,7 @@ namespace ftDB.Dao
                             exerciseInWorkout.Exercise.TargetMuscle,
                             exerciseInWorkout.WeightUnit,
                             exerciseInWorkout.Notes,
+                            exerciseInWorkout.InsertionNumber,
                             exerciseInWorkout.Sets
                                 .OrderBy(s => s.SetNumber)
                                 .Select(s => new ModelPastSet(s.Weight, s.Reps, s.SetNumber))
@@ -121,6 +123,7 @@ namespace ftDB.Dao
                     completedWorkouts.Date,
                     completedWorkouts.ExercisesInWorkout
                         .OrderBy(eiw => eiw.CompletedWorkoutId)
+                        .ThenBy(eiw => eiw.Id)
                         .Select(exerciseInWorkout => new ModelPastExercise(
                             exerciseInWorkout.Exercise.Id,
                             exerciseInWorkout.Exercise.Name,
@@ -128,6 +131,7 @@ namespace ftDB.Dao
                             exerciseInWorkout.Exercise.TargetMuscle,
                             exerciseInWorkout.WeightUnit,
                             exerciseInWorkout.Notes,
+                            exerciseInWorkout.InsertionNumber,
                             exerciseInWorkout.Sets
                                 .OrderBy(s => s.SetNumber)
                                 .Select(s => new ModelPastSet(s.Weight, s.Reps, s.SetNumber))
