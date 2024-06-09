@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { TbSwitch3 } from "react-icons/tb";
 import { FaNoteSticky } from "react-icons/fa6";
 import { RiDeleteBin2Fill } from "react-icons/ri";
@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { Workout, WorkoutSet } from '../objects/classes';
 import ActionButton from './ActionButton';
 import TrackSets from './TrackSets';
+import { IPopUp } from '../interfaces/popup';
+import PopUp from './popups/PopUp';
 
 interface Props {
     workout: Workout;
@@ -76,8 +78,24 @@ const ExerciseTrackingCards = ({ workout, setWorkout, from, isTemplate, replaceE
         })
     }
 
+    const handleReplaceExerciseButtonClick = (exerciseId: number, insertionNumber: number) => {
+        setOpenReplaceExercisePopUp(true);
+        setFullReplaceExerciseRedirectURL(`${replaceExerciseRedirectURL}?id=${exerciseId}&inoetr=${insertionNumber}${from ? `&from=${from}` : ''}`);
+    }
+
+    const [openReplaceExercisePopUp, setOpenReplaceExercisePopUp] = useState<boolean>(false);
+    const [fullReplaceExerciseRedirectURL, setFullReplaceExerciseRedirectURL] = useState<string>('');
+
+    const replaceExercisePopUpContent: IPopUp = {
+        buttonText: '', // Replace exercise button has no text
+        header: 'Replace Exercise?',
+        subHeading: 'All previously entered sets will be replaced.',
+        doIt: 'Replace',
+        noDontDoIt: 'Cancel'
+    }
+
     return (
-        <div>
+        <div className='relative z-10'>
             <ul>
                 {workout.exercises.map((exercise) => (
                     <li key={`${exercise.id} - ${exercise.insertionNumber}`} className='card-bg'>
@@ -114,11 +132,11 @@ const ExerciseTrackingCards = ({ workout, setWorkout, from, isTemplate, replaceE
                         <div className='flex flex-row justify-between items-center mt-5'>
 
                             {/* Replace exercise button */}
-                            <Link href={`${replaceExerciseRedirectURL}?id=${exercise.id}&inoetr=${exercise.insertionNumber}${from ? `&from=${from}` : ''}`}>
-                                <ActionButton>
-                                    <TbSwitch3 />
-                                </ActionButton>
-                            </Link>
+                            {/* <Link href={`${replaceExerciseRedirectURL}?id=${exercise.id}&inoetr=${exercise.insertionNumber}${from ? `&from=${from}` : ''}`}> */}
+                            <ActionButton onClickFunction={() => handleReplaceExerciseButtonClick(exercise.id, exercise.insertionNumber)}>
+                                <TbSwitch3 />
+                            </ActionButton>
+                            {/* </Link> */}
 
                             {/* Show/hide notes for exercise button */}
                             <ActionButton onClickFunction={() => toggleNotes(exercise.id, exercise.insertionNumber)}>
@@ -139,6 +157,7 @@ const ExerciseTrackingCards = ({ workout, setWorkout, from, isTemplate, replaceE
                     </li>
                 ))}
             </ul>
+            {openReplaceExercisePopUp && <PopUp popUpContent={replaceExercisePopUpContent} onDontDoIt={() => setOpenReplaceExercisePopUp(false)} onDoItRedirectURL={fullReplaceExerciseRedirectURL} />}
         </div >
     )
 }

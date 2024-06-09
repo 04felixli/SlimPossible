@@ -6,11 +6,12 @@ import Link from 'next/link';
 
 interface Props {
   popUpContent: IPopUp;
-  onDoIt: () => void;
-  onDontDoIt: () => void;
+  onDoIt?: () => void;
+  onDontDoIt?: () => void;
+  onDoItRedirectURL?: string; // For replacing an exercise, we want to redirect to an url
 }
 
-const PopUp = ({ popUpContent, onDoIt, onDontDoIt }: Props) => {
+const PopUp = ({ popUpContent, onDoIt, onDontDoIt, onDoItRedirectURL }: Props) => {
   return (
     <div className='popup-overlay hover:cursor-pointer' onClick={onDontDoIt}>
       <div className='popup-content hover:cursor-default' onClick={(e) => e.stopPropagation()}>
@@ -23,9 +24,14 @@ const PopUp = ({ popUpContent, onDoIt, onDontDoIt }: Props) => {
           >
             {popUpContent.noDontDoIt}
           </button>
-          <Link href={'/workout'}>
-            <Button text={popUpContent.doIt} onClickFunction={onDoIt} />
-          </Link>
+          {!onDoItRedirectURL &&
+            <Link href={'/workout'}>
+              <Button text={popUpContent.doIt} onClickFunction={onDoIt} />
+            </Link>}
+          {onDoItRedirectURL &&
+            <Link href={onDoItRedirectURL}>
+              <Button text={popUpContent.doIt} />
+            </Link>}
         </div>
       </div>
     </div>
