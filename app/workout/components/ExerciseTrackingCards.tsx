@@ -95,7 +95,7 @@ const ExerciseTrackingCards = ({ workout, setWorkout, from, isTemplate, replaceE
     }
 
     return (
-        <div className='relative z-10'>
+        <div>
             <ul>
                 {workout.exercises.map((exercise) => (
                     <li key={`${exercise.id} - ${exercise.insertionNumber}`} className='card-bg'>
