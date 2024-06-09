@@ -43,10 +43,27 @@ const ExerciseTrackingCards = ({ workout, setWorkout, from, isTemplate, replaceE
     }
 
     const handleWeightUnitChange = (exerciseId: number, insertionNumber: number) => {
+        const lbsToKgs = (lbs: number): number => {
+            const kgs = lbs * 0.45359237;
+            return Math.round(kgs * 2) / 2;
+        }
+
+        const kgsToLbs = (kgs: number): number => {
+            const lbs = kgs / 0.45359237;
+            return Math.round(lbs * 2) / 2;
+        }
+
         setWorkout(prevWorkout => {
             const updatedExercises = prevWorkout.exercises.map(exercise => {
                 if (exercise.id === exerciseId && exercise.insertionNumber === insertionNumber) {
-                    return { ...exercise, weightUnit: exercise.weightUnit === 'lbs' ? 'kgs' : 'lbs' };
+                    const updatedSets = exercise.sets.map(set => {
+                        if (exercise.weightUnit === 'lbs') {
+                            return { ...set, weight: lbsToKgs(set.weight) }
+                        }
+                        return { ...set, weight: kgsToLbs(set.weight) }
+                    })
+
+                    return { ...exercise, sets: updatedSets, weightUnit: exercise.weightUnit === 'lbs' ? 'kgs' : 'lbs' };
                 }
                 return exercise;
             })
