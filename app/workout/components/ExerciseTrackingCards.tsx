@@ -45,12 +45,12 @@ const ExerciseTrackingCards = ({ workout, setWorkout, from, isTemplate, replaceE
     const handleWeightUnitChange = (exerciseId: number, insertionNumber: number) => {
         const lbsToKgs = (lbs: number): number => {
             const kgs = lbs * 0.45359237;
-            return Math.round(kgs * 2) / 2;
+            return +kgs.toFixed(2);
         }
 
         const kgsToLbs = (kgs: number): number => {
             const lbs = kgs / 0.45359237;
-            return Math.round(lbs * 2) / 2;
+            return +lbs.toFixed(2);
         }
 
         setWorkout(prevWorkout => {

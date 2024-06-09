@@ -76,14 +76,31 @@ const TrackSets = ({ workout, setWorkout, exercise, isTemplate }: Props) => {
         })
     };
 
-    const preventInvalidInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        const validKeys = [
+    const preventInvalidInput = (event: React.KeyboardEvent<HTMLInputElement>, fieldType: string) => {
+        const validKeysForWeight = [
+            'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter', '.'
+        ];
+
+        const validKeysForReps = [
             'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'
         ];
+
+        // Allow Ctrl/Cmd key combinations
+        if (event.ctrlKey || event.metaKey) {
+            return;
+        }
+
+        const validKeys = fieldType === 'weight' ? validKeysForWeight : validKeysForReps;
+
         if (
             !validKeys.includes(event.key) && // Allow control keys
             !(event.key >= '0' && event.key <= '9') // Allow digits 0-9
         ) {
+            event.preventDefault();
+        }
+
+        // Additional check to prevent multiple decimal points for weight input
+        if (fieldType === 'weight' && event.key === '.' && event.currentTarget.value.includes('.')) {
             event.preventDefault();
         }
     };
@@ -114,7 +131,7 @@ const TrackSets = ({ workout, setWorkout, exercise, isTemplate }: Props) => {
                                         name="Weight Input"
                                         value={set.weight < 0 ? '' : set.weight}
                                         onChange={(e) => handleWeightInput(e, exercise.id, set.setNumber)}
-                                        onKeyDown={preventInvalidInput} // Prevent '-' character
+                                        onKeyDown={(e) => preventInvalidInput(e, "weight")} // Prevent invalid character input
                                         className={`max-w-xs bg-card-bg-gradient-dark rounded-full py-1 px-2 h-full w-full ${set.isCompleted ? 'text-disabled-color' : ''}`}
                                     />
                                 </div>
@@ -128,7 +145,7 @@ const TrackSets = ({ workout, setWorkout, exercise, isTemplate }: Props) => {
                                         name="Rep Input"
                                         value={set.reps < 0 ? '' : set.reps}
                                         onChange={(e) => handleRepInput(e, exercise.id, set.setNumber)}
-                                        onKeyDown={preventInvalidInput} // Prevent '-' character
+                                        onKeyDown={(e) => preventInvalidInput(e, "reps")} // Prevent invalid character input
                                         className={`max-w-xs bg-card-bg-gradient-dark rounded-full py-1 h-full w-full ${set.isCompleted ? 'text-disabled-color' : ''}`}
                                     />
                                 </div>
