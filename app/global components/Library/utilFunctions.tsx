@@ -74,7 +74,7 @@ export const convertIWorkoutHistoryToWorkout = (rawTemplate: IWorkoutHistory): W
     workout.id = rawTemplate.id;
     workout.name = rawTemplate.name;
     workout.duration = rawTemplate.duration;
-    workout.date = new Date(rawTemplate.createdDate);
+    workout.date = rawTemplate.createdDate;
     workout.exercises = rawTemplate.exercises.map(exercise => convertIExerciseInWorkoutHistoryToExercise(exercise));
     return workout;
 }

@@ -1,29 +1,53 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { FaCalendar } from "react-icons/fa";
 import { FaClock } from "react-icons/fa";
 import { convertIWorkoutHistoryToWorkout, formatDuration, formatTime } from '@/app/global components/Library/utilFunctions';
 import { IWorkoutHistory } from '@/app/global components/Interfaces/historyInterfaces';
 import { useHistory } from '@/app/contexts/historyContext';
 import { Workout } from '@/app/workout/objects/classes';
+import HistoryPreviewCard from './popups/HistoryPreviewCard';
 
 interface Props {
     workoutHistories: IWorkoutHistory[];
 }
 
+interface HistoryPreviewCardState {
+    // if isOpen == true, workout must be defined
+    isOpen: boolean;
+    workout: Workout | undefined;
+}
+
+const initialState: HistoryPreviewCardState = {
+    isOpen: false,
+    workout: undefined,
+};
+
 const HistoryCards = ({ workoutHistories }: Props) => {
     const { history, setHistory } = useHistory();
+    const [historyPreviewCard, setHistoryPreviewCard] = useState<HistoryPreviewCardState>(initialState);
 
     const handleHistoryCardClick = (rawTemplate: IWorkoutHistory) => {
-        const templateObject: Workout = convertIWorkoutHistoryToWorkout(rawTemplate)
-        setHistory(templateObject);
+        const historyObject: Workout = convertIWorkoutHistoryToWorkout(rawTemplate)
+
+        // Open workout history preview card
+        setHistoryPreviewCard(prevState => {
+            return { ...prevState, isOpen: true, workout: historyObject }
+        })
+    }
+
+    const closePopUp = () => {
+        // Close workout history preview card and reset workout
+        setHistoryPreviewCard(prevState => {
+            return { ...prevState, isOpen: false, workout: undefined }
+        })
     }
 
     return (
         <div>
             <ul>
                 {workoutHistories.map((workoutHistory) => (
-                    <li key={workoutHistory.id} className='card-bg'>
+                    <li key={workoutHistory.id} className='card-bg' onClick={() => handleHistoryCardClick(workoutHistory)}>
                         <div className='flex justify-center items-center card-title-font'>{workoutHistory.name}</div>
                         <section className='font-thin text-sm'>
                             <div className='flex flex-row items-center'>
@@ -47,6 +71,7 @@ const HistoryCards = ({ workoutHistories }: Props) => {
                     </li>
                 ))}
             </ul>
+            {historyPreviewCard.isOpen && <HistoryPreviewCard workout={historyPreviewCard.workout} closePopUp={closePopUp} />}
         </div>
     )
 }
