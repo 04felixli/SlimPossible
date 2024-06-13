@@ -54,10 +54,10 @@ export class WorkoutSet {
     setNumber: number;
     isCompleted: boolean;
 
-    constructor(setNumber: number) {
+    constructor(setNumber: number, isCompleted: boolean = false) {
         this.weight = -1;
         this.reps = -1;
         this.setNumber = setNumber;
-        this.isCompleted = false;
+        this.isCompleted = isCompleted;
     }
 }

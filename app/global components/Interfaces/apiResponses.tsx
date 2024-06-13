@@ -1,7 +1,6 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
-import { WorkoutHistory } from "@/app/history/interfaces/history";
-import { WorkoutTemplate } from "@/app/workout/interfaces/templates";
 import { IWorkoutTemplate } from "./templateInterfaces";
+import { IWorkoutHistory } from "./historyInterfaces";
 
 export interface ResponseGetExerciseInList {
     exercises: ExerciseInList[];
@@ -10,7 +9,7 @@ export interface ResponseGetExerciseInList {
 }
 
 export interface ResponseGetAllWorkoutHistory {
-    pastWorkouts: WorkoutHistory[];
+    pastWorkouts: IWorkoutHistory[];
     success: string;
     msg: string;
 }

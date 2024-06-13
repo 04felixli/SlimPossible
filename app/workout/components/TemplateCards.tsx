@@ -4,8 +4,8 @@ import '../../globals.css';
 import Link from 'next/link';
 import { IWorkoutTemplate } from '@/app/global components/Interfaces/templateInterfaces';
 import { useTemplate } from '@/app/contexts/templateContext';
-import { convertIWorkoutTemplateToWorkout } from '@/app/global components/Library/apiCalls';
 import { Workout } from '../objects/classes';
+import { convertIWorkoutTemplateToWorkout } from '@/app/global components/Library/utilFunctions';
 
 interface Props {
     templates: IWorkoutTemplate[]

@@ -2,12 +2,12 @@ import React from 'react'
 import PageLayout from '../global components/layout'
 import PageName from '../global components/PageName'
 import Button from '../global components/Buttons/Button'
-import { WorkoutHistory } from './interfaces/history'
 import HistoryCards from './components/HistoryCards'
 import { GetAllWorkoutHistoryAsync } from '../global components/Library/apiCalls'
+import { IWorkoutHistory } from '../global components/Interfaces/historyInterfaces'
 
 const history = async () => {
-    const workoutHistories: WorkoutHistory[] = await GetAllWorkoutHistoryAsync();
+    const workoutHistories: IWorkoutHistory[] = await GetAllWorkoutHistoryAsync();
     const pageName: string = "History";
 
     return (

@@ -4,6 +4,8 @@ import { WorkoutHistory } from "@/app/history/interfaces/history";
 import { WorkoutTemplate } from "@/app/workout/interfaces/templates";
 import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
 import { IExerciseTemplate, IWorkoutSetTemplate, IWorkoutTemplate } from "../Interfaces/templateInterfaces";
+import { IWorkoutHistory } from "../Interfaces/historyInterfaces";
+import { convertIWorkoutTemplateToWorkout } from "./utilFunctions";
 
 const url = process.env.API_KEY;
 
@@ -26,7 +28,7 @@ export const GetExerciseList = async (searchInput: string): Promise<ExerciseInLi
     }
 }
 
-export const GetAllWorkoutHistoryAsync = async (): Promise<WorkoutHistory[]> => {
+export const GetAllWorkoutHistoryAsync = async (): Promise<IWorkoutHistory[]> => {
     try {
         const res = await fetch(`${url}/api/Main/GetAllWorkouts`, { cache: 'no-store' });
 
@@ -35,7 +37,7 @@ export const GetAllWorkoutHistoryAsync = async (): Promise<WorkoutHistory[]> => 
         }
 
         const response: ResponseGetAllWorkoutHistory = await res.json();
-        const histories: WorkoutHistory[] = response.pastWorkouts;
+        const histories: IWorkoutHistory[] = response.pastWorkouts;
         return histories;
 
     } catch (error) {
@@ -81,41 +83,5 @@ export const GetWorkoutTemplateById = async (id: number): Promise<Workout> => {
         console.error('There was an error fetching workout template: ', error);
         throw error;
     }
-}
-
-// Helper function to convert IWorkoutTemplate to Workout object
-export const convertIWorkoutTemplateToWorkout = (rawTemplate: IWorkoutTemplate): Workout => {
-    const workout = new Workout();
-    workout.id = rawTemplate.id;
-    workout.name = rawTemplate.name;
-    workout.duration = rawTemplate.duration;
-    workout.date = new Date(rawTemplate.createdDate);
-    workout.exercises = rawTemplate.exercises.map(exercise => convertIExerciseTemplateToExercise(exercise));
-    return workout;
-}
-
-// Helper function to convert IExerciseTemplate to Exercise object
-export const convertIExerciseTemplateToExercise = (rawExercise: IExerciseTemplate): Exercise => {
-    const exercise = new Exercise(
-        rawExercise.id,
-        rawExercise.name,
-        rawExercise.equipment,
-        rawExercise.targetMuscle,
-        rawExercise.weightUnit,
-        rawExercise.insertionNumber,
-        rawExercise.sets.map(set => convertIWorkoutSetTemplateToWorkoutSet(set))
-    );
-    exercise.notes = rawExercise.notes;
-    exercise.showNotes = true;
-    return exercise;
-}
-
-// Helper function to convert IWorkoutSetTemplate to WorkoutSet object
-export const convertIWorkoutSetTemplateToWorkoutSet = (rawSet: IWorkoutSetTemplate): WorkoutSet => {
-    const set = new WorkoutSet(rawSet.setNumber);
-    set.weight = rawSet.weight;
-    set.reps = rawSet.reps;
-    set.isCompleted = rawSet.isCompleted;
-    return set;
 }
 
