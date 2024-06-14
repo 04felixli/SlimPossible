@@ -1,7 +1,7 @@
 import React from 'react'
 import { GetExerciseList } from '@/app/global components/Library/apiCalls';
 import { ExerciseInList } from '@/app/exercises/interfaces/exercises';
-import SelectableExerciseCard from './SelectableExerciseCard';
+import SelectableExerciseCard from '../../global components/SelectableExerciseCard';
 import { Workout } from '../objects/classes';
 
 interface Props {

@@ -1,7 +1,8 @@
 'use client'
 import React from 'react'
-import AddOrReplaceButton from '../../../global components/AddOrReplaceButton'
 import { useWorkout } from '@/app/contexts/workoutContext';
+import { useHistory } from '@/app/contexts/historyContext';
+import AddOrReplaceButton from '@/app/global components/AddOrReplaceButton';
 
 interface Props {
     isAddButton: boolean;
@@ -10,10 +11,10 @@ interface Props {
 }
 
 const AddOrReplaceButtonWrapper = ({ isAddButton, exerciseToReplaceId, insertionNumberOfExerciseToReplace }: Props) => {
-    const { workout, setWorkout } = useWorkout();
+    const { history, setHistory } = useHistory();
 
     return (
-        <AddOrReplaceButton workout={workout} setWorkout={setWorkout} isAddButton={isAddButton} exerciseToReplaceId={exerciseToReplaceId} insertionNumberOfExerciseToReplace={insertionNumberOfExerciseToReplace} />
+        <AddOrReplaceButton workout={history} setWorkout={setHistory} isAddButton={isAddButton} exerciseToReplaceId={exerciseToReplaceId} insertionNumberOfExerciseToReplace={insertionNumberOfExerciseToReplace} />
     )
 }
 

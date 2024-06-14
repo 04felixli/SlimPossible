@@ -2,9 +2,9 @@
 import React, { useState } from 'react'
 import Button from '@/app/global components/Buttons/Button';
 import Link from 'next/link';
-import PopUp from './popups/PopUp';
-import { IPopUp } from '../interfaces/popup';
-import { Exercise, Workout } from '../objects/classes';
+import PopUp from '../workout/components/popups/PopUp';
+import { IPopUp } from '../workout/interfaces/popup';
+import { Exercise, Workout } from '../workout/objects/classes';
 
 interface Props {
     workout: Workout;

@@ -5,11 +5,11 @@ import { FaNoteSticky } from "react-icons/fa6";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { FaPlus } from "react-icons/fa";
 import Link from 'next/link';
-import { Workout, WorkoutSet } from '../objects/classes';
-import ActionButton from './ActionButton';
-import TrackSets from './TrackSets';
-import { IPopUp } from '../interfaces/popup';
-import PopUp from './popups/PopUp';
+import { Workout, WorkoutSet } from '../workout/objects/classes';
+import ActionButton from '../workout/components/ActionButton';
+import TrackSets from '../workout/components/TrackSets';
+import { IPopUp } from '../workout/interfaces/popup';
+import PopUp from '../workout/components/popups/PopUp';
 
 interface Props {
     workout: Workout;

@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
-import ExerciseTrackingCards from '@/app/workout/components/ExerciseTrackingCards';
 import { useTemplate } from '@/app/contexts/templateContext';
+import ExerciseTrackingCards from '@/app/global components/ExerciseTrackingCards';
 
 interface Props {
     from: string;

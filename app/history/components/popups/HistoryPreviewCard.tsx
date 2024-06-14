@@ -7,6 +7,7 @@ import { FaCalendar, FaClock } from 'react-icons/fa';
 import { formatDuration, formatTime } from '@/app/global components/Library/utilFunctions';
 import Button from '@/app/global components/Buttons/Button';
 import { FaRegWindowClose } from "react-icons/fa";
+import Link from 'next/link';
 
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const HistoryPreviewCard = ({ workout, closePopUp }: Props) => {
+    const { history, setHistory } = useHistory();
 
     // Should never happen 
     if (!workout) {
@@ -27,7 +29,7 @@ const HistoryPreviewCard = ({ workout, closePopUp }: Props) => {
                 {/* x and edit buttons */}
                 <section className='flex justify-between items-center'>
                     <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>
-                    <button>Edit</button>
+                    <Link href={`/history/edit`} onClick={() => setHistory(workout)}>Edit</Link>
                 </section>
 
                 {/* workout name */}

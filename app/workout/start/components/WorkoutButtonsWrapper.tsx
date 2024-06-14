@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import WorkoutButtons from '../../components/WorkoutButtons';
+import WorkoutButtons from '../../../global components/WorkoutButtons';
 import { IPopUp } from '../../interfaces/popup';
 import { useWorkout } from '@/app/contexts/workoutContext';
 

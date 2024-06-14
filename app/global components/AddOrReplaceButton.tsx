@@ -1,7 +1,7 @@
 'use client'
 import Button from '@/app/global components/Buttons/Button'
 import React from 'react'
-import { Workout } from '../objects/classes';
+import { Workout } from '../workout/objects/classes';
 
 interface Props {
     workout: Workout;

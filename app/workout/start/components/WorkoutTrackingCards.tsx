@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import ExerciseTrackingCards from '../../components/ExerciseTrackingCards';
+import ExerciseTrackingCards from '../../../global components/ExerciseTrackingCards';
 import { useWorkout } from '@/app/contexts/workoutContext';
 
 const WorkoutTrackingCards = () => {
