@@ -4,8 +4,10 @@ import { GetWorkoutTime } from "@/app/global components/Library/utilFunctions";
 export class Workout {
     id?: number
     name: string;
-    duration: number;
-    date: Date;
+    startTime?: Date; // Keep track of workout start time
+    endTime?: Date; // Keep track of workout end time
+    duration: number; // Useless property -> keep for now
+    date: Date; // Useless property -> keep for now
     exercises: Exercise[]; // Exercises in the actual workout
     replacementExercise?: Exercise; // If the user wants to replace an exercise, this is where we store the replacement exercise object 
     exercisesToAdd: Exercise[]; // Stores the exercises the user wants to add to the actual workout

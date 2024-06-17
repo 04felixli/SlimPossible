@@ -13,6 +13,17 @@ export const formatDuration = (totalSeconds: number): string => {
     return formattedTime;
 };
 
+// Convert a duration in seconds to a string format: hh:mm:ss given the start and end dates
+export const getFormattedDurationStringGivenStartAndEnd = (start?: Date, end?: Date): string => {
+    if (!start || !end) {
+        return formatDuration(0);
+    }
+
+    const diffInSeconds = Math.floor((end.getTime() - start.getTime()) / 1000);
+
+    return formatDuration(diffInSeconds);
+}
+
 export const formatTime = (isoString: string) => {
     const date = parseISO(isoString);
     return format(date, 'yyyy-MM-dd, h:mm a');
@@ -103,3 +114,5 @@ export const convertISetInExerciseInWorkoutHistoryToWorkoutSet = (rawSet: ISetIn
     set.isCompleted = true;
     return set;
 }
+
+

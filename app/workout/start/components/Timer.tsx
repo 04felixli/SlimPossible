@@ -1,40 +1,38 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import '../../../globals.css';
+import { useWorkout } from '@/app/contexts/workoutContext';
+import { getFormattedDurationStringGivenStartAndEnd } from '@/app/global components/Library/utilFunctions';
 
 const Timer = () => {
-    const [hours, setHours] = useState(0);
-    const [minutes, setMinutes] = useState(0);
-    const [seconds, setSeconds] = useState(0);
+    const { workout, setWorkout } = useWorkout();
 
     useEffect(() => {
+        if (!workout.startTime) {
+            setWorkout(prevWorkout => ({ ...prevWorkout, startTime: new Date() }));
+        }
+
+        // initial update for end time every time page loads / reloads
+        setWorkout(prevWorkout => ({
+            ...prevWorkout,
+            endTime: new Date()
+        }));
+
+        // Repeated timer updates end time every second
         const interval = setInterval(() => {
-            // Update seconds
-            setSeconds(prevSeconds => {
-                if (prevSeconds === 59) {
-                    // If seconds reach 59, reset seconds to 0 and update minutes
-                    setMinutes(prevMinutes => {
-                        if (prevMinutes === 59) {
-                            // If minutes reach 59, reset minutes to 0 and update hours
-                            setHours(prevHours => prevHours + 1);
-                            return 0;
-                        } else {
-                            return prevMinutes + 1;
-                        }
-                    });
-                    return 0;
-                } else {
-                    return prevSeconds + 1;
-                }
-            });
+            setWorkout(prevWorkout => ({
+                ...prevWorkout,
+                endTime: new Date()
+            }));
         }, 1000);
 
         return () => clearInterval(interval);
-    }, []);
+
+    }, [workout.startTime, setWorkout]);
 
     return (
         <div className='thin-font'>
-            <p>{`${hours.toString().padStart(2, '0')}h:${minutes.toString().padStart(2, '0')}m:${seconds.toString().padStart(2, '0')}s`}</p>
+            {getFormattedDurationStringGivenStartAndEnd(workout.startTime, workout.endTime)}
         </div>
     );
 };
