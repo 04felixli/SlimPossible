@@ -40,7 +40,7 @@ namespace ftDB.Dao
 
             try
             {
-                CompletedWorkout workoutToPost = new(completedWorkout.Date, completedWorkout.Duration, completedWorkout.Name); // Create new CompletedWorkout entity
+                CompletedWorkout workoutToPost = new(completedWorkout.Date, completedWorkout.StartTime, completedWorkout.EndTime, completedWorkout.Duration, completedWorkout.Name); // Create new CompletedWorkout entity
 
                 int workoutId = await PostCompletedWorkoutAsync(workoutToPost);
 
@@ -88,6 +88,8 @@ namespace ftDB.Dao
                     completedWorkouts.Name,
                     completedWorkouts.Duration,
                     completedWorkouts.Date,
+                    completedWorkouts.StartTime,
+                    completedWorkouts.EndTime,
                     completedWorkouts.ExercisesInWorkout
                         .OrderBy(eiw => eiw.CompletedWorkoutId)
                         .ThenBy(eiw => eiw.Id)
@@ -121,6 +123,8 @@ namespace ftDB.Dao
                     completedWorkouts.Name,
                     completedWorkouts.Duration,
                     completedWorkouts.Date,
+                    completedWorkouts.StartTime,
+                    completedWorkouts.EndTime,
                     completedWorkouts.ExercisesInWorkout
                         .OrderBy(eiw => eiw.CompletedWorkoutId)
                         .ThenBy(eiw => eiw.Id)
