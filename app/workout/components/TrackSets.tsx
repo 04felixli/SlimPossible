@@ -5,76 +5,15 @@ import { Exercise, Workout } from '../objects/classes';
 import NumericInput from './NumericInput';
 
 interface Props {
-    workout: Workout;
-    setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
+    toggleCompletedSet: (exerciseId: number, setNumber: number, insertionNumber: number) => void,
+    changeWeightValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
+    changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     exercise: Exercise; // The actual exercise we are rendering sets from
     isTemplate: boolean; // Sets are not completeable for templates, but are completeable for normal tracking and edit history
 }
 
-const TrackSets = ({ workout, setWorkout, exercise, isTemplate }: Props) => {
+const TrackSets = ({ toggleCompletedSet, changeWeightValue, changeRepsValue, exercise, isTemplate }: Props) => {
     const insertionNumber = exercise.insertionNumber;
-
-    const handleCompletedSet = (exerciseId: number, setNumber: number) => {
-        setWorkout(prevWorkout => {
-            const updatedExercises = prevWorkout.exercises.map(ex => {
-                if (ex.id === exerciseId && ex.insertionNumber === insertionNumber) {
-                    const updatedSets = ex.sets.map(set => {
-                        if (set.setNumber === setNumber) {
-                            return { ...set, isCompleted: !set.isCompleted };
-                        }
-                        return set;
-                    });
-                    return { ...ex, sets: updatedSets };
-                }
-                return ex;
-            })
-            return { ...prevWorkout, exercises: updatedExercises };
-        })
-    }
-
-    const handleWeightInput = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number) => {
-        const newWeight = event.target.value ? parseFloat(event.target.value) : -1;
-
-        setWorkout(prevWorkout => {
-            const updatedExercises = prevWorkout.exercises.map(ex => {
-                if (ex.id === exerciseId && ex.insertionNumber === insertionNumber) {
-                    const updatedSets = ex.sets.map(set => {
-                        if (set.setNumber === setNumber && newWeight !== -1) {
-                            return { ...set, weight: newWeight };
-                        } else if (set.setNumber === setNumber && newWeight === -1) {
-                            return { ...set, weight: newWeight, isCompleted: false };
-                        }
-                        return set;
-                    });
-                    return { ...ex, sets: updatedSets };
-                }
-                return ex
-            })
-            return { ...prevWorkout, exercises: updatedExercises };
-        })
-    };
-
-    const handleRepInput = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number) => {
-        const newReps = event.target.value ? parseInt(event.target.value, 10) : -1;
-
-        setWorkout(prevWorkout => {
-            const updatedExercises = prevWorkout.exercises.map(ex => {
-                if (ex.id === exerciseId && ex.insertionNumber === insertionNumber) {
-                    const updatedSets = ex.sets.map(set => {
-                        if (set.setNumber === setNumber && newReps !== -1) {
-                            return { ...set, reps: newReps };
-                        } else if (set.setNumber === setNumber && newReps === -1) {
-                            return { ...set, reps: newReps, isCompleted: false };
-                        }
-                        return set;
-                    });
-                    return { ...ex, sets: updatedSets };
-                }
-                return ex
-            })
-            return { ...prevWorkout, exercises: updatedExercises };
-        })
-    };
 
     const preventInvalidInput = (event: React.KeyboardEvent<HTMLInputElement>, fieldType: string) => {
         const validKeysForWeight = [
@@ -130,7 +69,7 @@ const TrackSets = ({ workout, setWorkout, exercise, isTemplate }: Props) => {
                                     <NumericInput
                                         name="Weight Input"
                                         value={set.weight < 0 ? '' : set.weight}
-                                        onChange={(e) => handleWeightInput(e, exercise.id, set.setNumber)}
+                                        onChange={(e) => changeWeightValue(e, exercise.id, set.setNumber, insertionNumber)}
                                         onKeyDown={(e) => preventInvalidInput(e, "weight")} // Prevent invalid character input
                                         className={`max-w-xs bg-card-bg-gradient-dark rounded-full py-1 px-2 h-full w-full ${set.isCompleted ? 'text-disabled-color' : ''}`}
                                     />
@@ -144,7 +83,7 @@ const TrackSets = ({ workout, setWorkout, exercise, isTemplate }: Props) => {
                                     <NumericInput
                                         name="Rep Input"
                                         value={set.reps < 0 ? '' : set.reps}
-                                        onChange={(e) => handleRepInput(e, exercise.id, set.setNumber)}
+                                        onChange={(e) => changeRepsValue(e, exercise.id, set.setNumber, insertionNumber)}
                                         onKeyDown={(e) => preventInvalidInput(e, "reps")} // Prevent invalid character input
                                         className={`max-w-xs bg-card-bg-gradient-dark rounded-full py-1 h-full w-full ${set.isCompleted ? 'text-disabled-color' : ''}`}
                                     />
@@ -155,7 +94,7 @@ const TrackSets = ({ workout, setWorkout, exercise, isTemplate }: Props) => {
                             {!isTemplate && <div className='flex flex-col'>
                                 {set.setNumber == 1 && <div className='mb-2 flex justify-center p-1 rounded-full'><FaCheck /></div>}
                                 <button className={`p-1 rounded-full ${set.isCompleted ? 'bg-green-500 border border-green-500' : 'border'}`}
-                                    onClick={() => handleCompletedSet(exercise.id, set.setNumber)}
+                                    onClick={() => toggleCompletedSet(exercise.id, set.setNumber, insertionNumber)}
                                     disabled={(set.reps < 0 || set.weight < 0) ? true : false}
                                 >
                                     <FaCheck />

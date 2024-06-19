@@ -11,10 +11,10 @@ interface Props {
 }
 
 const AddOrReplaceButtonWrapper = ({ isAddButton, exerciseToReplaceId, insertionNumberOfExerciseToReplace }: Props) => {
-    const { history, setHistory } = useHistory();
+    const { history, setHistory, addExercises, replaceExercise } = useHistory();
 
     return (
-        <AddOrReplaceButton workout={history} setWorkout={setHistory} isAddButton={isAddButton} exerciseToReplaceId={exerciseToReplaceId} insertionNumberOfExerciseToReplace={insertionNumberOfExerciseToReplace} />
+        <AddOrReplaceButton workout={history} setWorkout={setHistory} addExercises={addExercises} replaceExercise={replaceExercise} isAddButton={isAddButton} exerciseToReplaceId={exerciseToReplaceId} insertionNumberOfExerciseToReplace={insertionNumberOfExerciseToReplace} />
     )
 }
 

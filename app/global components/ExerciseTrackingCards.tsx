@@ -14,86 +14,20 @@ import PopUp from '../workout/components/popups/PopUp';
 interface Props {
     workout: Workout;
     setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
+    addSet: (exerciseId: number, insertionNumber: number) => void;
+    removeExercise: (exerciseId: number, insertionNumber: number) => void;
+    changeWeightUnit: (exerciseId: number, insertionNumber: number) => void;
+    updateNotes: (exerciseId: number, value: string, insertionNumber: number) => void;
+    toggleNotes: (exerciseId: number, insertionNumber: number) => void;
+    toggleCompletedSet: (exerciseId: number, setNumber: number, insertionNumber: number) => void,
+    changeWeightValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
+    changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     from?: string // "add-template" or "edit-template" to show whether or not we got here from add or edit template page
     isTemplate: boolean; // Only true when creating a new template (not editing one)
     replaceExerciseRedirectURL: string;
 }
 
-const ExerciseTrackingCards = ({ workout, setWorkout, from, isTemplate, replaceExerciseRedirectURL }: Props) => {
-
-    const handleAddSet = (exerciseId: number, insertionNumber: number) => {
-        setWorkout(prevWorkout => {
-            const updatedExercises = prevWorkout.exercises.map(exercise => {
-                if (exercise.id === exerciseId && exercise.insertionNumber === insertionNumber) {
-                    const newSet = new WorkoutSet(exercise.sets.length + 1);
-                    const updatedSets = [...exercise.sets, { ...newSet, setNumber: exercise.sets.length + 1 }];
-                    return { ...exercise, sets: updatedSets };
-                }
-                return exercise;
-            })
-            return { ...prevWorkout, exercises: updatedExercises };
-        });
-    }
-
-    const handleRemoveExercise = (exerciseId: number, insertionNumber: number) => {
-        setWorkout(prevWorkout => {
-            const updatedExercises = prevWorkout.exercises.filter(exercise => exercise.id !== exerciseId || exercise.insertionNumber !== insertionNumber);
-            return { ...prevWorkout, exercises: updatedExercises };
-        })
-    }
-
-    const handleWeightUnitChange = (exerciseId: number, insertionNumber: number) => {
-        const lbsToKgs = (lbs: number): number => {
-            const kgs = lbs * 0.45359237;
-            return +kgs.toFixed(2);
-        }
-
-        const kgsToLbs = (kgs: number): number => {
-            const lbs = kgs / 0.45359237;
-            return +lbs.toFixed(2);
-        }
-
-        setWorkout(prevWorkout => {
-            const updatedExercises = prevWorkout.exercises.map(exercise => {
-                if (exercise.id === exerciseId && exercise.insertionNumber === insertionNumber) {
-                    const updatedSets = exercise.sets.map(set => {
-                        if (exercise.weightUnit === 'lbs') {
-                            return { ...set, weight: lbsToKgs(set.weight) }
-                        }
-                        return { ...set, weight: kgsToLbs(set.weight) }
-                    })
-
-                    return { ...exercise, sets: updatedSets, weightUnit: exercise.weightUnit === 'lbs' ? 'kgs' : 'lbs' };
-                }
-                return exercise;
-            })
-            return { ...prevWorkout, exercises: updatedExercises };
-        })
-    }
-
-    const handleNotesChange = (exerciseId: number, value: string, insertionNumber: number): void => {
-        setWorkout(prevWorkout => {
-            const updatedExercises = prevWorkout.exercises.map(exercise => {
-                if (exercise.id === exerciseId && exercise.insertionNumber === insertionNumber) {
-                    return { ...exercise, notes: value };
-                }
-                return exercise;
-            })
-            return { ...prevWorkout, exercises: updatedExercises };
-        })
-    }
-
-    const toggleNotes = (exerciseId: number, insertionNumber: number): void => {
-        setWorkout(prevWorkout => {
-            const updatedExercises = prevWorkout.exercises.map(exercise => {
-                if (exercise.id === exerciseId && exercise.insertionNumber === insertionNumber) {
-                    return { ...exercise, showNotes: !exercise.showNotes };
-                }
-                return exercise;
-            })
-            return { ...prevWorkout, exercises: updatedExercises };
-        })
-    }
+const ExerciseTrackingCards = ({ workout, setWorkout, addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, toggleCompletedSet, changeWeightValue, changeRepsValue, from, isTemplate, replaceExerciseRedirectURL }: Props) => {
 
     const handleReplaceExerciseButtonClick = (exerciseId: number, insertionNumber: number) => {
         setOpenReplaceExercisePopUp(true);
@@ -120,7 +54,7 @@ const ExerciseTrackingCards = ({ workout, setWorkout, from, isTemplate, replaceE
                             <div className='items-center card-title-font'>{exercise.name}</div>
 
                             {/* Remove exercise button */}
-                            <ActionButton isRemoveExercise={true} onClickFunction={() => handleRemoveExercise(exercise.id, exercise.insertionNumber)}>
+                            <ActionButton isRemoveExercise={true} onClickFunction={() => removeExercise(exercise.id, exercise.insertionNumber)}>
                                 <RiDeleteBin2Fill />
                             </ActionButton>
                         </div>
@@ -135,7 +69,7 @@ const ExerciseTrackingCards = ({ workout, setWorkout, from, isTemplate, replaceE
                                 id={`notes_${exercise.id}`}
                                 value={exercise.notes ? exercise.notes : ''}
                                 onChange={(e) => {
-                                    handleNotesChange(exercise.id, e.target.value, exercise.insertionNumber);
+                                    updateNotes(exercise.id, e.target.value, exercise.insertionNumber);
                                     e.target.style.height = 'auto'; // Reset height to auto
                                     e.target.style.height = `${e.target.scrollHeight}px`; // Set height to scrollHeight
                                 }}
@@ -145,7 +79,7 @@ const ExerciseTrackingCards = ({ workout, setWorkout, from, isTemplate, replaceE
                         </div>}
 
                         {/* Component for actual set tracking */}
-                        <TrackSets workout={workout} setWorkout={setWorkout} exercise={exercise} isTemplate={isTemplate} />
+                        <TrackSets toggleCompletedSet={toggleCompletedSet} changeWeightValue={changeWeightValue} changeRepsValue={changeRepsValue} exercise={exercise} isTemplate={isTemplate} />
                         <div className='flex flex-row justify-between items-center mt-5'>
 
                             {/* Replace exercise button */}
@@ -161,12 +95,12 @@ const ExerciseTrackingCards = ({ workout, setWorkout, from, isTemplate, replaceE
                             </ActionButton>
 
                             {/* Change weight unit for exercise button */}
-                            <ActionButton onClickFunction={() => handleWeightUnitChange(exercise.id, exercise.insertionNumber)}>
+                            <ActionButton onClickFunction={() => changeWeightUnit(exercise.id, exercise.insertionNumber)}>
                                 <span className='text-xs'>{exercise.weightUnit === 'lbs' ? 'kgs' : 'lbs'}</span>
                             </ActionButton>
 
                             {/* Add set button */}
-                            <ActionButton onClickFunction={() => handleAddSet(exercise.id, exercise.insertionNumber)}>
+                            <ActionButton onClickFunction={() => addSet(exercise.id, exercise.insertionNumber)}>
                                 <FaPlus />
                             </ActionButton>
 

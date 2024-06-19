@@ -11,11 +11,12 @@ interface Props {
 }
 
 const AddOrReplaceButtonWrapper = ({ isAddButton, exerciseToReplaceId, insertionNumberOfExerciseToReplace }: Props) => {
-  const { template, setTemplate } = useTemplate();
+  const { template, setTemplate, addExercises, replaceExercise } = useTemplate();
 
   return (
-    <AddOrReplaceButton workout={template} setWorkout={setTemplate} isAddButton={isAddButton} exerciseToReplaceId={exerciseToReplaceId} insertionNumberOfExerciseToReplace={insertionNumberOfExerciseToReplace} />
+    <AddOrReplaceButton workout={template} setWorkout={setTemplate} addExercises={addExercises} replaceExercise={replaceExercise} isAddButton={isAddButton} exerciseToReplaceId={exerciseToReplaceId} insertionNumberOfExerciseToReplace={insertionNumberOfExerciseToReplace} />
   )
 }
+
 
 export default AddOrReplaceButtonWrapper

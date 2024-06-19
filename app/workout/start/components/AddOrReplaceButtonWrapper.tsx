@@ -10,10 +10,18 @@ interface Props {
 }
 
 const AddOrReplaceButtonWrapper = ({ isAddButton, exerciseToReplaceId, insertionNumberOfExerciseToReplace }: Props) => {
-    const { workout, setWorkout } = useWorkout();
+    const { workout, setWorkout, addExercises, replaceExercise } = useWorkout();
 
     return (
-        <AddOrReplaceButton workout={workout} setWorkout={setWorkout} isAddButton={isAddButton} exerciseToReplaceId={exerciseToReplaceId} insertionNumberOfExerciseToReplace={insertionNumberOfExerciseToReplace} />
+        <AddOrReplaceButton
+            workout={workout}
+            setWorkout={setWorkout}
+            addExercises={addExercises}
+            replaceExercise={replaceExercise}
+            isAddButton={isAddButton}
+            exerciseToReplaceId={exerciseToReplaceId}
+            insertionNumberOfExerciseToReplace={insertionNumberOfExerciseToReplace}
+        />
     )
 }
 

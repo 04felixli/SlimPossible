@@ -10,9 +10,9 @@ interface Props {
 }
 
 const ExercisesListForTemplate = ({ exercises, singleSelect }: Props) => {
-    const { template, setTemplate } = useTemplate();
+    const { template, setTemplate, multipleExerciseSelect, singleExerciseSelect } = useTemplate();
     return (
-        <SelectableExerciseCard workout={template} setWorkout={setTemplate} exercises={exercises} singleSelect={singleSelect} />
+        <SelectableExerciseCard workout={template} setWorkout={setTemplate} multipleExerciseSelect={multipleExerciseSelect} singleExerciseSelect={singleExerciseSelect} exercises={exercises} singleSelect={singleSelect} />
     )
 }
 

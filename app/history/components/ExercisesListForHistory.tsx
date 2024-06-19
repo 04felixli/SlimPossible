@@ -11,9 +11,9 @@ interface Props {
 }
 
 const ExercisesListForHistory = ({ exercises, singleSelect }: Props) => {
-    const { history, setHistory } = useHistory();
+    const { history, setHistory, multipleExerciseSelect, singleExerciseSelect } = useHistory();
     return (
-        <SelectableExerciseCard workout={history} setWorkout={setHistory} exercises={exercises} singleSelect={singleSelect} />
+        <SelectableExerciseCard workout={history} setWorkout={setHistory} multipleExerciseSelect={multipleExerciseSelect} singleExerciseSelect={singleExerciseSelect} exercises={exercises} singleSelect={singleSelect} />
     )
 }
 

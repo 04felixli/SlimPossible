@@ -10,9 +10,16 @@ interface Props {
 }
 
 const ExercisesListForWorkout = ({ exercises, singleSelect }: Props) => {
-    const { workout, setWorkout } = useWorkout();
+    const { workout, setWorkout, multipleExerciseSelect, singleExerciseSelect } = useWorkout();
     return (
-        <SelectableExerciseCard workout={workout} setWorkout={setWorkout} exercises={exercises} singleSelect={singleSelect} />
+        <SelectableExerciseCard
+            workout={workout}
+            setWorkout={setWorkout}
+            multipleExerciseSelect={multipleExerciseSelect}
+            singleExerciseSelect={singleExerciseSelect}
+            exercises={exercises}
+            singleSelect={singleSelect}
+        />
     )
 }
 
