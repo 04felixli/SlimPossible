@@ -1,7 +1,7 @@
 'use client';
-import React, { createContext, useState, ReactNode, useContext } from 'react';
+import React, { createContext, useState, ReactNode, useContext, useRef } from 'react';
 import { Workout } from '../workout/objects/classes';
-import { addExercises, addSet, changeRepsValue, changeWeightUnit, changeWeightValue, multipleExerciseSelect, removeExercise, replaceExercise, singleExerciseSelect, toggleCompletedSet, toggleNotes, updateNotes } from './util/workoutFunctions';
+import { addExercises, addSet, changeRepsValue, changeWeightUnit, changeWeightValue, endWorkout, multipleExerciseSelect, removeExercise, replaceExercise, singleExerciseSelect, startWorkout, toggleCompletedSet, toggleNotes, updateNotes } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 
 // Define the shape of the context
@@ -20,6 +20,8 @@ interface WorkoutContextType {
     toggleCompletedSet: (exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeWeightValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
+    startWorkout: () => void;
+    endWorkout: () => void;
 }
 
 type Props = {
@@ -31,6 +33,7 @@ const workoutContext = createContext<WorkoutContextType | null>(null);
 
 const WorkoutContextProvider = ({ children }: Props) => {
     const [workout, setWorkout] = useState<Workout>(new Workout());
+    const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
 
     const addSetHandler = (exerciseId: number, insertionNumber: number) => addSet(setWorkout, exerciseId, insertionNumber);
     const removeExerciseHandler = (exerciseId: number, insertionNumber: number) => removeExercise(setWorkout, exerciseId, insertionNumber);
@@ -44,6 +47,8 @@ const WorkoutContextProvider = ({ children }: Props) => {
     const toggleCompletedSetHandler = (exerciseId: number, setNumber: number, insertionNumber: number) => toggleCompletedSet(setWorkout, exerciseId, setNumber, insertionNumber);
     const changeWeightValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeWeightValue(setWorkout, event, exerciseId, setNumber, insertionNumber);
     const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(setWorkout, event, exerciseId, setNumber, insertionNumber);
+    const startWorkoutHandler = () => startWorkout(setWorkout, intervalIdRef);
+    const endWorkoutHandler = () => endWorkout(setWorkout, intervalIdRef);
 
     return (
         <workoutContext.Provider value={{
@@ -60,7 +65,9 @@ const WorkoutContextProvider = ({ children }: Props) => {
             singleExerciseSelect: singleExerciseSelectHandler,
             toggleCompletedSet: toggleCompletedSetHandler,
             changeWeightValue: changeWeightValueHandler,
-            changeRepsValue: changeRepsValueHandler
+            changeRepsValue: changeRepsValueHandler,
+            startWorkout: startWorkoutHandler,
+            endWorkout: endWorkoutHandler
         }}>
             {children}
         </workoutContext.Provider>

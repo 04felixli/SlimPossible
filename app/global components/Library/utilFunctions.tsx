@@ -20,7 +20,6 @@ export const getFormattedDurationStringGivenStartAndEnd = (start?: Date, end?: D
     }
 
     const diffInSeconds = Math.floor((end.getTime() - start.getTime()) / 1000);
-
     return formatDuration(diffInSeconds);
 }
 

@@ -7,15 +7,14 @@ import { IPopUp } from '../workout/interfaces/popup';
 import { Exercise, Workout } from '../workout/objects/classes';
 
 interface Props {
-    workout: Workout;
-    setWorkout: React.Dispatch<React.SetStateAction<Workout>>;
+    onEndFunction: () => void; // function to run when workout / template editing / history editing ends
     finishPopUpContent: IPopUp;
     cancelPopUpContent: IPopUp;
     onAddRedirectRoute: string; // The url path to redirect to after the user clicks 'add'
     deleteButtonPopUpContent?: IPopUp;
 }
 
-const WorkoutButtons = ({ workout, setWorkout, finishPopUpContent, cancelPopUpContent, onAddRedirectRoute, deleteButtonPopUpContent }: Props) => {
+const WorkoutButtons = ({ onEndFunction, finishPopUpContent, cancelPopUpContent, onAddRedirectRoute, deleteButtonPopUpContent }: Props) => {
     const [openCancelPopUp, setOpenCancelPopUp] = useState<boolean>(false);
     const [openFinishPopUp, setOpenFinishPopUp] = useState<boolean>(false);
     const [openDeletePopUp, setOpenDeletePopUp] = useState<boolean>(false);
@@ -26,10 +25,7 @@ const WorkoutButtons = ({ workout, setWorkout, finishPopUpContent, cancelPopUpCo
     }
 
     const clearExercises = (cause: string) => {
-        // Temporary - We actually want to send a post request to API on complete, and clear if cancel...
-        setWorkout(prevWorkout => {
-            return { ...prevWorkout, exercises: [] };
-        })
+        onEndFunction();
         if (cause === action.complete) {
             setOpenFinishPopUp(false);
         } else {

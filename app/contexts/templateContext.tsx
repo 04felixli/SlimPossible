@@ -3,7 +3,7 @@
 'use client';
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 import { Workout } from '../workout/objects/classes';
-import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet } from './util/workoutFunctions';
+import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 import workout from '../workout/page';
 
@@ -23,6 +23,7 @@ interface TemplateContextType {
     toggleCompletedSet: (exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeWeightValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
+    resetTemplateContext: () => void;
 }
 
 type Props = {
@@ -47,6 +48,7 @@ const TemplateContextProvider = ({ children }: Props) => {
     const toggleCompletedSetHandler = (exerciseId: number, setNumber: number, insertionNumber: number) => toggleCompletedSet(setTemplate, exerciseId, setNumber, insertionNumber);
     const changeWeightValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeWeightValue(setTemplate, event, exerciseId, setNumber, insertionNumber);
     const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(setTemplate, event, exerciseId, setNumber, insertionNumber);
+    const resetTemplateContextHandler = () => resetWorkout(setTemplate);
 
     return (
         <templateContext.Provider value={{
@@ -63,7 +65,8 @@ const TemplateContextProvider = ({ children }: Props) => {
             singleExerciseSelect: singleExerciseSelectHandler,
             toggleCompletedSet: toggleCompletedSetHandler,
             changeWeightValue: changeWeightValueHandler,
-            changeRepsValue: changeRepsValueHandler
+            changeRepsValue: changeRepsValueHandler,
+            resetTemplateContext: resetTemplateContextHandler
         }}>
             {children}
         </templateContext.Provider>

@@ -3,7 +3,7 @@
 'use client';
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 import { Workout } from '../workout/objects/classes';
-import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet } from './util/workoutFunctions';
+import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 import workout from '../workout/page';
 
@@ -23,6 +23,7 @@ interface HistoryContextType {
     toggleCompletedSet: (exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeWeightValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
+    resetHistoryContext: () => void;
 }
 
 type Props = {
@@ -47,7 +48,7 @@ const HistoryContextProvider = ({ children }: Props) => {
     const toggleCompletedSetHandler = (exerciseId: number, setNumber: number, insertionNumber: number) => toggleCompletedSet(setHistory, exerciseId, setNumber, insertionNumber);
     const changeWeightValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeWeightValue(setHistory, event, exerciseId, setNumber, insertionNumber);
     const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(setHistory, event, exerciseId, setNumber, insertionNumber);
-
+    const resetHistoryContextHandler = () => resetWorkout(setHistory);
 
     return (
         <historyContext.Provider value={{
@@ -64,7 +65,8 @@ const HistoryContextProvider = ({ children }: Props) => {
             singleExerciseSelect: singleExerciseSelectHandler,
             toggleCompletedSet: toggleCompletedSetHandler,
             changeWeightValue: changeWeightValueHandler,
-            changeRepsValue: changeRepsValueHandler
+            changeRepsValue: changeRepsValueHandler,
+            resetHistoryContext: resetHistoryContextHandler
         }}>
             {children}
         </historyContext.Provider>

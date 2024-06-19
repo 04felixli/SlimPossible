@@ -202,3 +202,40 @@ export const changeRepsValue = (setWorkout: React.Dispatch<React.SetStateAction<
         return { ...prevWorkout, exercises: updatedExercises };
     })
 };
+
+export const startWorkout = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>) => {
+    setWorkout(prevWorkout => {
+        const newWorkout = { ...prevWorkout, startTime: new Date(), duration: 0 };
+        return newWorkout;
+    });
+
+    if (intervalIdRef.current) {
+        // Interval already running, no need to start a new one
+        return;
+    }
+
+    intervalIdRef.current = setInterval(() => {
+        setWorkout(prevWorkout => {
+            if (!prevWorkout.startTime) return prevWorkout; // Don't run in case a workout hasn't been started
+            const newDuration = prevWorkout.duration + 1;
+            const newWorkout = { ...prevWorkout, duration: newDuration };
+            return newWorkout;
+        });
+    }, 1000);
+}
+
+export const endWorkout = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>) => {
+    if (intervalIdRef.current) {
+        clearInterval(intervalIdRef.current);
+        intervalIdRef.current = null;
+    }
+
+    // 1. workout.endTime = workout.startTime + workout.duration
+    // 2. Send POST request to API
+    // 3. Reset workout to initial state
+    resetWorkout(setWorkout);
+};
+
+export const resetWorkout = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>) => {
+    setWorkout(new Workout());
+}

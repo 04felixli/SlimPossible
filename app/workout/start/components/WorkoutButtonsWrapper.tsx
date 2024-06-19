@@ -5,7 +5,7 @@ import { IPopUp } from '../../interfaces/popup';
 import { useWorkout } from '@/app/contexts/workoutContext';
 
 const WorkoutButtonsWrapper = () => {
-    const { workout, setWorkout } = useWorkout();
+    const { endWorkout } = useWorkout();
 
     const cancelWorkoutPopUpContent: IPopUp = {
         buttonText: 'Cancel',
@@ -24,7 +24,7 @@ const WorkoutButtonsWrapper = () => {
     }
 
     return (
-        <WorkoutButtons workout={workout} setWorkout={setWorkout} finishPopUpContent={finishWorkoutPopUpContent} cancelPopUpContent={cancelWorkoutPopUpContent} onAddRedirectRoute='/workout/start/selectExercises' />
+        <WorkoutButtons onEndFunction={endWorkout} finishPopUpContent={finishWorkoutPopUpContent} cancelPopUpContent={cancelWorkoutPopUpContent} onAddRedirectRoute='/workout/start/selectExercises' />
     )
 }
 
