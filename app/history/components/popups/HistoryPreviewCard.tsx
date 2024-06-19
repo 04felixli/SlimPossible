@@ -4,7 +4,7 @@ import './popup.css'; // Make sure to import the CSS file
 import { useHistory } from '@/app/contexts/historyContext';
 import { Workout } from '@/app/workout/objects/classes';
 import { FaCalendar, FaClock } from 'react-icons/fa';
-import { formatDuration, formatTime } from '@/app/global components/Library/utilFunctions';
+import { formatDuration, formatTime, getFormattedDurationStringGivenStartAndEnd } from '@/app/global components/Library/utilFunctions';
 import Button from '@/app/global components/Buttons/Button';
 import { FaRegWindowClose } from "react-icons/fa";
 import Link from 'next/link';
@@ -39,11 +39,11 @@ const HistoryPreviewCard = ({ workout, closePopUp }: Props) => {
                 <section className='font-thin text-sm'>
                     <div className='flex flex-row items-center'>
                         <FaCalendar className='mr-2' />
-                        <div>{formatTime(workout.date.toLocaleString())}</div>
+                        <div>{formatTime(workout.startTime!.toLocaleString())}</div>
                     </div>
                     <div className='flex flex-row items-center'>
                         <FaClock className='mr-2' />
-                        <div>{formatDuration(workout.duration)}</div>
+                        <div>{getFormattedDurationStringGivenStartAndEnd(workout.startTime, workout.endTime)}</div>
                     </div>
                     <div>{workout.exercises.length} Exercises</div>
                 </section>

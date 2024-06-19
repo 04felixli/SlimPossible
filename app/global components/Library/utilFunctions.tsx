@@ -19,7 +19,7 @@ export const getFormattedDurationStringGivenStartAndEnd = (start?: Date, end?: D
         return formatDuration(0);
     }
 
-    const diffInSeconds = Math.floor((end.getTime() - start.getTime()) / 1000);
+    const diffInSeconds = Math.floor((new Date(end).getTime() - new Date(start).getTime()) / 1000);
     return formatDuration(diffInSeconds);
 }
 
@@ -85,6 +85,8 @@ export const convertIWorkoutHistoryToWorkout = (rawTemplate: IWorkoutHistory): W
     workout.name = rawTemplate.name;
     workout.duration = rawTemplate.duration;
     workout.date = rawTemplate.createdDate;
+    workout.startTime = rawTemplate.startTime;
+    workout.endTime = rawTemplate.endTime;
     workout.exercises = rawTemplate.exercises.map(exercise => convertIExerciseInWorkoutHistoryToExercise(exercise));
     return workout;
 }

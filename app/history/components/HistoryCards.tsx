@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { FaCalendar } from "react-icons/fa";
 import { FaClock } from "react-icons/fa";
-import { convertIWorkoutHistoryToWorkout, formatDuration, formatTime } from '@/app/global components/Library/utilFunctions';
+import { convertIWorkoutHistoryToWorkout, formatDuration, formatTime, getFormattedDurationStringGivenStartAndEnd } from '@/app/global components/Library/utilFunctions';
 import { IWorkoutHistory } from '@/app/global components/Interfaces/historyInterfaces';
 import { useHistory } from '@/app/contexts/historyContext';
 import { Workout } from '@/app/workout/objects/classes';
@@ -52,11 +52,11 @@ const HistoryCards = ({ workoutHistories }: Props) => {
                         <section className='font-thin text-sm'>
                             <div className='flex flex-row items-center'>
                                 <FaCalendar className='mr-2' />
-                                <div>{formatTime(workoutHistory.createdDate.toLocaleString())}</div>
+                                <div>{formatTime(workoutHistory.startTime.toLocaleString())}</div>
                             </div>
                             <div className='flex flex-row items-center'>
                                 <FaClock className='mr-2' />
-                                <div>{formatDuration(workoutHistory.duration)}</div>
+                                <div>{getFormattedDurationStringGivenStartAndEnd(workoutHistory.startTime, workoutHistory.endTime)}</div>
                             </div>
                             <div>{workoutHistory.exercises.length} Exercises</div>
                         </section>

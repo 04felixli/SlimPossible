@@ -3,6 +3,8 @@ export interface IWorkoutHistory {
     name: string;
     duration: number;
     createdDate: Date;
+    startTime: Date;
+    endTime: Date;
     exercises: IExerciseInWorkoutHistory[];
 }
 
