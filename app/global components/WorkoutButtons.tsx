@@ -12,9 +12,10 @@ interface Props {
     cancelPopUpContent: IPopUp;
     onAddRedirectRoute: string; // The url path to redirect to after the user clicks 'add'
     deleteButtonPopUpContent?: IPopUp;
+    onDoItRedirectURL?: string // The url path to redirect to after the user confirms a popup action
 }
 
-const WorkoutButtons = ({ onEndFunction, finishPopUpContent, cancelPopUpContent, onAddRedirectRoute, deleteButtonPopUpContent }: Props) => {
+const WorkoutButtons = ({ onEndFunction, finishPopUpContent, cancelPopUpContent, onAddRedirectRoute, deleteButtonPopUpContent, onDoItRedirectURL }: Props) => {
     const [openCancelPopUp, setOpenCancelPopUp] = useState<boolean>(false);
     const [openFinishPopUp, setOpenFinishPopUp] = useState<boolean>(false);
     const [openDeletePopUp, setOpenDeletePopUp] = useState<boolean>(false);
@@ -44,13 +45,13 @@ const WorkoutButtons = ({ onEndFunction, finishPopUpContent, cancelPopUpContent,
             <div className='mt-3 flex justify-center items-center'>
                 <Button text={cancelPopUpContent.buttonText} onClickFunction={() => setOpenCancelPopUp(true)} className='w-full' />
             </div>
-            {openCancelPopUp && <PopUp popUpContent={cancelPopUpContent} onDoIt={() => clearExercises(action.cancel)} onDontDoIt={() => setOpenCancelPopUp(false)} />}
-            {openFinishPopUp && <PopUp popUpContent={finishPopUpContent} onDoIt={() => clearExercises(action.complete)} onDontDoIt={() => setOpenFinishPopUp(false)} />}
+            {openCancelPopUp && <PopUp popUpContent={cancelPopUpContent} onDoIt={() => clearExercises(action.cancel)} onDontDoIt={() => setOpenCancelPopUp(false)} onDoItRedirectURL={onDoItRedirectURL} />}
+            {openFinishPopUp && <PopUp popUpContent={finishPopUpContent} onDoIt={() => clearExercises(action.complete)} onDontDoIt={() => setOpenFinishPopUp(false)} onDoItRedirectURL={onDoItRedirectURL} />}
             {deleteButtonPopUpContent &&
                 <div className='mt-3 flex justify-center items-center'>
                     <Button text={deleteButtonPopUpContent.buttonText} onClickFunction={() => setOpenDeletePopUp(true)} className='w-full' />
                 </div>}
-            {openDeletePopUp && deleteButtonPopUpContent && <PopUp popUpContent={deleteButtonPopUpContent} onDoIt={() => clearExercises(action.complete)} onDontDoIt={() => setOpenDeletePopUp(false)} />}
+            {openDeletePopUp && deleteButtonPopUpContent && <PopUp popUpContent={deleteButtonPopUpContent} onDoIt={() => clearExercises(action.complete)} onDontDoIt={() => setOpenDeletePopUp(false)} onDoItRedirectURL={onDoItRedirectURL} />}
         </div>
     )
 }

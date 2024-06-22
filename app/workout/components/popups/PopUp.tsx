@@ -8,7 +8,7 @@ interface Props {
   popUpContent: IPopUp;
   onDoIt?: () => void;
   onDontDoIt?: () => void;
-  onDoItRedirectURL?: string; // For replacing an exercise, we want to redirect to an url
+  onDoItRedirectURL?: string; // We may want to redirect to an url after doing something. The default redirect route is to /workout
 }
 
 const PopUp = ({ popUpContent, onDoIt, onDontDoIt, onDoItRedirectURL }: Props) => {
