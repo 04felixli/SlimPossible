@@ -1,4 +1,5 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
+import { formatTime } from "@/app/global components/Library/utilFunctions";
 import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
 
 export const addSet = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, insertionNumber: number) => {
@@ -238,4 +239,13 @@ export const endWorkout = (setWorkout: React.Dispatch<React.SetStateAction<Worko
 
 export const resetWorkout = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>) => {
     setWorkout(new Workout());
+}
+
+export const changeStartAndEndTime = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, newStartTime: Date, newEndTime: Date) => {
+    const newStartTimeDate = new Date(newStartTime);
+    const newEndTimeDate = new Date(newEndTime);
+
+    setWorkout(prevWorkout => {
+        return { ...prevWorkout, startTime: newStartTimeDate, endTime: newEndTimeDate };
+    })
 }

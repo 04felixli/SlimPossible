@@ -4,6 +4,10 @@ import { IExerciseInWorkoutHistory, ISetInExerciseInWorkoutHistory, IWorkoutHist
 import { parseISO, format } from 'date-fns';
 
 export const formatDuration = (totalSeconds: number): string => {
+    if (totalSeconds < 0) {
+        return 'Please enter valid start and end times';
+    }
+
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
@@ -23,9 +27,8 @@ export const getFormattedDurationStringGivenStartAndEnd = (start?: Date, end?: D
     return formatDuration(diffInSeconds);
 }
 
-export const formatTime = (isoString: string) => {
-    const date = parseISO(isoString);
-    return format(date, 'yyyy-MM-dd, h:mm a');
+export const formatTime = (date: Date) => {
+    return format(date, 'yyyy-MM-dd, hh:mm a');
 };
 
 export const GetWorkoutTime = (): string => {
@@ -84,7 +87,7 @@ export const convertIWorkoutHistoryToWorkout = (rawTemplate: IWorkoutHistory): W
     workout.id = rawTemplate.id;
     workout.name = rawTemplate.name;
     workout.duration = rawTemplate.duration;
-    workout.date = rawTemplate.createdDate;
+    workout.date = new Date(rawTemplate.createdDate);
     workout.startTime = rawTemplate.startTime;
     workout.endTime = rawTemplate.endTime;
     workout.exercises = rawTemplate.exercises.map(exercise => convertIExerciseInWorkoutHistoryToExercise(exercise));

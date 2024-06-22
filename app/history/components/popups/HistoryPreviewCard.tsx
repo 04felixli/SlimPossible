@@ -39,7 +39,7 @@ const HistoryPreviewCard = ({ workout, closePopUp }: Props) => {
                 <section className='font-thin text-sm'>
                     <div className='flex flex-row items-center'>
                         <FaCalendar className='mr-2' />
-                        <div>{formatTime(workout.startTime!.toLocaleString())}</div>
+                        <div>{formatTime(workout.startTime!)}</div>
                     </div>
                     <div className='flex flex-row items-center'>
                         <FaClock className='mr-2' />

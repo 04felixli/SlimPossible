@@ -52,7 +52,7 @@ const HistoryCards = ({ workoutHistories }: Props) => {
                         <section className='font-thin text-sm'>
                             <div className='flex flex-row items-center'>
                                 <FaCalendar className='mr-2' />
-                                <div>{formatTime(workoutHistory.startTime.toLocaleString())}</div>
+                                <div>{formatTime(workoutHistory.startTime)}</div>
                             </div>
                             <div className='flex flex-row items-center'>
                                 <FaClock className='mr-2' />
