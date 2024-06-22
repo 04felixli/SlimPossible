@@ -232,6 +232,13 @@ namespace ftDB.Repo
             return resp;
         }
 
+        public async Task<ResponseBase> AddExerciseAsync(RequestModelAddExercise exerciseToAdd)
+        {
+            ResponseBase resp = new();
+            await _dao.AddExerciseToDbAsync(exerciseToAdd);
+            resp.SetResponseSuccess();
+            return resp;
+        }
 
     }
 }

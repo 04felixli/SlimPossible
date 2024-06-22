@@ -310,6 +310,17 @@ namespace ftDB.Dao
             return false;
         }
 
+        public async Task AddExerciseToDbAsync(RequestModelAddExercise exerciseToAdd)
+        {
+            Exercise exercise = new(exerciseToAdd.Name, exerciseToAdd.Equipment, exerciseToAdd.TargetMuscle);
+
+            _context.Exercises.Add(exercise);
+
+            await _context.SaveChangesAsync();
+
+            return;
+        }
+
         #region Private Methods 
 
         private async Task<int> PostCompletedWorkoutAsync(CompletedWorkout workoutToPost)
