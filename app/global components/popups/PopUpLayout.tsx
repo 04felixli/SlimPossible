@@ -1,6 +1,7 @@
 'use client'
 import React, { ReactNode } from 'react';
-import MobileNavBar from './MobileNavBar';
+import MobileNavBar from '../MobileNavBar';
+import './popup.css'
 
 interface LayoutProps {
     children: ReactNode;

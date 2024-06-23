@@ -29,7 +29,8 @@ const config: Config = {
         'card-bg-gradient-dark': '#4D4D4D',
         'button-hover': '#383838',
         'button-color': '#0F0F0F',
-        'disabled-color': '#6B6B6B'
+        'disabled-color': '#6B6B6B',
+        'darkest-color': '#2B2B2B'
       },
     },
   },

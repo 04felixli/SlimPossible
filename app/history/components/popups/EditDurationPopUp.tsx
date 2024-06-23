@@ -1,7 +1,7 @@
 'use client'
 import { useHistory } from '@/app/contexts/historyContext';
 import { getFormattedDurationStringGivenStartAndEnd } from '@/app/global components/Library/utilFunctions';
-import PopUpLayout from '@/app/global components/PopUpLayout';
+import PopUpLayout from '@/app/global components/popups/PopUpLayout';
 import React, { useState } from 'react'
 import { FaRegWindowClose } from 'react-icons/fa';
 
