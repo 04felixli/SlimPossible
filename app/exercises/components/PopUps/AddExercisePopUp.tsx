@@ -1,4 +1,5 @@
 import InputField from '@/app/global components/InputField';
+import { PostNewExercise } from '@/app/global components/Library/apiCalls';
 import PopUpLayout from '@/app/global components/popups/PopUpLayout';
 import SelectDropDown from '@/app/global components/SelectDropDown';
 import React, { useState } from 'react'
@@ -8,7 +9,7 @@ interface Props {
     closePopUp: () => void;
 }
 
-interface NewExercise {
+export interface NewExercise {
     name: string;
     equipment: string;
     targetMuscle: string;
@@ -43,13 +44,18 @@ const AddExercisePopUp = ({ closePopUp }: Props) => {
         return newExercise.name === '';
     }
 
+    const handleAddExercise = async () => {
+        closePopUp();
+        return await PostNewExercise(newExercise);
+    }
+
     return (
         <PopUpLayout closePopUp={closePopUp}>
             <section className='flex justify-between items-center'>
                 <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>
                 <button
                     disabled={addButtonDisabled()}
-                    // onClick={handleChangeTime}
+                    onClick={handleAddExercise}
                     className={`${addButtonDisabled() ? 'text-disabled-color' : ''}`}
                 >
                     Add

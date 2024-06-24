@@ -1,11 +1,12 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
-import { ResponseGetAllWorkoutHistory, ResponseGetAllWorkoutTemplates, ResponseGetExerciseInList, ResponseGetWorkoutTemplateById } from "../Interfaces/apiResponses";
+import { ResponseBase, ResponseGetAllWorkoutHistory, ResponseGetAllWorkoutTemplates, ResponseGetExerciseInList, ResponseGetWorkoutTemplateById } from "../Interfaces/apiResponses";
 import { WorkoutHistory } from "@/app/history/interfaces/history";
 import { WorkoutTemplate } from "@/app/workout/interfaces/templates";
 import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
 import { IExerciseTemplate, IWorkoutSetTemplate, IWorkoutTemplate } from "../Interfaces/templateInterfaces";
 import { IWorkoutHistory } from "../Interfaces/historyInterfaces";
 import { convertIWorkoutTemplateToWorkout } from "./utilFunctions";
+import { NewExercise } from "@/app/exercises/components/PopUps/AddExercisePopUp";
 
 const url = process.env.API_KEY;
 
@@ -84,4 +85,28 @@ export const GetWorkoutTemplateById = async (id: number): Promise<Workout> => {
         throw error;
     }
 }
+
+export const PostNewExercise = async (exerciseToAdd: NewExercise): Promise<boolean> => {
+    try {
+        const res = await fetch(`http://localhost:5019/api/Main/AddExercise`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(exerciseToAdd),
+            cache: 'no-store'
+        });
+
+        if (res.status !== 200) {
+            throw new Error(`HTTP Error! Status: ${res.status}`);
+        }
+
+        return true;
+
+    } catch (error) {
+        console.error('There was an error posting a new exercise to the db: ', error);
+        throw error;
+    }
+}
+
 
