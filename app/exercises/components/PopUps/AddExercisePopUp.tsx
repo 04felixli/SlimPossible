@@ -1,5 +1,6 @@
+'use client'
 import InputField from '@/app/global components/InputField';
-import { PostNewExercise } from '@/app/global components/Library/apiCalls';
+import { addExerciseServerAction } from '@/app/global components/Library/actions';
 import PopUpLayout from '@/app/global components/popups/PopUpLayout';
 import SelectDropDown from '@/app/global components/SelectDropDown';
 import React, { useState } from 'react'
@@ -46,35 +47,35 @@ const AddExercisePopUp = ({ closePopUp }: Props) => {
 
     const handleAddExercise = async () => {
         closePopUp();
-        return await PostNewExercise(newExercise);
+        return await addExerciseServerAction(newExercise);
     }
 
     return (
         <PopUpLayout closePopUp={closePopUp}>
-            <section className='flex justify-between items-center'>
-                <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>
-                <button
-                    disabled={addButtonDisabled()}
-                    onClick={handleAddExercise}
-                    className={`${addButtonDisabled() ? 'text-disabled-color' : ''}`}
-                >
-                    Add
-                </button>
-            </section>
-            <div className='flex justify-center items-center card-title-font mt-3'>New Exercise</div>
-            <InputField
-                name='Add exercise input field'
-                placeHolder='New Exercise Name'
-                value={newExercise.name}
-                onChange={handleNameChange}
-                className='max-w-xs bg-darkest-color rounded-md py-1 px-2 h-full w-full mt-5 text-left'
-            />
-            <div className='flex flex-col justify-between mt-5'>
-                <SelectDropDown items={equipmentList} selected={newExercise.equipment} setSelectedFunction={handleEquipmentSelect} className='w-full' />
-                <SelectDropDown items={targetMuscleList} selected={newExercise.targetMuscle} setSelectedFunction={handleTargetMuscleSelect} className='mt-1' />
-            </div>
-
-
+            <form action={handleAddExercise}>
+                <section className='flex justify-between items-center'>
+                    <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>
+                    <button
+                        disabled={addButtonDisabled()}
+                        className={`${addButtonDisabled() ? 'text-disabled-color' : ''}`}
+                        type='submit'
+                    >
+                        Add
+                    </button>
+                </section>
+                <div className='flex justify-center items-center card-title-font mt-3'>New Exercise</div>
+                <InputField
+                    name='Add exercise input field'
+                    placeHolder='New Exercise Name'
+                    value={newExercise.name}
+                    onChange={handleNameChange}
+                    className='max-w-xs bg-darkest-color rounded-md py-1 px-2 h-full w-full mt-5 text-left'
+                />
+                <div className='flex flex-col justify-between mt-5'>
+                    <SelectDropDown items={equipmentList} selected={newExercise.equipment} setSelectedFunction={handleEquipmentSelect} className='w-full' />
+                    <SelectDropDown items={targetMuscleList} selected={newExercise.targetMuscle} setSelectedFunction={handleTargetMuscleSelect} className='mt-1' />
+                </div>
+            </form>
         </PopUpLayout>
     )
 }

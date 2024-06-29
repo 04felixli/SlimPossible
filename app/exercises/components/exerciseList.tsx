@@ -1,13 +1,12 @@
 import React from 'react'
 import { ExerciseInList } from '../interfaces/exercises';
-import { GetExerciseList } from '@/app/global components/Library/apiCalls';
+
 
 interface Props {
-    query: string;
+    exercises: ExerciseInList[];
 }
 
-const ExerciseList = async (props: Props) => {
-    const exercises: ExerciseInList[] = await GetExerciseList(props.query);
+const ExerciseList = ({ exercises }: Props) => {
     return (
         <div>
             <ul>

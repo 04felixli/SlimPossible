@@ -2,11 +2,12 @@ import React from 'react'
 import PageLayout from '../global components/layout'
 import PageName from '../global components/PageName'
 import SearchBar from '../global components/SearchBar'
-import Button from '../global components/Buttons/Button'
 import ExerciseList from './components/exerciseList'
 import AddNewExerciseButton from './components/AddNewExerciseButton'
+import { GetExerciseList } from '../global components/Library/apiCalls'
+import { ExerciseInList } from './interfaces/exercises'
 
-const exercises = (
+const exercises = async (
   { searchParams }: {
     searchParams?: {
       query?: string;
@@ -14,6 +15,8 @@ const exercises = (
   }) => {
   const pageName = "Exercises";
   const query = searchParams?.query || '';
+  const exercises: ExerciseInList[] = await GetExerciseList(query);
+
   return (
     <PageLayout>
       <PageName name={pageName} />
@@ -21,7 +24,7 @@ const exercises = (
         <AddNewExerciseButton />
       </div>
       <SearchBar />
-      <ExerciseList query={query} />
+      <ExerciseList exercises={exercises} />
     </PageLayout>
   )
 }

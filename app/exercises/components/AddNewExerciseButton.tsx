@@ -7,7 +7,6 @@ const AddNewExerciseButton = () => {
     const [openAddExercisePopUp, setOpenAddExercisePopUp] = useState<boolean>(false);
 
     const closePopUp = () => {
-        console.log("closing pop up")
         setOpenAddExercisePopUp(false)
     }
 

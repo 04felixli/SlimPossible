@@ -9,10 +9,8 @@ import { convertIWorkoutTemplateToWorkout } from "./utilFunctions";
 import { NewExercise } from "@/app/exercises/components/PopUps/AddExercisePopUp";
 
 const url = process.env.API_KEY;
-
 export const GetExerciseList = async (searchInput: string): Promise<ExerciseInList[]> => {
     try {
-        // console.log("Fetching exercise list at: " + `${url}/api/Main/GetExerciseList?searchInput=${searchInput}`)
         const res = await fetch(`${url}/api/Main/GetExerciseList?searchInput=${searchInput}`, { cache: 'no-store' });
 
         if (res.status !== 200) {
@@ -21,6 +19,7 @@ export const GetExerciseList = async (searchInput: string): Promise<ExerciseInLi
 
         const response: ResponseGetExerciseInList = await res.json();
         const histories: ExerciseInList[] = response.exercises;
+        console.log(histories)
         return histories;
 
     } catch (error) {
@@ -88,7 +87,7 @@ export const GetWorkoutTemplateById = async (id: number): Promise<Workout> => {
 
 export const PostNewExercise = async (exerciseToAdd: NewExercise): Promise<boolean> => {
     try {
-        const res = await fetch(`http://localhost:5019/api/Main/AddExercise`, {
+        const res = await fetch(`${url}/api/Main/AddExercise`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
