@@ -19,7 +19,6 @@ export const GetExerciseList = async (searchInput: string): Promise<ExerciseInLi
 
         const response: ResponseGetExerciseInList = await res.json();
         const histories: ExerciseInList[] = response.exercises;
-        console.log(histories)
         return histories;
 
     } catch (error) {
