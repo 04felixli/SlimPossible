@@ -6,7 +6,7 @@ export class Workout {
     name: string;
     startTime?: Date; // Keep track of workout start time
     endTime?: Date; // Keep track of workout end time
-    duration: number; // Useless property -> keep for now
+    duration: number;
     date: Date; // Useless property -> keep for now
     exercises: Exercise[]; // Exercises in the actual workout
     replacementExercise?: Exercise; // If the user wants to replace an exercise, this is where we store the replacement exercise object 
