@@ -107,4 +107,26 @@ export const PostNewExercise = async (exerciseToAdd: NewExercise): Promise<boole
     }
 }
 
+export const PostCompletedWorkout = async (workout: Workout): Promise<boolean> => {
+    try {
+        const res = await fetch(`${url}/api/Main/PostWorkout`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(workout),
+            cache: 'no-store'
+        });
+
+        if (res.status !== 200) {
+            throw new Error(`HTTP Error! Status: ${res.status}`);
+        }
+
+        return true;
+
+    } catch (error) {
+        console.error('There was an error posting a workout to the db: ', error);
+        throw error;
+    }
+}
 

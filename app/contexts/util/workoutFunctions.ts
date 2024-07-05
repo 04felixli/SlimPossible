@@ -1,4 +1,6 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
+import { postCompletedWorkoutServerAction } from "@/app/global components/Library/actions";
+import { PostCompletedWorkout } from "@/app/global components/Library/apiCalls";
 import { formatTime } from "@/app/global components/Library/utilFunctions";
 import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
 
@@ -225,7 +227,7 @@ export const startWorkout = (setWorkout: React.Dispatch<React.SetStateAction<Wor
     }, 1000);
 }
 
-export const endWorkout = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>) => {
+export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>, post: boolean) => {
     if (intervalIdRef.current) {
         clearInterval(intervalIdRef.current);
         intervalIdRef.current = null;
@@ -234,6 +236,12 @@ export const endWorkout = (setWorkout: React.Dispatch<React.SetStateAction<Worko
     // 1. workout.endTime = workout.startTime + workout.duration
     // 2. Send POST request to API
     // 3. Reset workout to initial state
+    const durationInMillis = workout.duration * 1000;
+    const updatedEndTime = new Date(workout.startTime!.getTime() + durationInMillis);
+
+    const updatedWorkout = { ...workout, endTime: updatedEndTime };
+
+    if (post) { await postCompletedWorkoutServerAction(updatedWorkout); }
     resetWorkout(setWorkout);
 };
 

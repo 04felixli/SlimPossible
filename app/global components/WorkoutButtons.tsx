@@ -7,7 +7,7 @@ import { IPopUp } from '../workout/interfaces/popup';
 import { Exercise, Workout } from '../workout/objects/classes';
 
 interface Props {
-    onEndFunction: () => void; // function to run when workout / template editing / history editing ends
+    onEndFunction: (post: boolean) => void; // function to run when workout / template editing / history editing ends
     finishPopUpContent: IPopUp;
     cancelPopUpContent: IPopUp;
     onAddRedirectRoute: string; // The url path to redirect to after the user clicks 'add'
@@ -26,10 +26,11 @@ const WorkoutButtons = ({ onEndFunction, finishPopUpContent, cancelPopUpContent,
     }
 
     const clearExercises = (cause: string) => {
-        onEndFunction();
         if (cause === action.complete) {
+            onEndFunction(true);
             setOpenFinishPopUp(false);
         } else {
+            onEndFunction(false);
             setOpenCancelPopUp(false);
         }
     }

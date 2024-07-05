@@ -21,7 +21,7 @@ interface WorkoutContextType {
     changeWeightValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     startWorkout: () => void;
-    endWorkout: () => void;
+    endWorkout: (post: boolean) => void;
 }
 
 type Props = {
@@ -48,7 +48,7 @@ const WorkoutContextProvider = ({ children }: Props) => {
     const changeWeightValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeWeightValue(setWorkout, event, exerciseId, setNumber, insertionNumber);
     const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(setWorkout, event, exerciseId, setNumber, insertionNumber);
     const startWorkoutHandler = () => startWorkout(setWorkout, intervalIdRef);
-    const endWorkoutHandler = () => endWorkout(setWorkout, intervalIdRef);
+    const endWorkoutHandler = (post: boolean) => endWorkout(workout, setWorkout, intervalIdRef, post);
 
     return (
         <workoutContext.Provider value={{
