@@ -103,7 +103,7 @@ namespace ftDB.Dao
                             exerciseInWorkout.InsertionNumber,
                             exerciseInWorkout.Sets
                                 .OrderBy(s => s.SetNumber)
-                                .Select(s => new ModelPastSet(s.Weight, s.Reps, s.SetNumber))
+                                .Select(s => new ModelPastSet(s.Id, s.Weight, s.Reps, s.SetNumber, true))
                                 .ToArray()
                         )).ToArray(),
                     completedWorkouts.Id,
@@ -138,7 +138,7 @@ namespace ftDB.Dao
                             exerciseInWorkout.InsertionNumber,
                             exerciseInWorkout.Sets
                                 .OrderBy(s => s.SetNumber)
-                                .Select(s => new ModelPastSet(s.Weight, s.Reps, s.SetNumber))
+                                .Select(s => new ModelPastSet(s.Id, s.Weight, s.Reps, s.SetNumber, true))
                                 .ToArray()
                         )).ToArray(),
                     completedWorkouts.Id,
@@ -253,7 +253,7 @@ namespace ftDB.Dao
                                         exerciseTemplate.InsertionNumber,
                                         exerciseTemplate.SetTemplates
                                             .OrderBy(s => s.SetNumber)
-                                            .Select(s => new ModelGetSetTemplate(s.Weight, s.Reps, s.SetNumber, false))
+                                            .Select(s => new ModelGetSetTemplate(s.Id, s.Weight, s.Reps, s.SetNumber, false))
                                             .ToArray()
                                    )).ToArray(),
                     workoutTemplate.CreatedDate
@@ -283,7 +283,7 @@ namespace ftDB.Dao
                                         exerciseTemplate.InsertionNumber,
                                         exerciseTemplate.SetTemplates
                                             .OrderBy(s => s.SetNumber)
-                                            .Select(s => new ModelGetSetTemplate(s.Weight, s.Reps, s.SetNumber, false))
+                                            .Select(s => new ModelGetSetTemplate(s.Id, s.Weight, s.Reps, s.SetNumber, false))
                                             .ToArray()
                                    )).ToArray(),
                     template.CreatedDate
