@@ -9,7 +9,7 @@ interface Props {
 }
 
 const WorkoutButtonsWrapper = ({ from }: Props) => {
-    const { resetTemplateContext } = useTemplate();
+    const { endTemplate } = useTemplate();
 
     // edit-template pop-ups
     const discardChangesToWorkoutTemplatePopUpContent: IPopUp = {
@@ -55,13 +55,13 @@ const WorkoutButtonsWrapper = ({ from }: Props) => {
 
     if (from === "edit-template") {
         return (
-            <WorkoutButtons onEndFunction={resetTemplateContext} finishPopUpContent={saveChangesToWorkoutTemplatePopUpContent} cancelPopUpContent={discardChangesToWorkoutTemplatePopUpContent} deleteButtonPopUpContent={deleteWorkoutTemplatePopUpContent} onAddRedirectRoute={`/workout/templates/selectExercises?from=${from}`} />
+            <WorkoutButtons onEndFunction={endTemplate} finishPopUpContent={saveChangesToWorkoutTemplatePopUpContent} cancelPopUpContent={discardChangesToWorkoutTemplatePopUpContent} deleteButtonPopUpContent={deleteWorkoutTemplatePopUpContent} onAddRedirectRoute={`/workout/templates/selectExercises?from=${from}`} />
         )
     }
 
     // add-template page has no "Delete Template" option
     return (
-        <WorkoutButtons onEndFunction={resetTemplateContext} finishPopUpContent={saveWorkoutTemplatePopUpContent} cancelPopUpContent={discardWorkoutTemplatePopUpContent} onAddRedirectRoute={`/workout/templates/selectExercises?from=${from}`} />
+        <WorkoutButtons onEndFunction={endTemplate} finishPopUpContent={saveWorkoutTemplatePopUpContent} cancelPopUpContent={discardWorkoutTemplatePopUpContent} onAddRedirectRoute={`/workout/templates/selectExercises?from=${from}`} />
     )
 
 }

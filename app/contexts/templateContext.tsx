@@ -3,7 +3,7 @@
 'use client';
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 import { Workout } from '../workout/objects/classes';
-import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout } from './util/workoutFunctions';
+import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout, endTemplate } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 import workout from '../workout/page';
 
@@ -24,6 +24,7 @@ interface TemplateContextType {
     changeWeightValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     resetTemplateContext: () => void;
+    endTemplate: (post: boolean) => void;
 }
 
 type Props = {
@@ -49,6 +50,7 @@ const TemplateContextProvider = ({ children }: Props) => {
     const changeWeightValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeWeightValue(setTemplate, event, exerciseId, setNumber, insertionNumber);
     const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(setTemplate, event, exerciseId, setNumber, insertionNumber);
     const resetTemplateContextHandler = () => resetWorkout(setTemplate);
+    const endTemplateHandler = (post: boolean) => endTemplate(template, setTemplate, post);
 
     return (
         <templateContext.Provider value={{
@@ -66,7 +68,8 @@ const TemplateContextProvider = ({ children }: Props) => {
             toggleCompletedSet: toggleCompletedSetHandler,
             changeWeightValue: changeWeightValueHandler,
             changeRepsValue: changeRepsValueHandler,
-            resetTemplateContext: resetTemplateContextHandler
+            resetTemplateContext: resetTemplateContextHandler,
+            endTemplate: endTemplateHandler
         }}>
             {children}
         </templateContext.Provider>
