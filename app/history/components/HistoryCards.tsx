@@ -24,7 +24,6 @@ const initialState: HistoryPreviewCardState = {
 };
 
 const HistoryCards = ({ workoutHistories }: Props) => {
-    const { history, setHistory } = useHistory();
     const [historyPreviewCard, setHistoryPreviewCard] = useState<HistoryPreviewCardState>(initialState);
 
     const handleHistoryCardClick = (rawTemplate: IWorkoutHistory) => {

@@ -239,7 +239,7 @@ export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<Re
     const durationInMillis = workout.duration * 1000;
     const updatedEndTime = new Date(workout.startTime!.getTime() + durationInMillis);
 
-    const updatedWorkout = { ...workout, endTime: updatedEndTime };
+    const updatedWorkout: Workout = { ...workout, endTime: updatedEndTime };
 
     if (post) { await postCompletedWorkoutServerAction(updatedWorkout); }
     resetWorkout(setWorkout);

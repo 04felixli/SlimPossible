@@ -25,8 +25,6 @@ const EditDurationPopUp = ({ closePopUp }: Props) => {
         const newStartTimeDate = new Date(newStartTime);
         const newEndTimeDate = new Date(newEndTime);
 
-        newEndTimeDate.setSeconds(new Date(history.endTime!).getSeconds())
-
         return getFormattedDurationStringGivenStartAndEnd(newStartTimeDate, newEndTimeDate)
     }
 

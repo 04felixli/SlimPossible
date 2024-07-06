@@ -16,7 +16,7 @@ interface Props {
 }
 
 const HistoryPreviewCard = ({ workout, closePopUp }: Props) => {
-    const { history, setHistory } = useHistory();
+    const { setHistory } = useHistory();
 
     // Should never happen 
     if (!workout) {

@@ -10,11 +10,13 @@ export const formatDuration = (totalSeconds: number): string => {
 
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
 
-    const formattedTime = `${String(hours).padStart(2, '0')}h:${String(minutes).padStart(2, '0')}m:${String(seconds).padStart(2, '0')}s`;
+    const formattedHours = hours > 0 ? `${hours}h` : '';
+    const formattedMinutes = (hours > 0 && minutes == 0) ? '' : `${minutes}min`;
 
-    return formattedTime;
+    const formattedDuration = formattedHours + " " + formattedMinutes;
+
+    return formattedDuration;
 };
 
 // Convert a duration in seconds to a string format: hh:mm:ss given the start and end dates
@@ -23,7 +25,16 @@ export const getFormattedDurationStringGivenStartAndEnd = (start?: Date, end?: D
         return formatDuration(0);
     }
 
-    const diffInSeconds = Math.floor((new Date(end).getTime() - new Date(start).getTime()) / 1000);
+    const setSecondsToZero = (date: Date): Date => {
+        const newDate = new Date(date);
+        newDate.setSeconds(0, 0); // Set seconds and milliseconds to zero
+        return newDate;
+    };
+
+    const startWithoutSeconds = setSecondsToZero(new Date(start));
+    const endWithoutSeconds = setSecondsToZero(new Date(end));
+
+    const diffInSeconds = Math.floor((endWithoutSeconds.getTime() - startWithoutSeconds.getTime()) / 1000);
     return formatDuration(diffInSeconds);
 }
 
