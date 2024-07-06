@@ -30,7 +30,7 @@ namespace ftDB.Dao
                 entity.HasKey(e => e.Id).HasName("PRIMARY");
                 entity.ToTable("exercises");
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id").IsRequired();
-                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp").HasColumnName("created_date").IsRequired();
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamptz").HasColumnName("created_date").IsRequired();
                 entity.Property(e => e.Name).HasColumnType("text").HasColumnName("name").IsRequired();
                 entity.Property(e => e.Equipment).HasColumnType("text").HasColumnName("equipment").IsRequired();
                 entity.Property(e => e.TargetMuscle).HasColumnType("text").HasColumnName("target_muscle").IsRequired();
@@ -56,7 +56,7 @@ namespace ftDB.Dao
                 entity.HasKey(e => e.Id);
                 entity.ToTable("sets");
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id").IsRequired();
-                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp").HasColumnName("created_date").IsRequired();
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamptz").HasColumnName("created_date").IsRequired();
                 entity.Property(e => e.Weight).HasColumnType("integer").HasColumnName("weight").IsRequired();
                 entity.Property(e => e.Reps).HasColumnType("integer").HasColumnName("reps").IsRequired();
                 entity.Property(e => e.SetNumber).HasColumnType("integer").HasColumnName("set_number").IsRequired();
@@ -71,7 +71,7 @@ namespace ftDB.Dao
                 entity.HasKey(e => e.Id);
                 entity.ToTable("exercises_in_workout");
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id").IsRequired();
-                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp").HasColumnName("created_date").IsRequired();
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamptz").HasColumnName("created_date").IsRequired();
                 entity.Property(e => e.ExerciseId).HasColumnType("integer").HasColumnName("exercise_id").IsRequired();
                 entity.Property(e => e.CompletedWorkoutId).HasColumnType("integer").HasColumnName("completed_workout_id").IsRequired();
                 entity.Property(e => e.Notes).HasColumnType("text").HasColumnName("notes").IsRequired();
@@ -94,12 +94,12 @@ namespace ftDB.Dao
                 entity.HasKey(e => e.Id);
                 entity.ToTable("completed_workouts");
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id").IsRequired();
-                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp").HasColumnName("created_date").IsRequired();
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamptz").HasColumnName("created_date").IsRequired();
                 entity.Property(e => e.Duration).HasColumnType("integer").HasColumnName("duration").IsRequired();
                 entity.Property(e => e.Name).HasColumnType("text").HasColumnName("name").IsRequired();
-                entity.Property(e => e.Date).HasColumnType("timestamp").HasColumnName("date").IsRequired();
-                entity.Property(e => e.StartTime).HasColumnType("timestamp").HasColumnName("start_time").IsRequired();
-                entity.Property(e => e.EndTime).HasColumnType("timestamp").HasColumnName("end_time").IsRequired();
+                entity.Property(e => e.Date).HasColumnType("timestamptz").HasColumnName("date").IsRequired();
+                entity.Property(e => e.StartTime).HasColumnType("timestamptz").HasColumnName("start_time").IsRequired();
+                entity.Property(e => e.EndTime).HasColumnType("timestamptz").HasColumnName("end_time").IsRequired();
                 entity.HasMany(CompletedWorkout => CompletedWorkout.ExercisesInWorkout)
                       .WithOne(ExerciseInWorkout => ExerciseInWorkout.CompletedWorkout)
                       .HasForeignKey(ExerciseInWorkout => ExerciseInWorkout.CompletedWorkoutId)
@@ -111,7 +111,7 @@ namespace ftDB.Dao
                 entity.HasKey(e => e.Id);
                 entity.ToTable("set_templates");
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id").IsRequired();
-                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp").HasColumnName("created_date").IsRequired();
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamptz").HasColumnName("created_date").IsRequired();
                 entity.Property(e => e.Weight).HasColumnType("integer").HasColumnName("weight").IsRequired();
                 entity.Property(e => e.Reps).HasColumnType("integer").HasColumnName("reps").IsRequired();
                 entity.Property(e => e.SetNumber).HasColumnType("integer").HasColumnName("set_number").IsRequired();
@@ -126,7 +126,7 @@ namespace ftDB.Dao
                 entity.HasKey(e => e.Id);
                 entity.ToTable("exercise_templates");
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id").IsRequired();
-                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp").HasColumnName("created_date").IsRequired();
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamptz").HasColumnName("created_date").IsRequired();
                 entity.Property(e => e.ExerciseId).HasColumnType("integer").HasColumnName("exercise_id").IsRequired();
                 entity.Property(e => e.WorkoutTemplateId).HasColumnType("integer").HasColumnName("workout_template_id").IsRequired();
                 entity.Property(e => e.Notes).HasColumnType("text").HasColumnName("notes").IsRequired();
@@ -149,7 +149,7 @@ namespace ftDB.Dao
                 entity.HasKey(e => e.Id);
                 entity.ToTable("workout_templates");
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id").IsRequired();
-                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp").HasColumnName("created_date").IsRequired();
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamptz").HasColumnName("created_date").IsRequired();
                 entity.Property(e => e.Name).HasColumnType("text").HasColumnName("name").IsRequired();
                 entity.HasMany(WorkoutTemplate => WorkoutTemplate.ExerciseTemplates)
                       .WithOne(ExerciseTemplate => ExerciseTemplate.WorkoutTemplate)
