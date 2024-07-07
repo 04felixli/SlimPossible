@@ -29,7 +29,7 @@ const HistoryPreviewCard = ({ workout, closePopUp }: Props) => {
                 {/* x and edit buttons */}
                 <section className='flex justify-between items-center'>
                     <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>
-                    <Link href={`/history/edit`} onClick={() => setHistory(workout)}>Edit</Link>
+                    <Link href={`/history/edit`} onClick={() => setHistory(JSON.parse(JSON.stringify(workout)))}>Edit</Link>
                 </section>
 
                 {/* workout name */}

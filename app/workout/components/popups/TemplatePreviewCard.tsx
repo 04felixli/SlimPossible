@@ -28,7 +28,7 @@ const TemplatePreviewCard = ({ workout, closePopUp }: Props) => {
             {/* x and edit buttons */}
             <section className='flex justify-between items-center'>
                 <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>
-                <Link href={`/workout/templates/edit-template`} onClick={() => setTemplate(workout)}>Edit</Link>
+                <Link href={`/workout/templates/edit-template`} onClick={() => setTemplate(JSON.parse(JSON.stringify(workout)))}>Edit</Link>
             </section>
 
             {/* workout name */}
@@ -36,7 +36,7 @@ const TemplatePreviewCard = ({ workout, closePopUp }: Props) => {
 
             {/* start workout from template button */}
             <div className='flex justify-center items-center mt-3'>
-                <Link href='/workout/start' onClick={() => setWorkout(workout)}>
+                <Link href='/workout/start' onClick={() => setWorkout(JSON.parse(JSON.stringify(workout)))}>
                     <Button text='Start Workout' />
                 </Link>
             </div>

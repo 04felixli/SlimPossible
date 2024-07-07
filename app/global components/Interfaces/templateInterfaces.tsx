@@ -18,6 +18,7 @@ export interface IExerciseTemplate {
 }
 
 export interface IWorkoutSetTemplate {
+    id: number;
     weight: number;
     reps: number;
     setNumber: number;

@@ -245,7 +245,7 @@ export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<Re
     resetWorkout(setWorkout);
 };
 
-export const endTemplate = async (template: Workout, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, post: boolean) => {
+export const postTemplate = async (template: Workout, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, post: boolean) => {
     if (post) { await postTemplateServerAction(template); }
     resetWorkout(setTemplate);
 };

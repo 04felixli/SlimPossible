@@ -51,6 +51,7 @@ export class Exercise {
 }
 
 export class WorkoutSet {
+    id?: number;
     weight: number;
     reps: number;
     setNumber: number;

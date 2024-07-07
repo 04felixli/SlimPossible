@@ -86,6 +86,7 @@ export const convertIExerciseTemplateToExercise = (rawExercise: IExerciseTemplat
 // Helper function to convert IWorkoutSetTemplate to WorkoutSet object
 export const convertIWorkoutSetTemplateToWorkoutSet = (rawSet: IWorkoutSetTemplate): WorkoutSet => {
     const set = new WorkoutSet(rawSet.setNumber);
+    set.id = rawSet.id;
     set.weight = rawSet.weight;
     set.reps = rawSet.reps;
     set.isCompleted = rawSet.isCompleted;
@@ -124,9 +125,10 @@ export const convertIExerciseInWorkoutHistoryToExercise = (rawExercise: IExercis
 // Helper function to convert ISetInExerciseInWorkoutHistory to WorkoutSet object
 export const convertISetInExerciseInWorkoutHistoryToWorkoutSet = (rawSet: ISetInExerciseInWorkoutHistory): WorkoutSet => {
     const set = new WorkoutSet(rawSet.setNumber);
+    set.id = rawSet.id;
     set.weight = rawSet.weight;
     set.reps = rawSet.reps;
-    set.isCompleted = true;
+    set.isCompleted = rawSet.isCompleted;
     return set;
 }
 

@@ -20,8 +20,9 @@ export interface IExerciseInWorkoutHistory {
 }
 
 export interface ISetInExerciseInWorkoutHistory {
+    id: number;
     weight: number;
     reps: number;
     setNumber: number;
-    // isCompleted: boolean; // Sets in workout histories are all completed by default
+    isCompleted: boolean; // Sets in workout histories are all completed by default
 }
