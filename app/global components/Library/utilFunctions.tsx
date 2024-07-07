@@ -63,19 +63,20 @@ export const convertIWorkoutTemplateToWorkout = (rawTemplate: IWorkoutTemplate):
     workout.name = rawTemplate.name;
     workout.duration = rawTemplate.duration;
     workout.date = new Date(rawTemplate.createdDate);
-    workout.exercises = rawTemplate.exercises.map(exercise => convertIExerciseTemplateToExercise(exercise));
+    workout.totalNumExercisesAddedEver = rawTemplate.exercises.length;
+    workout.exercises = rawTemplate.exercises.map((exercise, index) => convertIExerciseTemplateToExercise(exercise, index));
     return workout;
 }
 
 // Helper function to convert IExerciseTemplate to Exercise object
-export const convertIExerciseTemplateToExercise = (rawExercise: IExerciseTemplate): Exercise => {
+export const convertIExerciseTemplateToExercise = (rawExercise: IExerciseTemplate, index: number): Exercise => {
     const exercise = new Exercise(
         rawExercise.id,
         rawExercise.name,
         rawExercise.equipment,
         rawExercise.targetMuscle,
         rawExercise.weightUnit,
-        rawExercise.insertionNumber,
+        index, // for insertion number
         rawExercise.sets.map(set => convertIWorkoutSetTemplateToWorkoutSet(set))
     );
     exercise.notes = rawExercise.notes;
@@ -102,19 +103,20 @@ export const convertIWorkoutHistoryToWorkout = (rawTemplate: IWorkoutHistory): W
     workout.date = new Date(rawTemplate.createdDate);
     workout.startTime = rawTemplate.startTime;
     workout.endTime = rawTemplate.endTime;
-    workout.exercises = rawTemplate.exercises.map(exercise => convertIExerciseInWorkoutHistoryToExercise(exercise));
+    workout.totalNumExercisesAddedEver = rawTemplate.exercises.length;
+    workout.exercises = rawTemplate.exercises.map((exercise, index) => convertIExerciseInWorkoutHistoryToExercise(exercise, index));
     return workout;
 }
 
 // Helper function to convert IExerciseInWorkoutHistory to Exercise object
-export const convertIExerciseInWorkoutHistoryToExercise = (rawExercise: IExerciseInWorkoutHistory): Exercise => {
+export const convertIExerciseInWorkoutHistoryToExercise = (rawExercise: IExerciseInWorkoutHistory, index: number): Exercise => {
     const exercise = new Exercise(
         rawExercise.id,
         rawExercise.name,
         rawExercise.equipment,
         rawExercise.targetMuscle,
         rawExercise.weightUnit,
-        rawExercise.insertionNumber,
+        index, // for insertion number
         rawExercise.sets.map(set => convertISetInExerciseInWorkoutHistoryToWorkoutSet(set))
     );
     exercise.notes = rawExercise.notes;
