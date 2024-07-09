@@ -245,6 +245,7 @@ namespace ftDB.Dao
                                                          // exercise_templates table
                                    .Select(exerciseTemplate => new ModelGetExerciseTemplate(
                                         exerciseTemplate.Exercise.Id,
+                                        exerciseTemplate.Id,
                                         exerciseTemplate.Exercise.Name,
                                         exerciseTemplate.Exercise.Equipment,
                                         exerciseTemplate.Exercise.TargetMuscle,
@@ -275,6 +276,7 @@ namespace ftDB.Dao
                                    .OrderBy(et => et.Id)
                                    .Select(exerciseTemplate => new ModelGetExerciseTemplate(
                                         exerciseTemplate.Exercise.Id,
+                                        exerciseTemplate.Id,
                                         exerciseTemplate.Exercise.Name,
                                         exerciseTemplate.Exercise.Equipment,
                                         exerciseTemplate.Exercise.TargetMuscle,
@@ -320,6 +322,123 @@ namespace ftDB.Dao
 
             return;
         }
+
+        public async Task UpdateTemplateAsync(RequestModelUpdateTemplate modifiedTemplate)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+
+            try
+            {
+                // Fetch the old template with all of its exercises and sets
+                WorkoutTemplate? oldTemplate = await _context.WorkoutTemplates
+                                .Include(wt => wt.ExerciseTemplates)
+                                .ThenInclude(et => et.SetTemplates)
+                                .FirstOrDefaultAsync(workoutTemplate => workoutTemplate.Id == modifiedTemplate.Id);
+
+                if (oldTemplate == null)
+                {
+                    return;
+                }
+
+                // Remove exercises that are no longer present
+                List<int> exerciseTemplateIds = modifiedTemplate.Exercises.Select(et => et.ExerciseInTemplateId).ToList();
+                List<ExerciseTemplate> exercisesToRemove = oldTemplate.ExerciseTemplates.Where(et => !exerciseTemplateIds.Contains(et.Id)).ToList();
+                foreach (ExerciseTemplate exerciseTemplate in exercisesToRemove)
+                {
+                    oldTemplate.ExerciseTemplates.Remove(exerciseTemplate);
+                }
+
+                await _context.SaveChangesAsync();
+
+                // Update the template properties
+                oldTemplate.Name = modifiedTemplate.Name;
+
+                // Update the exercise templates
+                foreach (ModelGetExerciseTemplate? modifiedExercise in modifiedTemplate.Exercises)
+                {
+                    // Get the existing exercise if it is already in the template
+                    ExerciseTemplate? existingExercise = oldTemplate.ExerciseTemplates
+                                                        .FirstOrDefault(et => et.Id == modifiedExercise.ExerciseInTemplateId);
+
+                    if (existingExercise != null)
+                    {
+                        // Update existing exercise notes and weight unit
+                        existingExercise.Notes = modifiedExercise.Notes;
+                        existingExercise.WeightUnit = modifiedExercise.WeightUnit;
+
+                        // Update the sets
+                        foreach (ModelGetSetTemplate modifiedSet in modifiedExercise.Sets)
+                        {
+                            SetTemplate? existingSet = existingExercise.SetTemplates
+                                                        .FirstOrDefault(st => st.Id == modifiedSet.Id);
+
+                            if (existingSet != null)
+                            {
+                                // Update existing set reps and weight
+                                existingSet.Reps = modifiedSet.Reps;
+                                existingSet.Weight = modifiedSet.Weight;
+                            }
+                            else
+                            {
+                                // Add new set
+                                existingExercise.SetTemplates.Add(new SetTemplate
+                                    (modifiedSet.Weight,
+                                    modifiedSet.Reps,
+                                    modifiedSet.SetNumber,
+                                    existingExercise.Id)
+                                );
+                            }
+                        }
+
+                        // Remove sets that are no longer present
+                        List<int> setIds = modifiedExercise.Sets.Select(st => st.Id).ToList();
+                        List<SetTemplate> setsToRemove = existingExercise.SetTemplates
+                                                        .Where(st => !setIds.Contains(st.Id))
+                                                        .ToList();
+                        foreach (SetTemplate set in setsToRemove)
+                        {
+                            existingExercise.SetTemplates.Remove(set);
+                        }
+
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        // Add new exercise
+                        ExerciseTemplate newExercise = new(
+                            modifiedExercise.Id,
+                            modifiedTemplate.Id,
+                            modifiedExercise.Notes,
+                            modifiedExercise.WeightUnit,
+                            modifiedExercise.InsertionNumber
+                        );
+
+                        int newExerciseId = await PostExerciseTemplateAsync(newExercise);
+
+                        // Post sets for new exercise
+                        foreach (var set in modifiedExercise.Sets)
+                        {
+                            SetTemplate setToPost = new(set.Weight, set.Reps, set.SetNumber, newExerciseId); // Create new Set entity
+
+                            await PostSetTemplateAsync(setToPost);
+                        }
+                    }
+                }
+                transaction.Commit();
+            }
+            catch (DbUpdateException ex)
+            {
+                transaction.Rollback();
+                throw new CustomExceptionModel("There was an error updating the database inside of MainDao.UpdateTemplateAsync: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw new CustomExceptionModel("An exception occurred inside of MainDao.UpdateTemplateAsync: " + ex.Message);
+            }
+        }
+
+
 
         #region Private Methods 
 

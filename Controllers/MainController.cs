@@ -325,5 +325,27 @@ namespace ftDB.Controllers
 
             return response;
         }
+
+        [EnableCors]
+        [HttpPut("UpdateTemplate")]
+        public async Task<ResponseBase> UpdateTemplateAsync([FromBody] RequestModelUpdateTemplate template)
+        {
+            ResponseBase response = new();
+
+            try
+            {
+                response = await _repo.UpdateTemplateAsync(template);
+            }
+            catch (CustomExceptionModel ex)
+            {
+                response.SetResponseFailed(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
+            }
+
+            return response;
+        }
     }
 }

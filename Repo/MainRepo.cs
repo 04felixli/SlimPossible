@@ -240,5 +240,37 @@ namespace ftDB.Repo
             return resp;
         }
 
+        public async Task<ResponseBase> UpdateTemplateAsync(RequestModelUpdateTemplate workoutTemplate)
+        {
+            ResponseBase resp = new();
+
+            workoutTemplate.Exercises = workoutTemplate.Exercises
+                                                        .Where(exercise => exercise.Sets.Any(set => set.Weight >= 0 && set.Reps >= 0)) // Only keep exercises with at least one valid set in them
+                                                        .Select(exercise => new ModelGetExerciseTemplate
+                                                        (
+                                                            exercise.Id,
+                                                            exercise.ExerciseInTemplateId,
+                                                            exercise.Name,
+                                                            exercise.Equipment,
+                                                            exercise.TargetMuscle,
+                                                            exercise.WeightUnit,
+                                                            exercise.Notes,
+                                                            exercise.InsertionNumber,
+                                                            exercise.Sets.Where(set => set.Weight >= 0 && set.Reps >= 0).ToArray() // Only keep valid sets
+                                                        )).ToArray();
+
+            if (workoutTemplate.Exercises.Length == 0)
+            {
+                resp = await DeleteWorkoutTemplateAsync(workoutTemplate.Id);
+                resp.SetResponseSuccessWithMsg("Workout template was deleted since there were no exercises.");
+
+                return resp;
+            }
+
+            await _dao.UpdateTemplateAsync(workoutTemplate);
+            resp.SetResponseSuccess();
+            return resp;
+        }
+
     }
 }
