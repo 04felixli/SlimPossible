@@ -25,5 +25,6 @@ namespace ftDB.Interfaces
         Task<bool> DeleteWorkoutTemplateAsync(int workoutTemplateId);
         Task AddExerciseToDbAsync(RequestModelAddExercise exerciseToAdd);
         Task UpdateTemplateAsync(RequestModelUpdateTemplate template);
+        Task UpdateHistoryAsync(RequestModelUpdateHistory history);
     }
 }

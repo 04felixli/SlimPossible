@@ -272,5 +272,37 @@ namespace ftDB.Repo
             return resp;
         }
 
+        public async Task<ResponseBase> UpdateHistoryAsync(RequestModelUpdateHistory completedWorkout)
+        {
+            ResponseBase resp = new();
+
+            completedWorkout.Exercises = completedWorkout.Exercises
+                                                        .Where(exercise => exercise.Sets.Any(set => set.IsCompleted)) // Only keep exercises with at least one completed set
+                                                        .Select(exercise => new ModelPastExercise
+                                                        (
+                                                            exercise.Id,
+                                                            exercise.ExerciseInHistoryId,
+                                                            exercise.Name,
+                                                            exercise.Equipment,
+                                                            exercise.TargetMuscle,
+                                                            exercise.WeightUnit,
+                                                            exercise.Notes,
+                                                            exercise.InsertionNumber,
+                                                            exercise.Sets.Where(set => set.IsCompleted).ToArray() // Only keep completed sets
+                                                        )).ToArray();
+
+            if (completedWorkout.Exercises.Length == 0)
+            {
+                // delete workout here too
+                resp.SetResponseSuccessWithMsg("No workout was posted since there were no exercises completed.");
+
+                return resp;
+            }
+
+            await _dao.UpdateHistoryAsync(completedWorkout);
+            resp.SetResponseSuccess();
+            return resp;
+        }
+
     }
 }
