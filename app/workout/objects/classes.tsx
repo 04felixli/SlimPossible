@@ -1,4 +1,3 @@
-import { IWorkoutTemplate } from "@/app/global components/Interfaces/templateInterfaces";
 import { GetWorkoutTime } from "@/app/global components/Library/utilFunctions";
 
 export class Workout {
@@ -28,6 +27,8 @@ export class Workout {
 //      2. insertionNumber
 export class Exercise {
     id: number;
+    exerciseInHistoryId?: number; // by default -1 for a new exercise created when editing workout history
+    exerciseInTemplateId?: number; // by default -1 for a new exercise created when editing workout template  
     name: string;
     equipment: string;
     targetMuscle: string;
@@ -37,7 +38,7 @@ export class Exercise {
     showNotes: boolean;
     insertionNumber: number; // The totalNumExercisesAddedEver value when we inserted the exercise - Set to -1 by default
 
-    constructor(id: number, name: string, equipment: string, targetMuscle: string, weightUnit: string, insertionNumber?: number, sets?: WorkoutSet[]) {
+    constructor(id: number, name: string, equipment: string, targetMuscle: string, weightUnit: string, insertionNumber?: number, sets?: WorkoutSet[], exerciseInTemplateId?: number, exerciseInHistoryId?: number) {
         this.id = id;
         this.name = name;
         this.equipment = equipment;
@@ -47,6 +48,8 @@ export class Exercise {
         this.sets = sets ? sets : [new WorkoutSet(1)];
         this.showNotes = false;
         this.insertionNumber = insertionNumber ? insertionNumber : (insertionNumber === 0 ? insertionNumber : -1);
+        this.exerciseInTemplateId = exerciseInTemplateId ? exerciseInTemplateId : -1;
+        this.exerciseInHistoryId = exerciseInHistoryId ? exerciseInHistoryId : -1;
     }
 }
 

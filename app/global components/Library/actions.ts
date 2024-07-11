@@ -1,7 +1,7 @@
 'use server'
 
 import { NewExercise } from "@/app/exercises/components/PopUps/AddExercisePopUp";
-import { PostCompletedWorkout, PostNewExercise, PostTemplate } from "./apiCalls";
+import { PostCompletedWorkout, PostNewExercise, PostTemplate, UpdateTemplate } from "./apiCalls";
 import { revalidatePath } from "next/cache";
 import { Workout } from "@/app/workout/objects/classes";
 
@@ -19,6 +19,12 @@ export const postCompletedWorkoutServerAction = async (workout: Workout): Promis
 
 export const postTemplateServerAction = async (template: Workout): Promise<boolean> => {
     const posted = await PostTemplate(template);
+    revalidatePath("/workout");
+    return posted;
+}
+
+export const updateTemplateServerAction = async (template: Workout): Promise<boolean> => {
+    const posted = await UpdateTemplate(template);
     revalidatePath("/workout");
     return posted;
 }

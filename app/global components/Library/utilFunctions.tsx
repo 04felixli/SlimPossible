@@ -77,7 +77,8 @@ export const convertIExerciseTemplateToExercise = (rawExercise: IExerciseTemplat
         rawExercise.targetMuscle,
         rawExercise.weightUnit,
         index, // for insertion number
-        rawExercise.sets.map(set => convertIWorkoutSetTemplateToWorkoutSet(set))
+        rawExercise.sets.map(set => convertIWorkoutSetTemplateToWorkoutSet(set)),
+        rawExercise.exerciseInTemplateId
     );
     exercise.notes = rawExercise.notes;
     exercise.showNotes = true;

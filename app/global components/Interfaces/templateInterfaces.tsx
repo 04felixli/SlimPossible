@@ -8,6 +8,7 @@ export interface IWorkoutTemplate {
 
 export interface IExerciseTemplate {
     id: number;
+    exerciseInTemplateId: number; // id of row in exercise_templates table
     name: string;
     equipment: string;
     targetMuscle: string;

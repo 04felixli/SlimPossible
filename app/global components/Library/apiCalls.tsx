@@ -153,3 +153,26 @@ export const PostTemplate = async (template: Workout): Promise<boolean> => {
     }
 }
 
+export const UpdateTemplate = async (template: Workout): Promise<boolean> => {
+    try {
+        const res = await fetch(`${url}/api/Main/UpdateTemplate`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(template),
+            cache: 'no-store'
+        });
+
+        if (res.status !== 200) {
+            throw new Error(`HTTP Error! Status: ${res.status}`);
+        }
+
+        return true;
+
+    } catch (error) {
+        console.error('There was an error updateing a template to the db: ', error);
+        throw error;
+    }
+}
+

@@ -9,7 +9,7 @@ interface Props {
 }
 
 const WorkoutButtonsWrapper = ({ from }: Props) => {
-    const { postTemplate } = useTemplate();
+    const { postTemplate, updateTemplate } = useTemplate();
 
     // edit-template pop-ups
     const discardChangesToWorkoutTemplatePopUpContent: IPopUp = {
@@ -55,7 +55,7 @@ const WorkoutButtonsWrapper = ({ from }: Props) => {
 
     if (from === "edit-template") {
         return (
-            <WorkoutButtons onEndFunction={postTemplate} finishPopUpContent={saveChangesToWorkoutTemplatePopUpContent} cancelPopUpContent={discardChangesToWorkoutTemplatePopUpContent} deleteButtonPopUpContent={deleteWorkoutTemplatePopUpContent} onAddRedirectRoute={`/workout/templates/selectExercises?from=${from}`} />
+            <WorkoutButtons onEndFunction={updateTemplate} finishPopUpContent={saveChangesToWorkoutTemplatePopUpContent} cancelPopUpContent={discardChangesToWorkoutTemplatePopUpContent} deleteButtonPopUpContent={deleteWorkoutTemplatePopUpContent} onAddRedirectRoute={`/workout/templates/selectExercises?from=${from}`} />
         )
     }
 
