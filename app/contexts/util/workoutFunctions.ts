@@ -1,5 +1,5 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
-import { postCompletedWorkoutServerAction, postTemplateServerAction, updateTemplateServerAction } from "@/app/global components/Library/actions";
+import { postCompletedWorkoutServerAction, postTemplateServerAction, updateHistoryServerAction, updateTemplateServerAction } from "@/app/global components/Library/actions";
 import { PostCompletedWorkout } from "@/app/global components/Library/apiCalls";
 import { formatTime } from "@/app/global components/Library/utilFunctions";
 import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
@@ -253,6 +253,11 @@ export const postTemplate = async (template: Workout, setTemplate: React.Dispatc
 export const updateTemplate = async (template: Workout, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, update: boolean) => {
     if (update) { await updateTemplateServerAction(template); }
     resetWorkout(setTemplate);
+};
+
+export const updateHistory = async (history: Workout, setHistory: React.Dispatch<React.SetStateAction<Workout>>, update: boolean) => {
+    if (update) { await updateHistoryServerAction(history); }
+    resetWorkout(setHistory);
 };
 
 export const resetWorkout = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>) => {

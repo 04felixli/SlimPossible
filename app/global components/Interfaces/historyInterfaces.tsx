@@ -10,6 +10,7 @@ export interface IWorkoutHistory {
 
 export interface IExerciseInWorkoutHistory {
     id: number;
+    exerciseInHistoryId: number;
     name: string;
     equipment: string;
     targetMuscle: string;

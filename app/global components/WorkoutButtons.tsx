@@ -4,7 +4,6 @@ import Button from '@/app/global components/Buttons/Button';
 import Link from 'next/link';
 import PopUp from '../workout/components/popups/PopUp';
 import { IPopUp } from '../workout/interfaces/popup';
-import { Exercise, Workout } from '../workout/objects/classes';
 
 interface Props {
     onEndFunction: (post: boolean) => void; // function to run when workout / template editing / history editing ends

@@ -118,7 +118,8 @@ export const convertIExerciseInWorkoutHistoryToExercise = (rawExercise: IExercis
         rawExercise.targetMuscle,
         rawExercise.weightUnit,
         index, // for insertion number
-        rawExercise.sets.map(set => convertISetInExerciseInWorkoutHistoryToWorkoutSet(set))
+        rawExercise.sets.map(set => convertISetInExerciseInWorkoutHistoryToWorkoutSet(set)),
+        rawExercise.exerciseInHistoryId
     );
     exercise.notes = rawExercise.notes;
     exercise.showNotes = true;

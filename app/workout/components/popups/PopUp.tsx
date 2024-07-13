@@ -30,7 +30,7 @@ const PopUp = ({ popUpContent, onDoIt, onDontDoIt, onDoItRedirectURL }: Props) =
             </Link>}
           {onDoItRedirectURL &&
             <Link href={onDoItRedirectURL}>
-              <Button text={popUpContent.doIt} />
+              <Button text={popUpContent.doIt} onClickFunction={onDoIt} />
             </Link>}
         </div>
       </div>
