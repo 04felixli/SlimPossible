@@ -3,7 +3,7 @@
 'use client';
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 import { Workout } from '../workout/objects/classes';
-import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout, postTemplate, updateTemplate } from './util/workoutFunctions';
+import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout, endTemplate, action } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 import workout from '../workout/page';
 
@@ -24,8 +24,7 @@ interface TemplateContextType {
     changeWeightValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     resetTemplateContext: () => void;
-    postTemplate: (post: boolean) => void;
-    updateTemplate: (update: boolean) => void;
+    endTemplate: (cause: action) => void;
 }
 
 type Props = {
@@ -51,8 +50,7 @@ const TemplateContextProvider = ({ children }: Props) => {
     const changeWeightValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeWeightValue(setTemplate, event, exerciseId, setNumber, insertionNumber);
     const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(setTemplate, event, exerciseId, setNumber, insertionNumber);
     const resetTemplateContextHandler = () => resetWorkout(setTemplate);
-    const postTemplateHandler = (post: boolean) => postTemplate(template, setTemplate, post);
-    const updateTemplateHandler = (update: boolean) => updateTemplate(template, setTemplate, update);
+    const endTemplateHandler = (cause: action) => endTemplate(template, setTemplate, cause);
 
     return (
         <templateContext.Provider value={{
@@ -71,8 +69,7 @@ const TemplateContextProvider = ({ children }: Props) => {
             changeWeightValue: changeWeightValueHandler,
             changeRepsValue: changeRepsValueHandler,
             resetTemplateContext: resetTemplateContextHandler,
-            postTemplate: postTemplateHandler,
-            updateTemplate: updateTemplateHandler
+            endTemplate: endTemplateHandler
         }}>
             {children}
         </templateContext.Provider>

@@ -199,3 +199,26 @@ export const UpdateHistory = async (history: Workout): Promise<boolean> => {
     }
 }
 
+export const DeleteTemplate = async (template: Workout, templateId: number): Promise<boolean> => {
+    try {
+        const res = await fetch(`${url}/api/Main/DeleteWorkoutTemplate?workoutTemplateId=${templateId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(template),
+            cache: 'no-store'
+        });
+
+        if (res.status !== 200) {
+            throw new Error(`HTTP Error! Status: ${res.status}`);
+        }
+
+        return true;
+
+    } catch (error) {
+        console.error('There was an error deleting the template: ', error);
+        throw error;
+    }
+}
+

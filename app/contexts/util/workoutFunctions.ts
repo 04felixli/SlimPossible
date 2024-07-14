@@ -1,8 +1,15 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
-import { postCompletedWorkoutServerAction, postTemplateServerAction, updateHistoryServerAction, updateTemplateServerAction } from "@/app/global components/Library/actions";
+import { deleteTemplateServerAction, postCompletedWorkoutServerAction, postTemplateServerAction, updateHistoryServerAction, updateTemplateServerAction } from "@/app/global components/Library/actions";
 import { PostCompletedWorkout } from "@/app/global components/Library/apiCalls";
 import { formatTime } from "@/app/global components/Library/utilFunctions";
 import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
+
+export enum action {
+    post = 'post',
+    update = 'update',
+    cancel = 'cancel',
+    delete = 'delete'
+}
 
 export const addSet = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, insertionNumber: number) => {
     setWorkout(prevWorkout => {
@@ -227,7 +234,7 @@ export const startWorkout = (setWorkout: React.Dispatch<React.SetStateAction<Wor
     }, 1000);
 }
 
-export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>, post: boolean) => {
+export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>, cause: action) => {
     if (intervalIdRef.current) {
         clearInterval(intervalIdRef.current);
         intervalIdRef.current = null;
@@ -241,23 +248,22 @@ export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<Re
 
     const updatedWorkout: Workout = { ...workout, endTime: updatedEndTime };
 
-    if (post) { await postCompletedWorkoutServerAction(updatedWorkout); }
+    if (cause == action.post) { await postCompletedWorkoutServerAction(updatedWorkout); }
     resetWorkout(setWorkout);
 };
 
-export const postTemplate = async (template: Workout, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, post: boolean) => {
-    if (post) { await postTemplateServerAction(template); }
+export const endTemplate = async (template: Workout, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, cause: action) => {
+    if (cause == action.post) { await postTemplateServerAction(template); }
+    else if (cause == action.update) { await updateTemplateServerAction(template); }
+    else if (cause == action.delete) { await deleteTemplateServerAction(template); }
+
     resetWorkout(setTemplate);
 };
 
-export const updateTemplate = async (template: Workout, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, update: boolean) => {
-    if (update) { await updateTemplateServerAction(template); }
-    resetWorkout(setTemplate);
-};
+export const endHistory = async (template: Workout, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, cause: action) => {
+    if (cause == action.update) { await updateHistoryServerAction(template); }
 
-export const updateHistory = async (history: Workout, setHistory: React.Dispatch<React.SetStateAction<Workout>>, update: boolean) => {
-    if (update) { await updateHistoryServerAction(history); }
-    resetWorkout(setHistory);
+    resetWorkout(setTemplate);
 };
 
 export const resetWorkout = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>) => {

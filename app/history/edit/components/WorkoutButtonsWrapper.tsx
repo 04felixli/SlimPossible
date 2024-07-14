@@ -6,7 +6,7 @@ import WorkoutButtons from '@/app/global components/WorkoutButtons';
 import { useHistory } from '@/app/contexts/historyContext';
 
 const WorkoutButtonsWrapper = () => {
-    const { updateHistory } = useHistory();
+    const { endHistory } = useHistory();
 
     // edit history pop-ups
     const discardChangesToWorkoutHistoryPopUpContent: IPopUp = {
@@ -34,7 +34,7 @@ const WorkoutButtonsWrapper = () => {
     }
 
     return (
-        <WorkoutButtons onEndFunction={updateHistory} finishPopUpContent={saveChangesToWorkoutHistoryPopUpContent} cancelPopUpContent={discardChangesToWorkoutHistoryPopUpContent} deleteButtonPopUpContent={deleteWorkoutHistoryPopUpContent} onAddRedirectRoute={`/history/select-exercises`} onDoItRedirectURL='/history' />
+        <WorkoutButtons onEndFunction={endHistory} updatePopUpContent={saveChangesToWorkoutHistoryPopUpContent} cancelPopUpContent={discardChangesToWorkoutHistoryPopUpContent} deleteButtonPopUpContent={deleteWorkoutHistoryPopUpContent} onAddRedirectRoute={`/history/select-exercises`} onDoItRedirectURL='/history' />
     )
 }
 

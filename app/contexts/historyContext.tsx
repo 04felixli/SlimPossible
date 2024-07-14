@@ -3,7 +3,7 @@
 'use client';
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 import { Workout } from '../workout/objects/classes';
-import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout, changeStartAndEndTime, updateHistory } from './util/workoutFunctions';
+import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout, changeStartAndEndTime, endHistory, action } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 import workout from '../workout/page';
 
@@ -25,7 +25,7 @@ interface HistoryContextType {
     changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     resetHistoryContext: () => void;
     changeStartAndEndTime: (newStartTime: Date, newEndTime: Date) => void;
-    updateHistory: (update: boolean) => void;
+    endHistory: (cause: action) => void;
 }
 
 type Props = {
@@ -52,7 +52,7 @@ const HistoryContextProvider = ({ children }: Props) => {
     const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(setHistory, event, exerciseId, setNumber, insertionNumber);
     const resetHistoryContextHandler = () => resetWorkout(setHistory);
     const changeStartAndEndTimeHandler = (newStartTime: Date, newEndTime: Date) => changeStartAndEndTime(setHistory, newStartTime, newEndTime);
-    const updateHistoryHandler = (update: boolean) => updateHistory(history, setHistory, update);
+    const endHistoryHandler = (cause: action) => endHistory(history, setHistory, cause);
 
     return (
         <historyContext.Provider value={{
@@ -72,7 +72,7 @@ const HistoryContextProvider = ({ children }: Props) => {
             changeRepsValue: changeRepsValueHandler,
             resetHistoryContext: resetHistoryContextHandler,
             changeStartAndEndTime: changeStartAndEndTimeHandler,
-            updateHistory: updateHistoryHandler
+            endHistory: endHistoryHandler
         }}>
             {children}
         </historyContext.Provider>

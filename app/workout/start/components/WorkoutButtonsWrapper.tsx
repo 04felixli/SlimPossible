@@ -24,7 +24,7 @@ const WorkoutButtonsWrapper = () => {
     }
 
     return (
-        <WorkoutButtons onEndFunction={endWorkout} finishPopUpContent={finishWorkoutPopUpContent} cancelPopUpContent={cancelWorkoutPopUpContent} onAddRedirectRoute='/workout/start/selectExercises' />
+        <WorkoutButtons onEndFunction={endWorkout} postPopUpContent={finishWorkoutPopUpContent} cancelPopUpContent={cancelWorkoutPopUpContent} onAddRedirectRoute='/workout/start/selectExercises' />
     )
 }
 

@@ -1,7 +1,7 @@
 'use client';
 import React, { createContext, useState, ReactNode, useContext, useRef } from 'react';
 import { Workout } from '../workout/objects/classes';
-import { addExercises, addSet, changeRepsValue, changeWeightUnit, changeWeightValue, endWorkout, multipleExerciseSelect, removeExercise, replaceExercise, singleExerciseSelect, startWorkout, toggleCompletedSet, toggleNotes, updateNotes } from './util/workoutFunctions';
+import { action, addExercises, addSet, changeRepsValue, changeWeightUnit, changeWeightValue, endWorkout, multipleExerciseSelect, removeExercise, replaceExercise, singleExerciseSelect, startWorkout, toggleCompletedSet, toggleNotes, updateNotes } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 
 // Define the shape of the context
@@ -21,16 +21,17 @@ interface WorkoutContextType {
     changeWeightValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     startWorkout: () => void;
-    endWorkout: (post: boolean) => void;
+    endWorkout: (cause: action) => void;
 }
 
 type Props = {
     children: ReactNode;
 }
 
-// Create the context with a default value
+// Create the context with the type of WorkoutContextType | null with a default value of null
 const workoutContext = createContext<WorkoutContextType | null>(null);
 
+// A function that returns the contextProvider to wrap other components in
 const WorkoutContextProvider = ({ children }: Props) => {
     const [workout, setWorkout] = useState<Workout>(new Workout());
     const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
@@ -48,11 +49,11 @@ const WorkoutContextProvider = ({ children }: Props) => {
     const changeWeightValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeWeightValue(setWorkout, event, exerciseId, setNumber, insertionNumber);
     const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(setWorkout, event, exerciseId, setNumber, insertionNumber);
     const startWorkoutHandler = () => startWorkout(setWorkout, intervalIdRef);
-    const endWorkoutHandler = (post: boolean) => endWorkout(workout, setWorkout, intervalIdRef, post);
+    const endWorkoutHandler = (cause: action) => endWorkout(workout, setWorkout, intervalIdRef, cause);
 
     return (
-        <workoutContext.Provider value={{
-            workout,
+        <workoutContext.Provider value={{ // this value sets the createContext to be of type 
+            workout,                      // WorkoutContextType instead of null
             setWorkout,
             addSet: addSetHandler,
             removeExercise: removeExerciseHandler,
