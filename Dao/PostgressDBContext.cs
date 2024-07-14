@@ -57,7 +57,7 @@ namespace ftDB.Dao
                 entity.ToTable("sets");
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id").IsRequired();
                 entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamptz").HasColumnName("created_date").IsRequired();
-                entity.Property(e => e.Weight).HasColumnType("integer").HasColumnName("weight").IsRequired();
+                entity.Property(e => e.Weight).HasColumnType("double precision").HasColumnName("weight").IsRequired();
                 entity.Property(e => e.Reps).HasColumnType("integer").HasColumnName("reps").IsRequired();
                 entity.Property(e => e.SetNumber).HasColumnType("integer").HasColumnName("set_number").IsRequired();
                 entity.Property(e => e.ExerciseInWorkoutId).HasColumnType("integer").HasColumnName("exercise_in_workout_id").IsRequired();
@@ -112,7 +112,7 @@ namespace ftDB.Dao
                 entity.ToTable("set_templates");
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id").IsRequired();
                 entity.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamptz").HasColumnName("created_date").IsRequired();
-                entity.Property(e => e.Weight).HasColumnType("integer").HasColumnName("weight").IsRequired();
+                entity.Property(e => e.Weight).HasColumnType("double precision").HasColumnName("weight").IsRequired();
                 entity.Property(e => e.Reps).HasColumnType("integer").HasColumnName("reps").IsRequired();
                 entity.Property(e => e.SetNumber).HasColumnType("integer").HasColumnName("set_number").IsRequired();
                 entity.Property(e => e.ExerciseTemplateId).HasColumnType("integer").HasColumnName("exercise_template_id").IsRequired();
