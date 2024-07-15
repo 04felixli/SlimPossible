@@ -222,3 +222,26 @@ export const DeleteTemplate = async (template: Workout, templateId: number): Pro
     }
 }
 
+export const DeleteHistory = async (workout: Workout, workoutId: number): Promise<boolean> => {
+    try {
+        const res = await fetch(`${url}/api/Main/DeleteWorkoutHistory?workoutHistoryId=${workoutId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(workout),
+            cache: 'no-store'
+        });
+
+        if (res.status !== 200) {
+            throw new Error(`HTTP Error! Status: ${res.status}`);
+        }
+
+        return true;
+
+    } catch (error) {
+        console.error('There was an error deleting the workout: ', error);
+        throw error;
+    }
+}
+

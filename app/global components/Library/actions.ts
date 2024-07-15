@@ -1,7 +1,7 @@
 'use server'
 
 import { NewExercise } from "@/app/exercises/components/PopUps/AddExercisePopUp";
-import { DeleteTemplate, PostCompletedWorkout, PostNewExercise, PostTemplate, UpdateHistory, UpdateTemplate } from "./apiCalls";
+import { DeleteHistory, DeleteTemplate, PostCompletedWorkout, PostNewExercise, PostTemplate, UpdateHistory, UpdateTemplate } from "./apiCalls";
 import { revalidatePath } from "next/cache";
 import { Workout } from "@/app/workout/objects/classes";
 
@@ -38,5 +38,11 @@ export const updateHistoryServerAction = async (history: Workout): Promise<boole
 export const deleteTemplateServerAction = async (template: Workout): Promise<boolean> => {
     const posted = await DeleteTemplate(template, template.id!);
     revalidatePath("/workout");
+    return posted;
+}
+
+export const deleteHistoryServerAction = async (history: Workout): Promise<boolean> => {
+    const posted = await DeleteHistory(history, history.id!);
+    revalidatePath("/history");
     return posted;
 }

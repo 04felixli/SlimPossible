@@ -1,5 +1,5 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
-import { deleteTemplateServerAction, postCompletedWorkoutServerAction, postTemplateServerAction, updateHistoryServerAction, updateTemplateServerAction } from "@/app/global components/Library/actions";
+import { deleteHistoryServerAction, deleteTemplateServerAction, postCompletedWorkoutServerAction, postTemplateServerAction, updateHistoryServerAction, updateTemplateServerAction } from "@/app/global components/Library/actions";
 import { PostCompletedWorkout } from "@/app/global components/Library/apiCalls";
 import { formatTime } from "@/app/global components/Library/utilFunctions";
 import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
@@ -260,10 +260,11 @@ export const endTemplate = async (template: Workout, setTemplate: React.Dispatch
     resetWorkout(setTemplate);
 };
 
-export const endHistory = async (template: Workout, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, cause: action) => {
-    if (cause == action.update) { await updateHistoryServerAction(template); }
-
-    resetWorkout(setTemplate);
+export const endHistory = async (history: Workout, setHistory: React.Dispatch<React.SetStateAction<Workout>>, cause: action) => {
+    if (cause == action.update) { await updateHistoryServerAction(history); }
+    if (cause == action.delete) { await deleteHistoryServerAction(history); }
+    console.log(cause)
+    resetWorkout(setHistory);
 };
 
 export const resetWorkout = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>) => {
