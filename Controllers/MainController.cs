@@ -369,5 +369,27 @@ namespace ftDB.Controllers
 
             return response;
         }
+
+        [EnableCors]
+        [HttpDelete("DeleteWorkoutHistory")]
+        public async Task<ResponseBase> DeleteWorkoutHistoryAsync([FromQuery] int workoutHistoryId)
+        {
+            ResponseBase response = new();
+
+            try
+            {
+                response = await _repo.DeleteWorkoutHistoryAsync(workoutHistoryId);
+            }
+            catch (CustomExceptionModel ex)
+            {
+                response.SetResponseFailed(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
+            }
+
+            return response;
+        }
     }
 }

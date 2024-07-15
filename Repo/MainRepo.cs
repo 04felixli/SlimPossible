@@ -232,6 +232,24 @@ namespace ftDB.Repo
             return resp;
         }
 
+        public async Task<ResponseBase> DeleteWorkoutHistoryAsync(int workoutHistoryId)
+        {
+            ResponseBase resp = new();
+
+            bool isDeleted = await _dao.DeleteWorkoutHistoryAsync(workoutHistoryId);
+
+            if (isDeleted)
+            {
+                resp.SetResponseSuccess();
+
+                return resp;
+            }
+
+            resp.SetResponseSuccessWithMsg("There was nothing to delete");
+
+            return resp;
+        }
+
         public async Task<ResponseBase> AddExerciseAsync(RequestModelAddExercise exerciseToAdd)
         {
             ResponseBase resp = new();

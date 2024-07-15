@@ -23,6 +23,7 @@ namespace ftDB.Interfaces
         Task<ResponseBase> AddExerciseAsync(RequestModelAddExercise exerciseToAdd);
         Task<ResponseBase> UpdateTemplateAsync(RequestModelUpdateTemplate workoutTemplate);
         Task<ResponseBase> UpdateHistoryAsync(RequestModelUpdateHistory history);
+        Task<ResponseBase> DeleteWorkoutHistoryAsync(int workoutHistoryId);
 
     }
 }

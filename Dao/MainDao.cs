@@ -314,6 +314,24 @@ namespace ftDB.Dao
             return false;
         }
 
+        public async Task<bool> DeleteWorkoutHistoryAsync(int workoutHistoryId)
+        {
+            CompletedWorkout? historyToDelete = await _context.CompletedWorkouts.FindAsync(workoutHistoryId);
+
+            if (historyToDelete != null)
+            {
+                // Remove the entity from the DbSet
+                _context.CompletedWorkouts.Remove(historyToDelete);
+
+                // Save changes to the database
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
+        }
+
         public async Task AddExerciseToDbAsync(RequestModelAddExercise exerciseToAdd)
         {
             Exercise exercise = new(exerciseToAdd.Name, exerciseToAdd.Equipment, exerciseToAdd.TargetMuscle);
