@@ -5,6 +5,7 @@
 body {
   background: linear-gradient(to bottom, #808080, #383838);
   color: white;
+  height: 100%;
 }
 
 .card-bg {

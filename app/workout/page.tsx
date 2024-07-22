@@ -1,7 +1,7 @@
 import React from 'react'
 import TemplateCards from './components/TemplateCards'
 import PageName from '../global components/PageName';
-import PageLayout from '../global components/layout';
+import PageLayout from '../global components/PageLayouts/layout';
 import "../globals.css";
 import Button from '../global components/Buttons/Button';
 import Link from 'next/link';

@@ -1,21 +1,21 @@
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import { getKindeServerSession, LogoutLink } from '@kinde-oss/kinde-auth-nextjs/server';
 import Link from 'next/link'
 import { redirect } from 'next/navigation';
 import React from 'react'
+import SideBar from '../global components/Navigation/SideBar';
+import SideBarItem from '../global components/Navigation/SideBarItem';
+import { FaCalendar, FaDumbbell, FaPlus } from 'react-icons/fa';
+import { MdOutlineDashboard } from "react-icons/md";
+import PageLayout from '../global components/PageLayouts/layout';
 
 const dashboard = async () => {
-    const { isAuthenticated } = getKindeServerSession();
-    const isLoggedIn = await isAuthenticated();
-    if (!isLoggedIn) {
-        redirect("api/auth/login");
-    }
     return (
-        <>
-            <div className="text-xl">You should not be able to see this page</div>
-            <Link href="/workout">Workout</Link>
-            <Link href="/history">History</Link>
-            <Link href="/exercises">Exercises</Link>
-        </>
+        <PageLayout>
+            <div>
+                hi
+            </div>
+        </PageLayout>
+
     )
 }
 

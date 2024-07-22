@@ -1,5 +1,5 @@
 import React from 'react'
-import PageLayout from '../global components/layout'
+import PageLayout from '../global components/PageLayouts/layout'
 import PageName from '../global components/PageName'
 import Button from '../global components/Buttons/Button'
 import HistoryCards from './components/HistoryCards'

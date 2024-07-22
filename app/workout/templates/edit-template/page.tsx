@@ -1,5 +1,5 @@
 import React from 'react'
-import PageLayout from '@/app/global components/layout';
+import PageLayout from '@/app/global components/PageLayouts/layout';
 import ExerciseTrackingCardsWrapper from '../components/ExerciseTrackingCardsWrapper';
 import WorkoutButtonsWrapper from '../components/WorkoutButtonsWrapper';
 import ExistingTemplateName from './components/ExistingTemplateName';

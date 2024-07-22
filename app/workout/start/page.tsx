@@ -1,5 +1,5 @@
 import React from 'react'
-import PageLayout from '@/app/global components/layout'
+import PageLayout from '@/app/global components/PageLayouts/layout'
 import PageName from '@/app/global components/PageName'
 import { GetWorkoutTime } from '@/app/global components/Library/utilFunctions'
 import WorkoutTrackingCards from './components/WorkoutTrackingCards'

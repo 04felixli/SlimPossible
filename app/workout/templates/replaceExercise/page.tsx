@@ -1,5 +1,5 @@
 import Button from '@/app/global components/Buttons/Button';
-import PageLayout from '@/app/global components/layout';
+import PageLayout from '@/app/global components/PageLayouts/layout';
 import PageName from '@/app/global components/PageName';
 import SearchBar from '@/app/global components/SearchBar';
 import React from 'react'
