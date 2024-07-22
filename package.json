@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "'": "file:../../../../../../../../utils/supabase/middleware'",
+    "@kinde-oss/kinde-auth-nextjs": "^2.3.6",
     "@types/'": "file:../../../../../../../../utils/supabase/middleware'",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.1.9",
