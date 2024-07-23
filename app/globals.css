@@ -35,3 +35,22 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+body {
+  -ms-overflow-style: none;
+}
+
+/* Hide scrollbar for FireFox */
+html {
+  scrollbar-width: none;
+
+  /* Smooth section navigation */
+  scroll-behavior: smooth;
+  scroll-padding: var(--scroll-padding, 6rem);
+}

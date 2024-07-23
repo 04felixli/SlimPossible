@@ -10,14 +10,15 @@ import { CiLogout } from "react-icons/ci";
 
 interface Props {
     children: ReactNode;
+    className?: string;
 }
 
-const SideBar = ({ children }: Props) => {
+const SideBar = ({ children, className }: Props) => {
     const { expanded, setExpanded } = useSideBarContext();
     const { user, isAuthenticated, isLoading } = useKindeBrowserClient();
 
     return (
-        <aside className='fixed top-0 left-0 h-full'>
+        <aside className={`fixed top-0 left-0 h-full ${className}`}>
             {isAuthenticated && <>
                 <nav className='h-full flex flex-col bg-black rounded-r-md shadow-sm p-4'>
                     <div className={`rounded-md w-full my-2 px-3`}>
@@ -33,14 +34,8 @@ const SideBar = ({ children }: Props) => {
 
                     <ul className={`flex-1 px-3`}>{children}</ul>
 
-                    {/* {isAuthenticated &&
-                        <LogoutLink className='border rounded-md px-3 flex items-center justify-center py-2 mb-3 hover:scale-105 hover:bg-card-bg-gradient-light hover:duration-300'>
-                            Log Out
-                        </LogoutLink>
-                    } */}
-
                     <div className={`rounded-md w-full my-2 px-3 hover:scale-105 hover:bg-card-bg-gradient-light hover:duration-300`}>
-                        <div className={`relative px-3 py-3 flex items-center font-medium rounded-md transition-colors group`}>
+                        <LogoutLink className={`relative px-3 py-3 flex items-center font-medium rounded-md transition-colors group`}>
                             <span className={`overflow-hidden transition-all text-nowrap ${expanded ? "w-52 ml-3" : "w-0"}`}>Log out</span>
                             <CiLogout
                                 className={`h-5 w-5 flex-shrink-0 cursor-pointer`}
@@ -52,7 +47,7 @@ const SideBar = ({ children }: Props) => {
                                     Log out
                                 </div>
                             )}
-                        </div>
+                        </LogoutLink>
                     </div>
 
 

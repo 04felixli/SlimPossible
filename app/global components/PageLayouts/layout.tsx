@@ -6,6 +6,8 @@ import SideBarContextProvider from '../../contexts/sideBarContext';
 import PageContent from './PageContent';
 import { FaPlus, FaCalendar, FaDumbbell } from 'react-icons/fa';
 import { MdOutlineDashboard } from 'react-icons/md';
+import MobileMenu from '../Navigation/MobileMenu';
+import MobileMenuItem from '../Navigation/MobileMenuItem';
 
 interface LayoutProps {
     children: ReactNode;
@@ -22,7 +24,7 @@ const PageLayout = ({ children }: LayoutProps) => {
     return (
         <div className='w-full h-full'>
             <SideBarContextProvider>
-                <SideBar>
+                <SideBar className='max-lg:hidden'>
                     {navLinks.map((link, index) => (
                         <SideBarItem
                             key={index}
@@ -32,6 +34,16 @@ const PageLayout = ({ children }: LayoutProps) => {
                         />
                     ))}
                 </SideBar>
+                <MobileMenu className='lg:hidden'>
+                    {navLinks.map((link, index) => (
+                        <MobileMenuItem
+                            key={index}
+                            page={link.page}
+                            icon={link.icon}
+                            text={link.name}
+                        />
+                    ))}
+                </MobileMenu>
                 <PageContent>
                     {children}
                 </PageContent>
