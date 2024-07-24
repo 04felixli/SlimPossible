@@ -136,4 +136,16 @@ export const convertISetInExerciseInWorkoutHistoryToWorkoutSet = (rawSet: ISetIn
     return set;
 }
 
+// Helper function to set a cookie
+export const setCookies = (name: string, value: Workout, days: number) => {
+    const expires = new Date();
+    expires.setDate(expires.getDate() + days);
+    document.cookie = `${name}=${JSON.stringify(value)}; expires=${expires.toUTCString()}; path=/;`;
+}
+
+// Helper function to delete a cookie
+export const deleteCookies = (name: string) => {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+}
+
 

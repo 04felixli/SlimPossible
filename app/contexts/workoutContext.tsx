@@ -1,7 +1,7 @@
 'use client';
 import React, { createContext, useState, ReactNode, useContext, useRef } from 'react';
 import { Workout } from '../workout/objects/classes';
-import { action, addExercises, addSet, changeRepsValue, changeWeightUnit, changeWeightValue, endWorkout, multipleExerciseSelect, removeExercise, replaceExercise, singleExerciseSelect, startWorkout, toggleCompletedSet, toggleNotes, updateNotes } from './util/workoutFunctions';
+import { action, addExercises, addSet, changeRepsValue, changeWeightUnit, changeWeightValue, cookies, endWorkout, multipleExerciseSelect, removeExercise, replaceExercise, singleExerciseSelect, startWorkout, toggleCompletedSet, toggleNotes, updateNotes } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 
 // Define the shape of the context
@@ -37,18 +37,18 @@ const WorkoutContextProvider = ({ children }: Props) => {
     const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
 
     const addSetHandler = (exerciseId: number, insertionNumber: number) => addSet(setWorkout, exerciseId, insertionNumber);
-    const removeExerciseHandler = (exerciseId: number, insertionNumber: number) => removeExercise(setWorkout, exerciseId, insertionNumber);
+    const removeExerciseHandler = (exerciseId: number, insertionNumber: number) => removeExercise(cookies.workout, setWorkout, exerciseId, insertionNumber);
     const changeWeightUnitHandler = (exerciseId: number, insertionNumber: number) => changeWeightUnit(setWorkout, exerciseId, insertionNumber);
     const updateNotesHandler = (exerciseId: number, value: string, insertionNumber: number) => updateNotes(setWorkout, exerciseId, value, insertionNumber);
     const toggleNotesHandler = (exerciseId: number, insertionNumber: number) => toggleNotes(setWorkout, exerciseId, insertionNumber);
-    const addExercisesHandler = () => addExercises(setWorkout)
-    const replaceExerciseHandler = (exerciseToReplaceId?: number, insertionNumberOfExerciseToReplace?: number) => replaceExercise(setWorkout, exerciseToReplaceId, insertionNumberOfExerciseToReplace);
+    const addExercisesHandler = () => addExercises(cookies.workout, setWorkout)
+    const replaceExerciseHandler = (exerciseToReplaceId?: number, insertionNumberOfExerciseToReplace?: number) => replaceExercise(cookies.workout, setWorkout, exerciseToReplaceId, insertionNumberOfExerciseToReplace);
     const multipleExerciseSelectHandler = (selectedExercise: ExerciseInList) => multipleExerciseSelect(workout, setWorkout, selectedExercise);
     const singleExerciseSelectHandler = (selectedExercise: ExerciseInList) => singleExerciseSelect(workout, setWorkout, selectedExercise);
     const toggleCompletedSetHandler = (exerciseId: number, setNumber: number, insertionNumber: number) => toggleCompletedSet(setWorkout, exerciseId, setNumber, insertionNumber);
     const changeWeightValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeWeightValue(setWorkout, event, exerciseId, setNumber, insertionNumber);
     const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(setWorkout, event, exerciseId, setNumber, insertionNumber);
-    const startWorkoutHandler = () => startWorkout(setWorkout, intervalIdRef);
+    const startWorkoutHandler = () => startWorkout(cookies.workout, setWorkout, intervalIdRef);
     const endWorkoutHandler = (cause: action) => endWorkout(workout, setWorkout, intervalIdRef, cause);
 
     return (
