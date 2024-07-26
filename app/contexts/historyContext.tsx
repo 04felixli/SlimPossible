@@ -3,7 +3,7 @@
 'use client';
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 import { Workout } from '../workout/objects/classes';
-import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout, changeStartAndEndTime, endHistory, action, cookies } from './util/workoutFunctions';
+import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout, changeStartAndEndTime, endHistory, action, localStorageKeys, cookieKeys } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 import workout from '../workout/page';
 
@@ -38,18 +38,18 @@ const historyContext = createContext<HistoryContextType | null>(null);
 const HistoryContextProvider = ({ children }: Props) => {
     const [history, setHistory] = useState<Workout>(new Workout());
 
-    const addSetHandler = (exerciseId: number, insertionNumber: number) => addSet(setHistory, exerciseId, insertionNumber);
-    const removeExerciseHandler = (exerciseId: number, insertionNumber: number) => removeExercise(cookies.history, setHistory, exerciseId, insertionNumber);
-    const changeWeightUnitHandler = (exerciseId: number, insertionNumber: number) => changeWeightUnit(setHistory, exerciseId, insertionNumber);
-    const updateNotesHandler = (exerciseId: number, value: string, insertionNumber: number) => updateNotes(setHistory, exerciseId, value, insertionNumber);
-    const toggleNotesHandler = (exerciseId: number, insertionNumber: number) => toggleNotes(setHistory, exerciseId, insertionNumber);
-    const addExercisesHandler = () => addExercises(cookies.history, setHistory)
-    const replaceExerciseHandler = (exerciseToReplaceId?: number, insertionNumberOfExerciseToReplace?: number) => replaceExercise(cookies.history, setHistory, exerciseToReplaceId, insertionNumberOfExerciseToReplace);
-    const multipleExerciseSelectHandler = (selectedExercise: ExerciseInList) => multipleExerciseSelect(history, setHistory, selectedExercise);
-    const singleExerciseSelectHandler = (selectedExercise: ExerciseInList) => singleExerciseSelect(history, setHistory, selectedExercise);
-    const toggleCompletedSetHandler = (exerciseId: number, setNumber: number, insertionNumber: number) => toggleCompletedSet(setHistory, exerciseId, setNumber, insertionNumber);
-    const changeWeightValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeWeightValue(setHistory, event, exerciseId, setNumber, insertionNumber);
-    const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(setHistory, event, exerciseId, setNumber, insertionNumber);
+    const addSetHandler = (exerciseId: number, insertionNumber: number) => addSet(localStorageKeys.history, setHistory, exerciseId, insertionNumber);
+    const removeExerciseHandler = (exerciseId: number, insertionNumber: number) => removeExercise(cookieKeys.history, localStorageKeys.history, setHistory, exerciseId, insertionNumber);
+    const changeWeightUnitHandler = (exerciseId: number, insertionNumber: number) => changeWeightUnit(localStorageKeys.history, setHistory, exerciseId, insertionNumber);
+    const updateNotesHandler = (exerciseId: number, value: string, insertionNumber: number) => updateNotes(localStorageKeys.history, setHistory, exerciseId, value, insertionNumber);
+    const toggleNotesHandler = (exerciseId: number, insertionNumber: number) => toggleNotes(localStorageKeys.history, setHistory, exerciseId, insertionNumber);
+    const addExercisesHandler = () => addExercises(cookieKeys.history, localStorageKeys.history, setHistory)
+    const replaceExerciseHandler = (exerciseToReplaceId?: number, insertionNumberOfExerciseToReplace?: number) => replaceExercise(cookieKeys.history, localStorageKeys.history, setHistory, exerciseToReplaceId, insertionNumberOfExerciseToReplace);
+    const multipleExerciseSelectHandler = (selectedExercise: ExerciseInList) => multipleExerciseSelect(localStorageKeys.history, history, setHistory, selectedExercise);
+    const singleExerciseSelectHandler = (selectedExercise: ExerciseInList) => singleExerciseSelect(localStorageKeys.history, history, setHistory, selectedExercise);
+    const toggleCompletedSetHandler = (exerciseId: number, setNumber: number, insertionNumber: number) => toggleCompletedSet(localStorageKeys.history, setHistory, exerciseId, setNumber, insertionNumber);
+    const changeWeightValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeWeightValue(localStorageKeys.history, setHistory, event, exerciseId, setNumber, insertionNumber);
+    const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(localStorageKeys.history, setHistory, event, exerciseId, setNumber, insertionNumber);
     // const resetHistoryContextHandler = () => resetWorkout(setHistory);
     const changeStartAndEndTimeHandler = (newStartTime: Date, newEndTime: Date) => changeStartAndEndTime(setHistory, newStartTime, newEndTime);
     const endHistoryHandler = (cause: action) => endHistory(history, setHistory, cause);

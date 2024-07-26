@@ -3,14 +3,22 @@ import React, { useEffect } from 'react';
 import '../../../globals.css';
 import { useWorkout } from '@/app/contexts/workoutContext';
 import { formatDuration } from '@/app/global components/Library/utilFunctions';
+import { localStorageKeys } from '@/app/contexts/util/workoutFunctions';
+import { Workout } from '../../objects/classes';
 
 const Timer = () => {
-    const { workout, startWorkout } = useWorkout();
+    const { workout, startWorkout, setWorkout } = useWorkout();
 
     useEffect(() => {
-        if (!workout.startTime) {
+        const workoutInProgress = localStorage.getItem(localStorageKeys.workout);
+
+        if (!workoutInProgress && !workout.startTime) {
             startWorkout();
+            return;
         }
+
+        const parsedWorkout: Workout = JSON.parse(workoutInProgress!);
+        setWorkout({ ...parsedWorkout, startTime: new Date(parsedWorkout.startTime!) });
     }, []);
 
     return (

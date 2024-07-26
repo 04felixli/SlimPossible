@@ -79,3 +79,7 @@ export const deleteHistoryServerAction = async (history: Workout): Promise<boole
     revalidatePath("/history");
     return posted;
 }
+
+export const navigateTo = async (path: string) => {
+    redirect(path);
+}

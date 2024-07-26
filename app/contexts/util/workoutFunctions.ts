@@ -1,7 +1,7 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
 import { deleteHistoryServerAction, deleteTemplateServerAction, postCompletedWorkoutServerAction, postTemplateServerAction, updateHistoryServerAction, updateTemplateServerAction } from "@/app/global components/Library/actions";
 import { PostCompletedWorkout } from "@/app/global components/Library/apiCalls";
-import { deleteCookies, formatTime, setCookies } from "@/app/global components/Library/utilFunctions";
+import { deleteCookies, deleteLocalStorage, formatTime, setCookies, setLocalStorage } from "@/app/global components/Library/utilFunctions";
 import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
 
 export enum action {
@@ -11,13 +11,26 @@ export enum action {
     delete = 'delete'
 }
 
-export enum cookies {
-    workout = 'workoutCookie',
-    history = 'historyCookie',
-    template = 'templateCookie',
+export enum localStorageKeys {
+    workout = 'workoutObject',
+    history = 'historyObject',
+    template = 'templateObject',
 }
 
-export const addSet = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, insertionNumber: number) => {
+export enum cookieKeys {
+    workout = 'exercisesInWorkout',
+    history = 'exercisesInHistory',
+    template = 'exercisesInTemplate',
+}
+
+export interface CookieValueType {
+    exerciseId: number;
+    insertionNumber: number;
+}
+
+const cookieExpTime: number = 1;
+
+export const addSet = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, insertionNumber: number) => {
     setWorkout(prevWorkout => {
         const updatedExercises = prevWorkout.exercises.map(exercise => {
             if (exercise.id === exerciseId && exercise.insertionNumber === insertionNumber) {
@@ -27,20 +40,29 @@ export const addSet = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>
             }
             return exercise;
         })
-        return { ...prevWorkout, exercises: updatedExercises };
+        const updatedWorkout = { ...prevWorkout, exercises: updatedExercises };
+        setLocalStorage(localStorageKey, updatedWorkout);
+        return updatedWorkout;
     });
 }
 
-export const removeExercise = (cookieName: cookies, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, insertionNumber: number) => {
+export const removeExercise = (cookieKey: cookieKeys, localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, insertionNumber: number) => {
     setWorkout(prevWorkout => {
         const updatedExercises = prevWorkout.exercises.filter(exercise => exercise.id !== exerciseId || exercise.insertionNumber !== insertionNumber);
         const updatedWorkout = { ...prevWorkout, exercises: updatedExercises }
-        setCookies(cookieName, updatedWorkout, 1);
+        setLocalStorage(localStorageKey, updatedWorkout);
+        const cookieValues: CookieValueType[] = updatedWorkout.exercises.map(exercise => {
+            return {
+                exerciseId: exercise.id,
+                insertionNumber: exercise.insertionNumber
+            };
+        });
+        setCookies(cookieKey, cookieValues, cookieExpTime);
         return updatedWorkout;
     })
 }
 
-export const changeWeightUnit = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, insertionNumber: number) => {
+export const changeWeightUnit = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, insertionNumber: number) => {
     const lbsToKgs = (lbs: number): number => {
         const kgs = lbs * 0.45359237;
         return +kgs.toFixed(2);
@@ -65,11 +87,13 @@ export const changeWeightUnit = (setWorkout: React.Dispatch<React.SetStateAction
             }
             return exercise;
         })
-        return { ...prevWorkout, exercises: updatedExercises };
+        const updatedWorkout = { ...prevWorkout, exercises: updatedExercises };
+        setLocalStorage(localStorageKey, updatedWorkout);
+        return updatedWorkout;
     })
 }
 
-export const updateNotes = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, value: string, insertionNumber: number): void => {
+export const updateNotes = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, value: string, insertionNumber: number): void => {
     setWorkout(prevWorkout => {
         const updatedExercises = prevWorkout.exercises.map(exercise => {
             if (exercise.id === exerciseId && exercise.insertionNumber === insertionNumber) {
@@ -77,11 +101,13 @@ export const updateNotes = (setWorkout: React.Dispatch<React.SetStateAction<Work
             }
             return exercise;
         })
-        return { ...prevWorkout, exercises: updatedExercises };
+        const updatedWorkout = { ...prevWorkout, exercises: updatedExercises };
+        setLocalStorage(localStorageKey, updatedWorkout);
+        return updatedWorkout;
     })
 }
 
-export const toggleNotes = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, insertionNumber: number): void => {
+export const toggleNotes = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, insertionNumber: number): void => {
     setWorkout(prevWorkout => {
         const updatedExercises = prevWorkout.exercises.map(exercise => {
             if (exercise.id === exerciseId && exercise.insertionNumber === insertionNumber) {
@@ -89,11 +115,13 @@ export const toggleNotes = (setWorkout: React.Dispatch<React.SetStateAction<Work
             }
             return exercise;
         })
-        return { ...prevWorkout, exercises: updatedExercises };
+        const updatedWorkout = { ...prevWorkout, exercises: updatedExercises };
+        setLocalStorage(localStorageKey, updatedWorkout);
+        return updatedWorkout;
     })
 }
 
-export const addExercises = (cookieName: cookies, setWorkout: React.Dispatch<React.SetStateAction<Workout>>) => {
+export const addExercises = (cookieKey: cookieKeys, localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>) => {
     setWorkout(prevWorkout => {
         // Update each exercises insertion number
         const processedExercisesToAdd = prevWorkout.exercisesToAdd.map((exercise, index) => {
@@ -105,12 +133,19 @@ export const addExercises = (cookieName: cookies, setWorkout: React.Dispatch<Rea
         // 2. Clear workout.exercisesToAdd
         // 3. Increment workout.totalNumExercisesAddedEver by the number of workouts added
         const updatedWorkout = { ...prevWorkout, exercises: [...prevWorkout.exercises, ...processedExercisesToAdd], exercisesToAdd: [], totalNumExercisesAddedEver: prevWorkout.totalNumExercisesAddedEver + processedExercisesToAdd.length };
-        setCookies(cookieName, updatedWorkout, 1);
+        setLocalStorage(localStorageKey, updatedWorkout);
+        const cookieValues: CookieValueType[] = updatedWorkout.exercises.map(exercise => {
+            return {
+                exerciseId: exercise.id,
+                insertionNumber: exercise.insertionNumber
+            };
+        });
+        setCookies(cookieKey, cookieValues, cookieExpTime);
         return updatedWorkout;
     })
 }
 
-export const replaceExercise = (cookieName: cookies, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseToReplaceId?: number, insertionNumberOfExerciseToReplace?: number) => {
+export const replaceExercise = (cookieKey: cookieKeys, localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseToReplaceId?: number, insertionNumberOfExerciseToReplace?: number) => {
     setWorkout(prevWorkout => {
         // Update the exercise to replace with workout.replacementExercise
         const updatedExercises = prevWorkout.exercises.map(exercise => {
@@ -126,13 +161,20 @@ export const replaceExercise = (cookieName: cookies, setWorkout: React.Dispatch<
         // 1. Update workout.exercises 
         // 2. Clear workout.replacementExercise
         const updatedWorkout = { ...prevWorkout, exercises: updatedExercises, replacementExercise: undefined };
-        setCookies(cookieName, updatedWorkout, 1);
+        setLocalStorage(localStorageKey, updatedWorkout);
+        const cookieValues: CookieValueType[] = updatedWorkout.exercises.map(exercise => {
+            return {
+                exerciseId: exercise.id,
+                insertionNumber: exercise.insertionNumber
+            };
+        });
+        setCookies(cookieKey, cookieValues, cookieExpTime);
         return updatedWorkout;
     })
 }
 
 // Set selected exercises
-export const multipleExerciseSelect = (workout: Workout, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, selectedExercise: ExerciseInList): void => {
+export const multipleExerciseSelect = (localStorageKey: localStorageKeys, workout: Workout, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, selectedExercise: ExerciseInList): void => {
     // Create a new exercise object from selectedExercise
     const exercise = new Exercise(selectedExercise.id, selectedExercise.name, selectedExercise.equipment, selectedExercise.targetMuscle, 'lbs');
 
@@ -142,28 +184,44 @@ export const multipleExerciseSelect = (workout: Workout, setWorkout: React.Dispa
     if (isSelected) {
         // Remove the exercise if it's already selected
         const updatedExercises = workout.exercisesToAdd.filter(selected => selected.id !== exercise.id);
-        setWorkout({ ...workout, exercisesToAdd: updatedExercises });
+        setWorkout(prevWorkout => {
+            const updatedWorkout = { ...prevWorkout, exercisesToAdd: updatedExercises };
+            setLocalStorage(localStorageKey, updatedWorkout);
+            return updatedWorkout;
+        });
     } else {
         // Add the exercise if it's not already selected
         const updatedExercises = [...workout.exercisesToAdd, exercise];
-        setWorkout({ ...workout, exercisesToAdd: updatedExercises });
+        setWorkout(prevWorkout => {
+            const updatedWorkout = { ...prevWorkout, exercisesToAdd: updatedExercises };
+            setLocalStorage(localStorageKey, updatedWorkout);
+            return updatedWorkout;
+        });
     }
 };
 
 // Set replacement exercise
-export const singleExerciseSelect = (workout: Workout, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, selectedExercise: ExerciseInList): void => {
+export const singleExerciseSelect = (localStorageKey: localStorageKeys, workout: Workout, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, selectedExercise: ExerciseInList): void => {
     const exercise = new Exercise(selectedExercise.id, selectedExercise.name, selectedExercise.equipment, selectedExercise.targetMuscle, 'lbs');
     const isSelected = workout.replacementExercise?.id === exercise.id ? true : false;
 
     if (isSelected) {
-        setWorkout({ ...workout, replacementExercise: undefined });
+        setWorkout(prevWorkout => {
+            const updatedWorkout = { ...prevWorkout, replacementExercise: undefined };
+            setLocalStorage(localStorageKey, updatedWorkout);
+            return updatedWorkout;
+        });
     } else {
         const exercise = new Exercise(selectedExercise.id, selectedExercise.name, selectedExercise.equipment, selectedExercise.targetMuscle, 'lbs');
-        setWorkout({ ...workout, replacementExercise: exercise });
+        setWorkout(prevWorkout => {
+            const updatedWorkout = { ...prevWorkout, replacementExercise: exercise };
+            setLocalStorage(localStorageKey, updatedWorkout);
+            return updatedWorkout;
+        });
     }
 };
 
-export const toggleCompletedSet = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, setNumber: number, insertionNumber: number) => {
+export const toggleCompletedSet = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, setNumber: number, insertionNumber: number) => {
     setWorkout(prevWorkout => {
         const updatedExercises = prevWorkout.exercises.map(ex => {
             if (ex.id === exerciseId && ex.insertionNumber === insertionNumber) {
@@ -177,11 +235,13 @@ export const toggleCompletedSet = (setWorkout: React.Dispatch<React.SetStateActi
             }
             return ex;
         })
-        return { ...prevWorkout, exercises: updatedExercises };
+        const updatedWorkout = { ...prevWorkout, exercises: updatedExercises };
+        setLocalStorage(localStorageKey, updatedWorkout);
+        return updatedWorkout;
     })
 }
 
-export const changeWeightValue = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => {
+export const changeWeightValue = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => {
     const newWeight = event.target.value ? parseFloat(event.target.value) : -1;
 
     setWorkout(prevWorkout => {
@@ -199,11 +259,13 @@ export const changeWeightValue = (setWorkout: React.Dispatch<React.SetStateActio
             }
             return ex
         })
-        return { ...prevWorkout, exercises: updatedExercises };
+        const updatedWorkout = { ...prevWorkout, exercises: updatedExercises };
+        setLocalStorage(localStorageKey, updatedWorkout);
+        return updatedWorkout;
     })
 };
 
-export const changeRepsValue = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => {
+export const changeRepsValue = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => {
     const newReps = event.target.value ? parseInt(event.target.value, 10) : -1;
 
     setWorkout(prevWorkout => {
@@ -221,14 +283,17 @@ export const changeRepsValue = (setWorkout: React.Dispatch<React.SetStateAction<
             }
             return ex
         })
-        return { ...prevWorkout, exercises: updatedExercises };
+        const updatedWorkout = { ...prevWorkout, exercises: updatedExercises };
+        setLocalStorage(localStorageKey, updatedWorkout);
+        return updatedWorkout;
     })
 };
 
-export const startWorkout = (cookiesName: cookies, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>) => {
+export const startWorkout = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>) => {
     setWorkout(prevWorkout => {
         const newWorkout = { ...prevWorkout, startTime: new Date(), duration: 0 };
-        setCookies(cookiesName, newWorkout, 1);
+        setLocalStorage(localStorageKey, newWorkout);
+        setCookies(cookieKeys.workout, [], cookieExpTime);
         return newWorkout;
     });
 
@@ -262,7 +327,7 @@ export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<Re
     const updatedWorkout: Workout = { ...workout, endTime: updatedEndTime };
 
     if (cause == action.post) { await postCompletedWorkoutServerAction(updatedWorkout); }
-    resetWorkout(cookies.workout, setWorkout);
+    resetWorkout(cookieKeys.workout, localStorageKeys.workout, setWorkout);
 };
 
 export const endTemplate = async (template: Workout, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, cause: action) => {
@@ -270,19 +335,20 @@ export const endTemplate = async (template: Workout, setTemplate: React.Dispatch
     else if (cause == action.update) { await updateTemplateServerAction(template); }
     else if (cause == action.delete) { await deleteTemplateServerAction(template); }
 
-    resetWorkout(cookies.template, setTemplate);
+    resetWorkout(cookieKeys.template, localStorageKeys.template, setTemplate);
 };
 
 export const endHistory = async (history: Workout, setHistory: React.Dispatch<React.SetStateAction<Workout>>, cause: action) => {
     if (cause == action.update) { await updateHistoryServerAction(history); }
     if (cause == action.delete) { await deleteHistoryServerAction(history); }
     console.log(cause)
-    resetWorkout(cookies.history, setHistory);
+    resetWorkout(cookieKeys.history, localStorageKeys.history, setHistory);
 };
 
-export const resetWorkout = (cookieName: cookies, setWorkout: React.Dispatch<React.SetStateAction<Workout>>) => {
+export const resetWorkout = (cookieKey: cookieKeys, localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>) => {
     setWorkout(new Workout());
-    deleteCookies(cookieName);
+    deleteLocalStorage(localStorageKey);
+    deleteCookies(cookieKey);
 }
 
 export const changeStartAndEndTime = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, newStartTime: Date, newEndTime: Date) => {

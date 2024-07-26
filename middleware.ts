@@ -1,48 +1,57 @@
 import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "./app/contexts/util/workoutFunctions";
+import { cookieKeys, CookieValueType, localStorageKeys } from "./app/contexts/util/workoutFunctions";
 import { Exercise } from "./app/workout/objects/classes";
 import { redirect } from "next/navigation";
 
-enum validateReplaceExerciseResponses {
+enum validationResponses {
     noWorkout = "No Workout",
     exerciseDoesntExist = "Exercise Doesn't Exist",
     valid = "valid"
 }
 
 // Users can only go to a replace exercise page if there is a workout started, and if the exercise they want to replace exists
-const validateReplaceExercise = (req: NextRequest, cookieName: cookies, exerciseId: number, inoetr: number): validateReplaceExerciseResponses => {
+const validateReplaceExercise = (req: NextRequest, cookieKey: cookieKeys, exerciseId: number, inoetr: number): validationResponses => {
 
-    // Retrieve the cookie containing the workout data
-    const workoutData = req.cookies.get(cookieName);
+    // Retrieve the cookie containing the exercise data
+    const exercisesInWorkoutData = req.cookies.get(cookieKey);
 
     // Parse the workout data
-    let workout = null;
-    if (workoutData) {
+    let exercisesInWorkout = null;
+    if (exercisesInWorkoutData) {
         try {
-            workout = JSON.parse(workoutData.value);
+            exercisesInWorkout = JSON.parse(exercisesInWorkoutData.value);
         } catch (error) {
             console.error("Failed to parse workout data:", error);
         }
     } else {
-        return validateReplaceExerciseResponses.noWorkout;
+        return validationResponses.noWorkout;
     }
 
     // Verify workout existence and presence of specific exercise
     const exerciseExists =
-        workout &&
-        workout.exercises &&
-        workout.exercises.some(
-            (exercise: Exercise) =>
-                exercise.id === exerciseId && exercise.insertionNumber === Number(inoetr)
+        exercisesInWorkout.some(
+            (exercise: CookieValueType) =>
+                exercise.exerciseId === exerciseId && exercise.insertionNumber === inoetr
         );
 
     if (!exerciseExists) {
-        return validateReplaceExerciseResponses.exerciseDoesntExist;
+        return validationResponses.exerciseDoesntExist;
     }
 
     // Return undefined to indicate no redirect is needed
-    return validateReplaceExerciseResponses.valid;
+    return validationResponses.valid;
+}
+
+// Users can only go to select exercises page if there is a workout started
+const validateSelectExercises = (req: NextRequest, cookieKey: cookieKeys): validationResponses => {
+    const exercisesInWorkoutData = req.cookies.get(cookieKey);
+
+    if (exercisesInWorkoutData) {
+        return validationResponses.valid;
+    } else {
+        return validationResponses.noWorkout;
+    }
 }
 
 export default function middleware(req: NextRequest) {
@@ -54,11 +63,16 @@ export default function middleware(req: NextRequest) {
         const searchParams = new URLSearchParams(url.search);
         const id = Number(searchParams.get("id"));
         const inoetr = Number(searchParams.get("inoetr"));
-        const validPathResponse = validateReplaceExercise(req, cookies.workout, id, inoetr);
-        if (validPathResponse == validateReplaceExerciseResponses.noWorkout) {
+        const validPathResponse = validateReplaceExercise(req, cookieKeys.workout, id, inoetr);
+        if (validPathResponse == validationResponses.noWorkout) {
             return NextResponse.redirect(new URL('/workout', req.url));
-        } else if (validPathResponse == validateReplaceExerciseResponses.exerciseDoesntExist) {
+        } else if (validPathResponse == validationResponses.exerciseDoesntExist) {
             return NextResponse.redirect(new URL('/workout/start', req.url));
+        }
+    } else if (url.pathname == "/workout/start/selectExercises") {
+        const validPathResponse = validateSelectExercises(req, cookieKeys.workout);
+        if (validPathResponse == validationResponses.noWorkout) {
+            return NextResponse.redirect(new URL('/workout', req.url));
         }
     }
 

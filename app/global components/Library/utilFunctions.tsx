@@ -2,6 +2,7 @@ import { Workout, Exercise, WorkoutSet } from "@/app/workout/objects/classes";
 import { IWorkoutTemplate, IExerciseTemplate, IWorkoutSetTemplate } from "../Interfaces/templateInterfaces";
 import { IExerciseInWorkoutHistory, ISetInExerciseInWorkoutHistory, IWorkoutHistory } from "../Interfaces/historyInterfaces";
 import { parseISO, format } from 'date-fns';
+import { CookieValueType, localStorageKeys } from "@/app/contexts/util/workoutFunctions";
 
 export const formatDuration = (totalSeconds: number): string => {
     if (totalSeconds < 0) {
@@ -136,8 +137,20 @@ export const convertISetInExerciseInWorkoutHistoryToWorkoutSet = (rawSet: ISetIn
     return set;
 }
 
+// Helper function to set local storage
+export const setLocalStorage = (name: string, value: Workout) => {
+    // Convert the value to a JSON string and store it
+    localStorage.setItem(name, JSON.stringify(value));
+}
+
+// Helper function to delete local storage
+export const deleteLocalStorage = (name: string) => {
+    // Remove the item from local storage
+    localStorage.removeItem(name);
+}
+
 // Helper function to set a cookie
-export const setCookies = (name: string, value: Workout, days: number) => {
+export const setCookies = (name: string, value: CookieValueType[], days: number) => {
     const expires = new Date();
     expires.setDate(expires.getDate() + days);
     document.cookie = `${name}=${JSON.stringify(value)}; expires=${expires.toUTCString()}; path=/;`;
@@ -147,5 +160,3 @@ export const setCookies = (name: string, value: Workout, days: number) => {
 export const deleteCookies = (name: string) => {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
-
-
