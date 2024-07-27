@@ -150,7 +150,7 @@ export const deleteLocalStorage = (name: string) => {
 }
 
 // Helper function to set a cookie
-export const setCookies = (name: string, value: CookieValueType[], days: number) => {
+export const setCookies = (name: string, value: any, days: number) => {
     const expires = new Date();
     expires.setDate(expires.getDate() + days);
     document.cookie = `${name}=${JSON.stringify(value)}; expires=${expires.toUTCString()}; path=/;`;

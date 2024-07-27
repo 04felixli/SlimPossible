@@ -3,6 +3,7 @@ import { deleteHistoryServerAction, deleteTemplateServerAction, postCompletedWor
 import { PostCompletedWorkout } from "@/app/global components/Library/apiCalls";
 import { deleteCookies, deleteLocalStorage, formatTime, setCookies, setLocalStorage } from "@/app/global components/Library/utilFunctions";
 import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
+import editTemplate from "@/app/workout/templates/edit-template/page";
 
 export enum action {
     post = 'post',
@@ -21,6 +22,7 @@ export enum cookieKeys {
     workout = 'exercisesInWorkout',
     history = 'exercisesInHistory',
     template = 'exercisesInTemplate',
+    isEditTemplate = 'isEditTemplate',
 }
 
 export interface CookieValueType {
@@ -293,7 +295,10 @@ export const startWorkout = (localStorageKey: localStorageKeys, setWorkout: Reac
     setWorkout(prevWorkout => {
         const newWorkout = { ...prevWorkout, startTime: new Date(), duration: 0 };
         setLocalStorage(localStorageKey, newWorkout);
-        setCookies(cookieKeys.workout, [], cookieExpTime);
+        const exercisesInWorkout: CookieValueType[] = prevWorkout.exercises.map(exercise => {
+            return { exerciseId: exercise.id, insertionNumber: exercise.insertionNumber };
+        })
+        setCookies(cookieKeys.workout, exercisesInWorkout, cookieExpTime);
         return newWorkout;
     });
 
@@ -312,6 +317,26 @@ export const startWorkout = (localStorageKey: localStorageKeys, setWorkout: Reac
     }, 1000);
 }
 
+export const startTemplate = (localStorageKey: localStorageKeys, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, template?: Workout) => {
+    setTemplate(prevTemplate => {
+        // No provided template means user wants to add new template
+        if (!template) {
+            setLocalStorage(localStorageKey, prevTemplate);
+            setCookies(cookieKeys.template, [], cookieExpTime);
+            setCookies(cookieKeys.isEditTemplate, false, cookieExpTime);
+            return { ...prevTemplate, startTime: new Date(), duration: 0 };
+        }
+
+        setLocalStorage(localStorageKey, template);
+        const exercisesInTemplate: CookieValueType[] = template.exercises.map(exercise => {
+            return { exerciseId: exercise.id, insertionNumber: exercise.insertionNumber };
+        });
+        setCookies(cookieKeys.template, exercisesInTemplate, cookieExpTime);
+        setCookies(cookieKeys.isEditTemplate, true, cookieExpTime);
+        return { ...template, startTime: new Date(), duration: 0 };
+    })
+}
+
 export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>, cause: action) => {
     if (intervalIdRef.current) {
         clearInterval(intervalIdRef.current);
@@ -324,24 +349,26 @@ export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<Re
     const durationInMillis = workout.duration * 1000;
     const updatedEndTime = new Date(workout.startTime!.getTime() + durationInMillis);
 
-    const updatedWorkout: Workout = { ...workout, endTime: updatedEndTime };
+    const updatedWorkout: Workout = { ...workout, endTime: updatedEndTime }; // create a plain object for server action
 
     if (cause == action.post) { await postCompletedWorkoutServerAction(updatedWorkout); }
     resetWorkout(cookieKeys.workout, localStorageKeys.workout, setWorkout);
 };
 
 export const endTemplate = async (template: Workout, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, cause: action) => {
-    if (cause == action.post) { await postTemplateServerAction(template); }
-    else if (cause == action.update) { await updateTemplateServerAction(template); }
-    else if (cause == action.delete) { await deleteTemplateServerAction(template); }
+    const plainTemplate: Workout = { ...template }; // create a plain js object
+    if (cause == action.post) { await postTemplateServerAction(plainTemplate); }
+    else if (cause == action.update) { await updateTemplateServerAction(plainTemplate); }
+    else if (cause == action.delete) { await deleteTemplateServerAction(plainTemplate); }
 
     resetWorkout(cookieKeys.template, localStorageKeys.template, setTemplate);
+    deleteCookies(cookieKeys.isEditTemplate);
 };
 
 export const endHistory = async (history: Workout, setHistory: React.Dispatch<React.SetStateAction<Workout>>, cause: action) => {
-    if (cause == action.update) { await updateHistoryServerAction(history); }
-    if (cause == action.delete) { await deleteHistoryServerAction(history); }
-    console.log(cause)
+    const plainHistory: Workout = { ...history }; // create a plain js object
+    if (cause == action.update) { await updateHistoryServerAction(plainHistory); }
+    if (cause == action.delete) { await deleteHistoryServerAction(plainHistory); }
     resetWorkout(cookieKeys.history, localStorageKeys.history, setHistory);
 };
 

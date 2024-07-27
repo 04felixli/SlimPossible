@@ -43,15 +43,53 @@ const validateReplaceExercise = (req: NextRequest, cookieKey: cookieKeys, exerci
     return validationResponses.valid;
 }
 
-// Users can only go to select exercises page if there is a workout started
-const validateSelectExercises = (req: NextRequest, cookieKey: cookieKeys): validationResponses => {
+// Check if there is anything started 
+const validateStarted = (req: NextRequest, cookieKey: cookieKeys): boolean => {
     const exercisesInWorkoutData = req.cookies.get(cookieKey);
 
     if (exercisesInWorkoutData) {
-        return validationResponses.valid;
+        return true;
     } else {
-        return validationResponses.noWorkout;
+        return false;
     }
+}
+
+const validateEditTemplate = (req: NextRequest, cookieKey: cookieKeys): boolean => {
+    if (!validateStarted(req, cookieKey)) {
+        return false
+    }
+
+    const isEditData = req.cookies.get(cookieKeys.isEditTemplate);
+    if (!isEditData) {
+        return false
+    }
+
+    const parsedIsEdit = Boolean(JSON.parse(isEditData.value));
+
+    if (parsedIsEdit) {
+        return true;
+    }
+
+    return false;
+}
+
+const validateAddTemplate = (req: NextRequest, cookieKey: cookieKeys): boolean => {
+    if (!validateStarted(req, cookieKey)) {
+        return false
+    }
+
+    const isEditData = req.cookies.get(cookieKeys.isEditTemplate);
+    if (!isEditData) {
+        return false
+    }
+
+    const parsedIsEdit = Boolean(JSON.parse(isEditData.value));
+
+    if (!parsedIsEdit) {
+        return true;
+    }
+
+    return false;
 }
 
 export default function middleware(req: NextRequest) {
@@ -59,20 +97,54 @@ export default function middleware(req: NextRequest) {
     // Check if the user is trying to replace an exercise without starting a workout or an exercise that doesn't exist
     const url = req.nextUrl.clone();
 
-    if (url.pathname == "/workout/start/replaceExercise") {
+    if (url.pathname === "/workout/start/replaceExercise") {
         const searchParams = new URLSearchParams(url.search);
         const id = Number(searchParams.get("id"));
         const inoetr = Number(searchParams.get("inoetr"));
         const validPathResponse = validateReplaceExercise(req, cookieKeys.workout, id, inoetr);
-        if (validPathResponse == validationResponses.noWorkout) {
+        if (validPathResponse === validationResponses.noWorkout) {
             return NextResponse.redirect(new URL('/workout', req.url));
-        } else if (validPathResponse == validationResponses.exerciseDoesntExist) {
+        } else if (validPathResponse === validationResponses.exerciseDoesntExist) {
             return NextResponse.redirect(new URL('/workout/start', req.url));
         }
-    } else if (url.pathname == "/workout/start/selectExercises") {
-        const validPathResponse = validateSelectExercises(req, cookieKeys.workout);
-        if (validPathResponse == validationResponses.noWorkout) {
+    } else if (url.pathname === "/workout/start/selectExercises") {
+        if (!validateStarted(req, cookieKeys.workout)) {
             return NextResponse.redirect(new URL('/workout', req.url));
+        }
+    } else if (url.pathname === "/workout/templates/edit-template") {
+        if (!validateEditTemplate(req, cookieKeys.template)) {
+            return NextResponse.redirect(new URL('/workout', req.url));
+        }
+    } else if (url.pathname === "/workout/templates/add-template") {
+        if (!validateAddTemplate(req, cookieKeys.template)) {
+            return NextResponse.redirect(new URL('/workout', req.url));
+        }
+    } else if (url.pathname === "/workout/templates/selectExercises") {
+        const searchParams = new URLSearchParams(url.search);
+        const from = String(searchParams.get("from"));
+        if ((from === "edit-template" || from === "add-template") && !validateEditTemplate(req, cookieKeys.template) && !validateAddTemplate(req, cookieKeys.template)) {
+            return NextResponse.redirect(new URL('/workout', req.url));
+        } else if (from === "edit-template" && !validateEditTemplate(req, cookieKeys.template) && validateAddTemplate(req, cookieKeys.template)) {
+            return NextResponse.redirect(new URL('/workout/templates/add-template', req.url));
+        } else if (from === "add-template" && validateEditTemplate(req, cookieKeys.template) && !validateAddTemplate(req, cookieKeys.template)) {
+            return NextResponse.redirect(new URL('/workout/templates/edit-template', req.url));
+        }
+    } else if (url.pathname === "/workout/templates/replaceExercise") {
+        const searchParams = new URLSearchParams(url.search);
+        const from = String(searchParams.get("from"));
+        const id = Number(searchParams.get("id"));
+        const inoetr = Number(searchParams.get("inoetr"));
+        if ((from === "edit-template" || from === "add-template") && !validateEditTemplate(req, cookieKeys.template) && !validateAddTemplate(req, cookieKeys.template)) {
+            return NextResponse.redirect(new URL('/workout', req.url));
+        } else if (from === "edit-template" && !validateEditTemplate(req, cookieKeys.template) && validateAddTemplate(req, cookieKeys.template)) {
+            return NextResponse.redirect(new URL('/workout/templates/add-template', req.url));
+        } else if (from === "add-template" && validateEditTemplate(req, cookieKeys.template) && !validateAddTemplate(req, cookieKeys.template)) {
+            return NextResponse.redirect(new URL('/workout/templates/edit-template', req.url));
+        }
+        const validPathResponse = validateReplaceExercise(req, cookieKeys.template, id, inoetr);
+        if (validPathResponse === validationResponses.exerciseDoesntExist) {
+            const redirectURL = "/workout/templates/" + from;
+            return NextResponse.redirect(new URL(redirectURL, req.url));
         }
     }
 

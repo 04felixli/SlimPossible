@@ -15,7 +15,7 @@ interface Props {
 }
 
 const TemplatePreviewCard = ({ workout, closePopUp }: Props) => {
-    const { setTemplate } = useTemplate();
+    const { startTemplate } = useTemplate();
     const { setWorkout } = useWorkout();
 
     // Should never happen 
@@ -28,7 +28,7 @@ const TemplatePreviewCard = ({ workout, closePopUp }: Props) => {
             {/* x and edit buttons */}
             <section className='flex justify-between items-center'>
                 <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>
-                <Link href={`/workout/templates/edit-template`} onClick={() => setTemplate(JSON.parse(JSON.stringify(workout)))}>Edit</Link>
+                <Link href={`/workout/templates/edit-template`} onClick={() => startTemplate(JSON.parse(JSON.stringify(workout)))}>Edit</Link>
             </section>
 
             {/* workout name */}
