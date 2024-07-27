@@ -146,6 +146,22 @@ export default function middleware(req: NextRequest) {
             const redirectURL = "/workout/templates/" + from;
             return NextResponse.redirect(new URL(redirectURL, req.url));
         }
+    } else if (url.pathname === "/history/edit" && !validateStarted(req, cookieKeys.history)) {
+        return NextResponse.redirect(new URL('/history', req.url));
+    } else if (url.pathname === "/history/replace-exercise") {
+        const searchParams = new URLSearchParams(url.search);
+        const id = Number(searchParams.get("id"));
+        const inoetr = Number(searchParams.get("inoetr"));
+        const validPathResponse = validateReplaceExercise(req, cookieKeys.history, id, inoetr);
+        if (validPathResponse === validationResponses.noWorkout) {
+            return NextResponse.redirect(new URL('/history', req.url));
+        } else if (validPathResponse === validationResponses.exerciseDoesntExist) {
+            return NextResponse.redirect(new URL('/history/edit', req.url));
+        }
+    } else if (url.pathname === "/history/select-exercises") {
+        if (!validateStarted(req, cookieKeys.history)) {
+            return NextResponse.redirect(new URL('/history', req.url));
+        }
     }
 
     // Authenticate user

@@ -337,6 +337,15 @@ export const startTemplate = (localStorageKey: localStorageKeys, setTemplate: Re
     })
 }
 
+export const startHistory = (localStorageKey: localStorageKeys, setHistory: React.Dispatch<React.SetStateAction<Workout>>, history: Workout) => {
+    setLocalStorage(localStorageKey, history);
+    const exercisesInHistory: CookieValueType[] = history.exercises.map(exercise => {
+        return { exerciseId: exercise.id, insertionNumber: exercise.insertionNumber };
+    });
+    setCookies(cookieKeys.history, exercisesInHistory, cookieExpTime);
+    setHistory({ ...history, startTime: new Date(), duration: 0 });
+}
+
 export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>, cause: action) => {
     if (intervalIdRef.current) {
         clearInterval(intervalIdRef.current);

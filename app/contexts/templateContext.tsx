@@ -24,7 +24,7 @@ interface TemplateContextType {
     changeWeightValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     // resetTemplateContext: () => void;
-    startTemplate: (template?: Workout) => void;
+    startTemplate: (provided_template?: Workout) => void;
     endTemplate: (cause: action) => void;
 }
 
@@ -51,7 +51,7 @@ const TemplateContextProvider = ({ children }: Props) => {
     const changeWeightValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeWeightValue(localStorageKeys.template, setTemplate, event, exerciseId, setNumber, insertionNumber);
     const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(localStorageKeys.template, setTemplate, event, exerciseId, setNumber, insertionNumber);
     // const resetTemplateContextHandler = () => resetWorkout(setTemplate);
-    const startTemplateHandler = (template?: Workout) => startTemplate(localStorageKeys.template, setTemplate, template);
+    const startTemplateHandler = (provided_template?: Workout) => startTemplate(localStorageKeys.template, setTemplate, provided_template);
     const endTemplateHandler = (cause: action) => endTemplate(template, setTemplate, cause);
 
     return (

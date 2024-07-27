@@ -4,10 +4,12 @@ import WorkoutHistoryName from './components/WorkoutHistoryName'
 import ExerciseTrackingCardsWrapper from './components/ExerciseTrackingCardsWrapper'
 import WorkoutButtonsWrapper from './components/WorkoutButtonsWrapper'
 import WorkoutHistorySubInfo from './components/WorkoutHistorySubInfo'
+import RepopulateHistory from './components/RepopulateHistory'
 
 const editHistory = () => {
     return (
         <PageLayout>
+            <RepopulateHistory />
             <WorkoutHistoryName />
             <WorkoutHistorySubInfo />
             <ExerciseTrackingCardsWrapper />
