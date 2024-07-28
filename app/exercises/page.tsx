@@ -18,7 +18,7 @@ const exercises = async (
   const exercises: ExerciseInList[] = await GetExerciseList(query);
 
   return (
-    <PageLayout>
+    <PageLayout activePage='/exercises'>
       <PageName name={pageName} />
       <div className='mb-5 flex justify-center'>
         <AddNewExerciseButton />

@@ -18,7 +18,7 @@ const selectExercises = (
     const query: string = searchParams?.query || '';
 
     return (
-        <PageLayout>
+        <PageLayout activePage='/history'>
             <PageName name={pageName} />
             <div className='mb-5 flex justify-between'>
                 <Link href="/history/edit">

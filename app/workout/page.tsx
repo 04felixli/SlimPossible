@@ -14,7 +14,7 @@ const workout = async () => {
     const pageName: string = "Workout";
 
     return (
-        <PageLayout>
+        <PageLayout activePage='/workout'>
             <PageName name={pageName} />
             <div className='flex justify-center mb-5'>
                 <Link href="/workout/start">

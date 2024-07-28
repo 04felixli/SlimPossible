@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { Workout } from "@/app/workout/objects/classes";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 const isAuthenticated = async (): Promise<boolean> => {
     const { isAuthenticated } = getKindeServerSession();
@@ -15,6 +16,17 @@ const isAuthenticated = async (): Promise<boolean> => {
     }
 
     return true
+}
+
+export const setExpandedCookieFunction = async () => {
+    // Access the cookies object
+    const cookiesObject = cookies();
+
+    // Get a specific cookie by name
+    const expandedValue = cookiesObject.get("isExpanded");
+    const isExpanded = expandedValue ? expandedValue.value === 'true' : (expandedValue === undefined ? true : false);
+    const newExpandedState: boolean = !isExpanded;
+    cookies().set('isExpanded', String(newExpandedState));
 }
 
 export const addExerciseServerAction = async (newExercise: NewExercise): Promise<boolean> => {

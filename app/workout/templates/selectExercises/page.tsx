@@ -19,7 +19,7 @@ const selectExercises = (
     const from: string = searchParams.from;
 
     return (
-        <PageLayout>
+        <PageLayout activePage='/workout'>
             <PageName name={pageName} />
             <div className='mb-5 flex justify-between'>
                 <Link href={`/workout/templates/${from}`}>

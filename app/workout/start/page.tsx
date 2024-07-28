@@ -8,7 +8,7 @@ import Timer from './components/Timer'
 
 const start = () => {
     return (
-        <PageLayout>
+        <PageLayout activePage='/workout'>
             <PageName name={GetWorkoutTime() + " Workout"} />
             <Timer />
             <WorkoutTrackingCards />

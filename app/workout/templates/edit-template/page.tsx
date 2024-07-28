@@ -7,7 +7,7 @@ import RepopulateTemplate from '../add-template/RepopulateTemplate';
 
 const editTemplate = async () => {
     return (
-        <PageLayout>
+        <PageLayout activePage='/workout'>
             <RepopulateTemplate />
             <ExistingTemplateName />
             <ExerciseTrackingCardsWrapper from={'edit-template'} />

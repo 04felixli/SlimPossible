@@ -8,7 +8,7 @@ import RepopulateHistory from './components/RepopulateHistory'
 
 const editHistory = () => {
     return (
-        <PageLayout>
+        <PageLayout activePage='/history'>
             <RepopulateHistory />
             <WorkoutHistoryName />
             <WorkoutHistorySubInfo />

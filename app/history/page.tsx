@@ -11,7 +11,7 @@ const history = async () => {
     const pageName: string = "History";
 
     return (
-        <PageLayout>
+        <PageLayout activePage='/history'>
             <PageName name={pageName} />
             <div className='flex justify-center mb-5'>
                 <Button text={"Calendar View"} />

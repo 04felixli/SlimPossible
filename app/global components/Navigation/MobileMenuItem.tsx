@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { useSideBarContext } from "../../contexts/sideBarContext";
 import { usePathname } from "next/navigation";
 
 interface Props {
@@ -15,7 +14,7 @@ const MobileMenuItem = ({ page, icon, text }: Props) => {
 
     return (
         <div
-            className={`rounded-md w-full my-10 ${pathname == page ? "bg-darkest-color text-disabled-color" : "hover:scale-105 hover:bg-card-bg-gradient-light hover:duration-300"}`}
+            className={`rounded-md w-full my-10 ${pathname.startsWith(page) ? "bg-darkest-color text-disabled-color" : "hover:scale-105 hover:bg-card-bg-gradient-light hover:duration-300"}`}
         >
             <Link
                 href={page}

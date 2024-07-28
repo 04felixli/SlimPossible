@@ -21,7 +21,7 @@ const replaceExercises = (
     const insertionNumberOfExerciseToReplace: number = parseInt(searchParams.inoetr);
 
     return (
-        <PageLayout>
+        <PageLayout activePage='/workout'>
             <PageName name={pageName} />
             <div className='mb-5 flex justify-between'>
                 <Link href="/workout/start">

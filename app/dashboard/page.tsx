@@ -10,7 +10,7 @@ import PageLayout from '../global components/PageLayouts/layout';
 
 const dashboard = async () => {
     return (
-        <PageLayout>
+        <PageLayout activePage='/dashboard'>
             <div>
                 hi
             </div>

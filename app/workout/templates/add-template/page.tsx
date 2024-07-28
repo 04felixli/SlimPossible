@@ -7,7 +7,7 @@ import RepopulateTemplate from './RepopulateTemplate'
 
 const addTemplate = () => {
     return (
-        <PageLayout>
+        <PageLayout activePage='/workout'>
             <RepopulateTemplate />
             <PageName name={'New Template'} />
             <ExerciseTrackingCardsWrapper from={'add-template'} />
