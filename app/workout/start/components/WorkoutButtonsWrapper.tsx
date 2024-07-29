@@ -11,7 +11,7 @@ const WorkoutButtonsWrapper = () => {
         buttonText: 'Cancel',
         header: 'Cancel Workout?',
         subHeading: 'Are you sure you want to cancel this workout? All progress will be lost.',
-        doIt: 'Cancel Workout',
+        doIt: 'Cancel',
         noDontDoIt: 'Resume'
     }
 

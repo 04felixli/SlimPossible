@@ -17,9 +17,9 @@ const ActionButton = ({ children, onClickFunction, isRemoveExercise }: Props) =>
     isRemoveExercise = isRemoveExercise === true ? true : false
 
     return (
-        <div className={`flex flex-row rounded-full ${!isRemoveExercise ? 'bg-card-bg-gradient-light text-sm' : 'bg-card-bg-gradient-dark'}`}>
+        <div className={`flex flex-row rounded-full shadow-md hover:scale-105 duration-300 ${!isRemoveExercise ? 'bg-card-bg-gradient-light text-sm w-3/12 lg:w-auto' : 'bg-card-bg-gradient-dark'}`}>
             <button
-                className={`w-full h-full ${!isRemoveExercise ? 'py-1 px-6' : 'p-2'}`}
+                className={`w-full h-full p-2 rounded-full flex items-center justify-center`}
                 onClick={onClick}
             >
                 {children}

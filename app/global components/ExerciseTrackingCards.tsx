@@ -9,7 +9,7 @@ import { Workout, WorkoutSet } from '../workout/objects/classes';
 import ActionButton from '../workout/components/ActionButton';
 import TrackSets from '../workout/components/TrackSets';
 import { IPopUp } from '../workout/interfaces/popup';
-import PopUp from '../workout/components/popups/PopUp';
+import ConfirmationPopUp from './popups/ConfirmationPopUp';
 
 interface Props {
     workout: Workout;
@@ -53,10 +53,36 @@ const ExerciseTrackingCards = ({ workout, setWorkout, addSet, removeExercise, ch
                         <div className='flex flex-row justify-between items-center'>
                             <div className='items-center card-title-font'>{exercise.name}</div>
 
-                            {/* Remove exercise button */}
-                            <ActionButton isRemoveExercise={true} onClickFunction={() => removeExercise(exercise.id, exercise.insertionNumber)}>
-                                <RiDeleteBin2Fill />
-                            </ActionButton>
+                            <div className='flex flex-row justify-between items-center mt-5 max-lg:hidden w-2/12'>
+
+                                {/* Replace exercise button */}
+                                {/* <Link href={`${replaceExerciseRedirectURL}?id=${exercise.id}&inoetr=${exercise.insertionNumber}${from ? `&from=${from}` : ''}`}> */}
+                                <ActionButton onClickFunction={() => handleReplaceExerciseButtonClick(exercise.id, exercise.insertionNumber)}>
+                                    <TbSwitch3 />
+                                </ActionButton>
+                                {/* </Link> */}
+
+                                {/* Show/hide notes for exercise button */}
+                                <ActionButton onClickFunction={() => toggleNotes(exercise.id, exercise.insertionNumber)}>
+                                    <FaNoteSticky />
+                                </ActionButton>
+
+                                {/* Change weight unit for exercise button */}
+                                {/* <ActionButton onClickFunction={() => changeWeightUnit(exercise.id, exercise.insertionNumber)}>
+                                <span className='text-xs'>{exercise.weightUnit === 'lbs' ? 'kgs' : 'lbs'}</span>
+                            </ActionButton> */}
+
+                                {/* Add set button */}
+                                <ActionButton onClickFunction={() => addSet(exercise.id, exercise.insertionNumber)}>
+                                    <FaPlus />
+                                </ActionButton>
+
+                                {/* Remove exercise button */}
+                                <ActionButton isRemoveExercise={true} onClickFunction={() => removeExercise(exercise.id, exercise.insertionNumber)}>
+                                    <RiDeleteBin2Fill />
+                                </ActionButton>
+                            </div>
+
                         </div>
                         <div className='flex justify-between thin-font'>
                             <div>{exercise.equipment}</div>
@@ -79,8 +105,8 @@ const ExerciseTrackingCards = ({ workout, setWorkout, addSet, removeExercise, ch
                         </div>}
 
                         {/* Component for actual set tracking */}
-                        <TrackSets toggleCompletedSet={toggleCompletedSet} changeWeightValue={changeWeightValue} changeRepsValue={changeRepsValue} exercise={exercise} isTemplate={isTemplate} />
-                        <div className='flex flex-row justify-between items-center mt-5'>
+                        <TrackSets changeWeightUnit={changeWeightUnit} toggleCompletedSet={toggleCompletedSet} changeWeightValue={changeWeightValue} changeRepsValue={changeRepsValue} exercise={exercise} isTemplate={isTemplate} />
+                        <div className='flex flex-row justify-between items-center mt-5 lg:hidden'>
 
                             {/* Replace exercise button */}
                             {/* <Link href={`${replaceExerciseRedirectURL}?id=${exercise.id}&inoetr=${exercise.insertionNumber}${from ? `&from=${from}` : ''}`}> */}
@@ -95,9 +121,9 @@ const ExerciseTrackingCards = ({ workout, setWorkout, addSet, removeExercise, ch
                             </ActionButton>
 
                             {/* Change weight unit for exercise button */}
-                            <ActionButton onClickFunction={() => changeWeightUnit(exercise.id, exercise.insertionNumber)}>
+                            {/* <ActionButton onClickFunction={() => changeWeightUnit(exercise.id, exercise.insertionNumber)}>
                                 <span className='text-xs'>{exercise.weightUnit === 'lbs' ? 'kgs' : 'lbs'}</span>
-                            </ActionButton>
+                            </ActionButton> */}
 
                             {/* Add set button */}
                             <ActionButton onClickFunction={() => addSet(exercise.id, exercise.insertionNumber)}>
@@ -108,7 +134,7 @@ const ExerciseTrackingCards = ({ workout, setWorkout, addSet, removeExercise, ch
                     </li>
                 ))}
             </ul>
-            {openReplaceExercisePopUp && <PopUp popUpContent={replaceExercisePopUpContent} onDontDoIt={() => setOpenReplaceExercisePopUp(false)} onDoItRedirectURL={fullReplaceExerciseRedirectURL} />}
+            {openReplaceExercisePopUp && <ConfirmationPopUp onDoIt={() => { }} popUpContent={replaceExercisePopUpContent} onDontDoIt={() => setOpenReplaceExercisePopUp(false)} onDoItRedirectURL={fullReplaceExerciseRedirectURL} />}
         </div >
     )
 }

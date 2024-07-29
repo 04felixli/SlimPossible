@@ -1,18 +1,19 @@
 'use client'
 import React from 'react'
 import { FaCheck } from "react-icons/fa";
-import { Exercise, Workout } from '../objects/classes';
+import { Exercise, Workout, WorkoutSet } from '../objects/classes';
 import NumericInput from './NumericInput';
 
 interface Props {
     toggleCompletedSet: (exerciseId: number, setNumber: number, insertionNumber: number) => void,
     changeWeightValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
+    changeWeightUnit: (exerciseId: number, insertionNumber: number) => void;
     exercise: Exercise; // The actual exercise we are rendering sets from
     isTemplate: boolean; // Sets are not completeable for templates, but are completeable for normal tracking and edit history
 }
 
-const TrackSets = ({ toggleCompletedSet, changeWeightValue, changeRepsValue, exercise, isTemplate }: Props) => {
+const TrackSets = ({ toggleCompletedSet, changeWeightValue, changeRepsValue, changeWeightUnit, exercise, isTemplate }: Props) => {
     const insertionNumber = exercise.insertionNumber;
 
     const preventInvalidInput = (event: React.KeyboardEvent<HTMLInputElement>, fieldType: string) => {
@@ -47,7 +48,7 @@ const TrackSets = ({ toggleCompletedSet, changeWeightValue, changeRepsValue, exe
     return (
         <div>
             <ul>
-                {exercise.sets.map((set) => (
+                {exercise.sets.map((set: WorkoutSet) => (
                     <li key={set.setNumber}>
                         <div className={`flex flex-row justify-between items-center rounded-sm py-1`}>
                             {/* Set number */}
@@ -57,14 +58,14 @@ const TrackSets = ({ toggleCompletedSet, changeWeightValue, changeRepsValue, exe
                             </div>
 
                             {/* Previous */}
-                            <div className='flex flex-col'>
+                            {/* <div className='flex flex-col'>
                                 {set.setNumber == 1 && <div className='mb-2 flex justify-center'>Previous</div>}
-                                <div className={`thin-font ${set.isCompleted ? '' : ''}`}>210 {exercise.weightUnit} * 10</div>
-                            </div>
+                                <div className={`thin-font py-0.5 ${set.isCompleted ? '' : ''}`}>210 {exercise.weightUnit} * 10</div>
+                            </div> */}
 
                             {/* input field for weight */}
-                            <div className='flex flex-col w-2/12'>
-                                {set.setNumber == 1 && <div className='mb-2 flex justify-center'>{exercise.weightUnit}</div>}
+                            <div className='flex flex-col w-3/12'>
+                                {set.setNumber == 1 && <div className='mb-2 flex justify-center cursor-pointer' onClick={() => changeWeightUnit(exercise.id, exercise.insertionNumber)}>{exercise.weightUnit}</div>}
                                 <div className='flex justify-center'>
                                     <NumericInput
                                         name="Weight Input"
@@ -77,7 +78,7 @@ const TrackSets = ({ toggleCompletedSet, changeWeightValue, changeRepsValue, exe
                             </div>
 
                             {/* input field for reps */}
-                            <div className='flex flex-col w-2/12'>
+                            <div className='flex flex-col w-3/12'>
                                 {set.setNumber == 1 && <div className='mb-2 flex justify-center'>Reps</div>}
                                 <div className='flex justify-center'>
                                     <NumericInput

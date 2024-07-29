@@ -4,7 +4,7 @@ import { Workout } from '@/app/workout/objects/classes';
 import { FaRegWindowClose } from "react-icons/fa";
 import Link from 'next/link';
 import { useTemplate } from '@/app/contexts/templateContext';
-import PopUpLayout from '@/app/global components/popups/PopUpLayout';
+import PopUpLayout, { popupContentClassNames } from '@/app/global components/popups/PopUpLayout';
 import Button from '@/app/global components/Buttons/Button';
 import { useWorkout } from '@/app/contexts/workoutContext';
 
@@ -24,7 +24,7 @@ const TemplatePreviewCard = ({ workout, closePopUp }: Props) => {
     }
 
     return (
-        <PopUpLayout closePopUp={closePopUp} className='w-6/12'>
+        <PopUpLayout closePopUp={closePopUp} className='w-6/12' popupContentClassName={popupContentClassNames.previewCard}>
             {/* x and edit buttons */}
             <section className='flex justify-between items-center'>
                 <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>

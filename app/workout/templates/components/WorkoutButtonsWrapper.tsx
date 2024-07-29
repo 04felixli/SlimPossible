@@ -41,7 +41,7 @@ const WorkoutButtonsWrapper = ({ from }: Props) => {
         buttonText: 'Discard',
         header: 'Discard Template?',
         subHeading: 'Are you sure you want to discard this workout template? All information will be lost.',
-        doIt: 'Discard Template',
+        doIt: 'Discard',
         noDontDoIt: 'Go Back'
     }
 
