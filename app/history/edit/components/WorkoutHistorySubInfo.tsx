@@ -18,12 +18,13 @@ const WorkoutHistorySubInfo = () => {
         setIsEditDurationOpen(true);
     }
 
-    if (history.duration == 0) {
-        return (
-            <>
-            </>
-        )
-    }
+    // if (history.duration == 0) {
+    //     return (
+    //         <>
+    //             hi
+    //         </>
+    //     )
+    // }
 
     return (
         <div>
@@ -32,11 +33,11 @@ const WorkoutHistorySubInfo = () => {
                     <div>
                         <div className='flex flex-row items-center'>
                             <FaCalendar className='mr-2' />
-                            <div>{formatTime(history.startTime!)}</div>
+                            {history.startTime && <div>{formatTime(history.startTime!)}</div>}
                         </div>
                         <div className='flex flex-row items-center'>
                             <FaClock className='mr-2' />
-                            <div>{getFormattedDurationStringGivenStartAndEnd(history.startTime, history.endTime)}</div>
+                            {history.startTime && history.endTime && <div>{getFormattedDurationStringGivenStartAndEnd(history.startTime, history.endTime)}</div>}
                         </div>
                     </div>
                     <AiFillEdit className='h-8 w-8 ml-3 hover:cursor-pointer' onClick={openPopUp} />
@@ -48,7 +49,6 @@ const WorkoutHistorySubInfo = () => {
             </section>
 
             {isEditDurationOpen && <EditDurationPopUp closePopUp={closePopUp} />}
-
         </div>
     )
 }

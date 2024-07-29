@@ -18,12 +18,28 @@ const Timer = () => {
         }
 
         const parsedWorkout: Workout = JSON.parse(workoutInProgress!);
-        setWorkout({ ...parsedWorkout, startTime: new Date(parsedWorkout.startTime!) });
+        setWorkout(_ => {
+            const newWorkout: Workout = { ...parsedWorkout, startTime: new Date(parsedWorkout.startTime!) }
+            startWorkout(newWorkout);
+            return newWorkout;
+        });
     }, []);
 
+    const getTimerValue = (durationInSeconds: number) => {
+        const hours = Math.floor(durationInSeconds / 3600);
+        const minutes = Math.floor((durationInSeconds % 3600) / 60);
+        const seconds = durationInSeconds % 60;
+
+        const formattedHours = String(hours).padStart(2, '0');
+        const formattedMinutes = String(minutes).padStart(2, '0');
+        const formattedSeconds = String(seconds).padStart(2, '0');
+
+        return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+    }
+
     return (
-        <div className='thin-font'>
-            {formatDuration(workout.duration)}
+        <div className='thin-font border'>
+            {getTimerValue(workout.duration)}
         </div>
     );
 };

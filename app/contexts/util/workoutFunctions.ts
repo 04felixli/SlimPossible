@@ -291,9 +291,9 @@ export const changeRepsValue = (localStorageKey: localStorageKeys, setWorkout: R
     })
 };
 
-export const startWorkout = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>) => {
+export const startWorkout = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>, workout?: Workout) => {
     setWorkout(prevWorkout => {
-        const newWorkout = { ...prevWorkout, startTime: new Date(), duration: 0 };
+        const newWorkout = !workout ? { ...prevWorkout, startTime: new Date(), duration: 0 } : { ...workout };
         setLocalStorage(localStorageKey, newWorkout);
         const exercisesInWorkout: CookieValueType[] = prevWorkout.exercises.map(exercise => {
             return { exerciseId: exercise.id, insertionNumber: exercise.insertionNumber };
@@ -312,6 +312,7 @@ export const startWorkout = (localStorageKey: localStorageKeys, setWorkout: Reac
             if (!prevWorkout.startTime) return prevWorkout; // Don't run in case a workout hasn't been started
             const newDuration = prevWorkout.duration + 1;
             const newWorkout = { ...prevWorkout, duration: newDuration };
+            setLocalStorage(localStorageKey, newWorkout);
             return newWorkout;
         });
     }, 1000);
@@ -343,7 +344,7 @@ export const startHistory = (localStorageKey: localStorageKeys, setHistory: Reac
         return { exerciseId: exercise.id, insertionNumber: exercise.insertionNumber };
     });
     setCookies(cookieKeys.history, exercisesInHistory, cookieExpTime);
-    setHistory({ ...history, startTime: new Date(), duration: 0 });
+    setHistory({ ...history });
 }
 
 export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>, cause: action) => {
@@ -359,7 +360,6 @@ export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<Re
     const updatedEndTime = new Date(workout.startTime!.getTime() + durationInMillis);
 
     const updatedWorkout: Workout = { ...workout, endTime: updatedEndTime }; // create a plain object for server action
-
     if (cause == action.post) { await postCompletedWorkoutServerAction(updatedWorkout); }
     resetWorkout(cookieKeys.workout, localStorageKeys.workout, setWorkout);
 };

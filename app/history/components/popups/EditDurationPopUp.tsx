@@ -1,7 +1,7 @@
 'use client'
 import { useHistory } from '@/app/contexts/historyContext';
 import { getFormattedDurationStringGivenStartAndEnd } from '@/app/global components/Library/utilFunctions';
-import PopUpLayout from '@/app/global components/popups/PopUpLayout';
+import PopUpLayout, { popupContentClassNames } from '@/app/global components/popups/PopUpLayout';
 import React, { useState } from 'react'
 import { FaRegWindowClose } from 'react-icons/fa';
 
@@ -48,8 +48,11 @@ const EditDurationPopUp = ({ closePopUp }: Props) => {
     const [startTime, setStartTime] = useState<string>(formatDateForDatetimeLocal(new Date(history.startTime!)));
     const [endTime, setEndTime] = useState<string>(formatDateForDatetimeLocal(new Date(history.endTime!)));
 
+    // console.log(history.startTime);
+    // console.log(history.endTime);
+
     return (
-        <PopUpLayout closePopUp={closePopUp}>
+        <PopUpLayout closePopUp={closePopUp} popupContentClassName={popupContentClassNames.previewCard}>
             <section className='flex justify-between items-center'>
                 <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>
                 <button

@@ -7,13 +7,15 @@ import React, { useEffect } from 'react'
 
 const RepopulateHistory = () => {
     const { history, setHistory } = useHistory();
-
     useEffect(() => {
         const historyInProgress = localStorage.getItem(localStorageKeys.history);
 
         if (historyInProgress && !history.startTime) {
-            const parsedTemplate: Workout = JSON.parse(historyInProgress!);
-            setHistory({ ...parsedTemplate, startTime: new Date(parsedTemplate.startTime!) });
+            const parsedHistory: Workout = JSON.parse(historyInProgress!);
+            setHistory(prevHistory => {
+                const newHistory = { ...parsedHistory, startTime: new Date(parsedHistory.startTime!), endTime: new Date(parsedHistory.endTime!) };
+                return newHistory;
+            });
         }
     }, []);
 
