@@ -8,7 +8,7 @@ interface Props {
 }
 
 const ExerciseTrackingCardsWrapper = ({ from }: Props) => {
-    const { template, setTemplate, addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, toggleCompletedSet, changeWeightValue, changeRepsValue } = useTemplate();
+    const { deleteSet, template, setTemplate, addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, toggleCompletedSet, changeWeightValue, changeRepsValue } = useTemplate();
     return (
         <>
             <ExerciseTrackingCards
@@ -25,6 +25,7 @@ const ExerciseTrackingCardsWrapper = ({ from }: Props) => {
                 isTemplate={true}
                 replaceExerciseRedirectURL='/workout/templates/replaceExercise'
                 from={from}
+                deleteSet={deleteSet}
             />
         </>
     )

@@ -299,6 +299,25 @@ export const changeName = (localStorageKey: localStorageKeys, setWorkout: React.
     });
 }
 
+export const deleteSet = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, insertionNumber: number, setNumber: number) => {
+    setWorkout((prevWorkout) => {
+        const updatedExercises = prevWorkout.exercises.map((exercise) => {
+            if (exercise.id === exerciseId && exercise.insertionNumber === insertionNumber) {
+                // Filter out the set with the specific setNumber
+                const updatedSets = exercise.sets
+                    .filter((set) => set.setNumber !== setNumber)
+                    .map((set, index) => ({ ...set, setNumber: index + 1 })); // Re-index setNumbers
+                return { ...exercise, sets: updatedSets };
+            }
+            return exercise;
+        });
+
+        const newWorkout = { ...prevWorkout, exercises: updatedExercises };
+        setLocalStorage(localStorageKey, newWorkout);
+        return newWorkout;
+    });
+}
+
 export const startWorkout = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>, workout?: Workout) => {
     setWorkout(prevWorkout => {
         const newWorkout = !workout ? { ...prevWorkout, startTime: new Date(), duration: 0, name: GetWorkoutTime() + " Workout" } : { ...workout };

@@ -22,12 +22,13 @@ interface Props {
     toggleCompletedSet: (exerciseId: number, setNumber: number, insertionNumber: number) => void,
     changeWeightValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
+    deleteSet: (exerciseId: number, insertionNumber: number, setNumber: number) => void;
     from?: string // "add-template" or "edit-template" to show whether or not we got here from add or edit template page
     isTemplate: boolean; // Only true when creating a new template (not editing one)
     replaceExerciseRedirectURL: string;
 }
 
-const ExerciseTrackingCards = ({ workout, setWorkout, addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, toggleCompletedSet, changeWeightValue, changeRepsValue, from, isTemplate, replaceExerciseRedirectURL }: Props) => {
+const ExerciseTrackingCards = ({ workout, setWorkout, addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, toggleCompletedSet, changeWeightValue, changeRepsValue, from, isTemplate, replaceExerciseRedirectURL, deleteSet }: Props) => {
 
     const handleReplaceExerciseButtonClick = (exerciseId: number, insertionNumber: number) => {
         setOpenReplaceExercisePopUp(true);
@@ -105,7 +106,7 @@ const ExerciseTrackingCards = ({ workout, setWorkout, addSet, removeExercise, ch
                         </div>}
 
                         {/* Component for actual set tracking */}
-                        <TrackSets changeWeightUnit={changeWeightUnit} toggleCompletedSet={toggleCompletedSet} changeWeightValue={changeWeightValue} changeRepsValue={changeRepsValue} exercise={exercise} isTemplate={isTemplate} />
+                        <TrackSets changeWeightUnit={changeWeightUnit} toggleCompletedSet={toggleCompletedSet} changeWeightValue={changeWeightValue} changeRepsValue={changeRepsValue} exercise={exercise} isTemplate={isTemplate} deleteSet={deleteSet} />
                         <div className='flex flex-row justify-between items-center mt-5 lg:hidden'>
 
                             {/* Replace exercise button */}

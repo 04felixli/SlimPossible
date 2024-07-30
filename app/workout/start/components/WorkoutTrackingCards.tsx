@@ -4,7 +4,7 @@ import ExerciseTrackingCards from '../../../global components/ExerciseTrackingCa
 import { useWorkout } from '@/app/contexts/workoutContext';
 
 const WorkoutTrackingCards = () => {
-    const { workout, setWorkout, addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, toggleCompletedSet, changeWeightValue, changeRepsValue } = useWorkout();
+    const { deleteSet, workout, setWorkout, addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, toggleCompletedSet, changeWeightValue, changeRepsValue } = useWorkout();
     return (
         <>
             <ExerciseTrackingCards
@@ -20,6 +20,7 @@ const WorkoutTrackingCards = () => {
                 changeRepsValue={changeRepsValue}
                 isTemplate={false}
                 replaceExerciseRedirectURL='/workout/start/replaceExercise'
+                deleteSet={deleteSet}
             />
         </>
     )
