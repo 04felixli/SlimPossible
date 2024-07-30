@@ -1,18 +1,17 @@
 'use client'
 import { useHistory } from "@/app/contexts/historyContext";
-import PageName from "@/app/global components/PageName";
 import { useState } from "react";
-import EditNamePopUp from "../../components/popups/EditNamePopUp";
 import PageNameClient from "@/app/global components/PageNameClient";
+import ChangeNamePopUp from "@/app/global components/ChangeNamePopUp";
 
 const WorkoutHistoryName = () => {
-    const { history, setHistory } = useHistory();
+    const { history, changeName } = useHistory();
     const [editName, setEditName] = useState<boolean>(false);
 
     return (
         <div>
             <PageNameClient name={history.name} changeName={setEditName} />
-            {editName && <EditNamePopUp showPopUp={setEditName} />}
+            {editName && <ChangeNamePopUp changeName={changeName} workout={history} showPopUp={setEditName} />}
         </div>
     )
 }

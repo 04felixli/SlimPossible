@@ -3,7 +3,7 @@
 'use client';
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 import { Workout } from '../workout/objects/classes';
-import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout, endTemplate, action, localStorageKeys, cookieKeys, startTemplate } from './util/workoutFunctions';
+import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout, endTemplate, action, localStorageKeys, cookieKeys, startTemplate, changeName } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 import workout from '../workout/page';
 
@@ -24,6 +24,7 @@ interface TemplateContextType {
     changeWeightValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     // resetTemplateContext: () => void;
+    changeName: (newName: string) => void;
     startTemplate: (provided_template?: Workout) => void;
     endTemplate: (cause: action) => void;
 }
@@ -51,6 +52,7 @@ const TemplateContextProvider = ({ children }: Props) => {
     const changeWeightValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeWeightValue(localStorageKeys.template, setTemplate, event, exerciseId, setNumber, insertionNumber);
     const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(localStorageKeys.template, setTemplate, event, exerciseId, setNumber, insertionNumber);
     // const resetTemplateContextHandler = () => resetWorkout(setTemplate);
+    const changeNameHandler = (newName: string) => changeName(localStorageKeys.template, setTemplate, newName);
     const startTemplateHandler = (provided_template?: Workout) => startTemplate(localStorageKeys.template, setTemplate, provided_template);
     const endTemplateHandler = (cause: action) => endTemplate(template, setTemplate, cause);
 
@@ -71,6 +73,7 @@ const TemplateContextProvider = ({ children }: Props) => {
             changeWeightValue: changeWeightValueHandler,
             changeRepsValue: changeRepsValueHandler,
             // resetTemplateContext: resetTemplateContextHandler,
+            changeName: changeNameHandler,
             startTemplate: startTemplateHandler,
             endTemplate: endTemplateHandler
         }}>

@@ -10,8 +10,7 @@ interface Props {
 const PageName = ({ name, changeName }: Props) => {
     return (
         <h1 className='flex justify-center font-bold text-5xl mb-5 items-center' >
-            <span>{name}</span>
-            <AiFillEdit className='h-8 w-8 ml-3 hover:cursor-pointer' onClick={() => changeName(true)} />
+            <span onClick={() => changeName(true)}>{name}</span>
         </h1>
     )
 }

@@ -2,8 +2,8 @@ import React from 'react'
 import PageLayout from '@/app/global components/PageLayouts/layout';
 import ExerciseTrackingCardsWrapper from '../components/ExerciseTrackingCardsWrapper';
 import WorkoutButtonsWrapper from '../components/WorkoutButtonsWrapper';
+import RepopulateTemplate from '../components/RepopulateTemplate';
 import ExistingTemplateName from './components/ExistingTemplateName';
-import RepopulateTemplate from '../add-template/RepopulateTemplate';
 
 const editTemplate = async () => {
     return (
@@ -16,4 +16,4 @@ const editTemplate = async () => {
     )
 }
 
-export default editTemplate
+export default editTemplate; 

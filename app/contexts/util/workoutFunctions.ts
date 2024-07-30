@@ -1,7 +1,7 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
 import { deleteHistoryServerAction, deleteTemplateServerAction, postCompletedWorkoutServerAction, postTemplateServerAction, updateHistoryServerAction, updateTemplateServerAction } from "@/app/global components/Library/actions";
 import { PostCompletedWorkout } from "@/app/global components/Library/apiCalls";
-import { deleteCookies, deleteLocalStorage, formatTime, setCookies, setLocalStorage } from "@/app/global components/Library/utilFunctions";
+import { deleteCookies, deleteLocalStorage, formatTime, GetWorkoutTime, setCookies, setLocalStorage } from "@/app/global components/Library/utilFunctions";
 import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
 import editTemplate from "@/app/workout/templates/edit-template/page";
 
@@ -291,9 +291,17 @@ export const changeRepsValue = (localStorageKey: localStorageKeys, setWorkout: R
     })
 };
 
+export const changeName = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, newName: string) => {
+    setWorkout(prevWorkout => {
+        const updatedWorkout = { ...prevWorkout, name: newName };
+        setLocalStorage(localStorageKey, updatedWorkout);
+        return updatedWorkout;
+    });
+}
+
 export const startWorkout = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>, workout?: Workout) => {
     setWorkout(prevWorkout => {
-        const newWorkout = !workout ? { ...prevWorkout, startTime: new Date(), duration: 0 } : { ...workout };
+        const newWorkout = !workout ? { ...prevWorkout, startTime: new Date(), duration: 0, name: GetWorkoutTime() + " Workout" } : { ...workout };
         setLocalStorage(localStorageKey, newWorkout);
         const exercisesInWorkout: CookieValueType[] = prevWorkout.exercises.map(exercise => {
             return { exerciseId: exercise.id, insertionNumber: exercise.insertionNumber };
@@ -325,7 +333,7 @@ export const startTemplate = (localStorageKey: localStorageKeys, setTemplate: Re
             setLocalStorage(localStorageKey, prevTemplate);
             setCookies(cookieKeys.template, [], cookieExpTime);
             setCookies(cookieKeys.isEditTemplate, false, cookieExpTime);
-            return { ...prevTemplate, startTime: new Date(), duration: 0 };
+            return { ...prevTemplate, startTime: new Date(), duration: 0, name: GetWorkoutTime() + " Workout" };
         }
 
         setLocalStorage(localStorageKey, template);

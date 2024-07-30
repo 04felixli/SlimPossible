@@ -5,11 +5,12 @@ import { GetWorkoutTime } from '@/app/global components/Library/utilFunctions'
 import WorkoutTrackingCards from './components/WorkoutTrackingCards'
 import WorkoutButtonsWrapper from './components/WorkoutButtonsWrapper'
 import Timer from './components/Timer'
+import StartWorkoutName from './components/StartWorkoutName'
 
 const start = () => {
     return (
         <PageLayout activePage='/workout'>
-            <PageName name={GetWorkoutTime() + " Workout"} />
+            <StartWorkoutName />
             <Timer />
             <WorkoutTrackingCards />
             <WorkoutButtonsWrapper />

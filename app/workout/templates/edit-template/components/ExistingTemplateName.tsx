@@ -1,13 +1,20 @@
 'use client'
 import { useTemplate } from '@/app/contexts/templateContext'
-import React from 'react'
+import React, { useState } from 'react'
 import PageName from '@/app/global components/PageName';
+import PageNameClient from '@/app/global components/PageNameClient';
+import ChangeNamePopUp from '@/app/global components/ChangeNamePopUp';
 
 const ExistingTemplateName = () => {
-    const { template, setTemplate } = useTemplate();
+    const { template, changeName } = useTemplate();
+    const [editName, setEditName] = useState<boolean>(false);
+
     return (
-        <PageName name={template.name} />
+        <div>
+            <PageNameClient name={template.name} changeName={setEditName} />
+            {editName && <ChangeNamePopUp changeName={changeName} workout={template} showPopUp={setEditName} />}
+        </div>
     )
 }
 
-export default ExistingTemplateName
+export default ExistingTemplateName; 

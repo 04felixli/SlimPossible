@@ -38,7 +38,7 @@ const Timer = () => {
     }
 
     return (
-        <div className='thin-font border'>
+        <div className='thin-font'>
             {getTimerValue(workout.duration)}
         </div>
     );
