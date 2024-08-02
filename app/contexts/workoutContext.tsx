@@ -1,7 +1,7 @@
 'use client';
 import React, { createContext, useState, ReactNode, useContext, useRef } from 'react';
 import { Workout } from '../workout/objects/classes';
-import { localStorageKeys, action, addExercises, addSet, changeRepsValue, changeWeightUnit, changeWeightValue, endWorkout, multipleExerciseSelect, removeExercise, replaceExercise, singleExerciseSelect, startWorkout, toggleCompletedSet, toggleNotes, updateNotes, cookieKeys, changeName, deleteSet } from './util/workoutFunctions';
+import { localStorageKeys, action, addExercises, addSet, changeRepsValue, changeWeightUnit, changeWeightValue, endWorkout, multipleExerciseSelect, removeExercise, replaceExercise, singleExerciseSelect, startWorkout, toggleCompletedSet, toggleNotes, updateNotes, cookieKeys, changeName, deleteSet, reOrderExercises } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 
 // Define the shape of the context
@@ -22,6 +22,7 @@ interface WorkoutContextType {
     changeRepsValue: (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => void;
     changeName: (newName: string) => void;
     deleteSet: (exerciseId: number, insertionNumber: number, setNumber: number) => void;
+    reOrderExercises: (result: any) => void;
     startWorkout: (workout?: Workout) => void;
     endWorkout: (cause: action) => void;
 }
@@ -52,6 +53,7 @@ const WorkoutContextProvider = ({ children }: Props) => {
     const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(localStorageKeys.workout, setWorkout, event, exerciseId, setNumber, insertionNumber);
     const changeNameHandler = (newName: string) => changeName(localStorageKeys.workout, setWorkout, newName);
     const deleteSetHandler = (exerciseId: number, insertionNumber: number, setNumber: number) => deleteSet(localStorageKeys.workout, setWorkout, exerciseId, insertionNumber, setNumber);
+    const reOrderExercisesHandler = (result: any) => reOrderExercises(result, localStorageKeys.workout, setWorkout);
     const startWorkoutHandler = (workout?: Workout) => startWorkout(localStorageKeys.workout, setWorkout, intervalIdRef, workout);
     const endWorkoutHandler = (cause: action) => endWorkout(workout, setWorkout, intervalIdRef, cause);
 
@@ -73,6 +75,7 @@ const WorkoutContextProvider = ({ children }: Props) => {
             changeRepsValue: changeRepsValueHandler,
             changeName: changeNameHandler,
             deleteSet: deleteSetHandler,
+            reOrderExercises: reOrderExercisesHandler,
             startWorkout: startWorkoutHandler,
             endWorkout: endWorkoutHandler
         }}>

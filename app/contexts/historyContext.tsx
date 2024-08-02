@@ -3,7 +3,7 @@
 'use client';
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 import { Workout } from '../workout/objects/classes';
-import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout, changeStartAndEndTime, endHistory, action, localStorageKeys, cookieKeys, startHistory, changeName, deleteSet } from './util/workoutFunctions';
+import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout, changeStartAndEndTime, endHistory, action, localStorageKeys, cookieKeys, startHistory, changeName, deleteSet, reOrderExercises } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 import workout from '../workout/page';
 
@@ -27,6 +27,7 @@ interface HistoryContextType {
     changeStartAndEndTime: (newStartTime: Date, newEndTime: Date) => void;
     changeName: (newName: string) => void;
     deleteSet: (exerciseId: number, insertionNumber: number, setNumber: number) => void;
+    reOrderExercises: (result: any) => void;
     startHistory: (provided_history: Workout) => void;
     endHistory: (cause: action) => void;
 }
@@ -57,6 +58,7 @@ const HistoryContextProvider = ({ children }: Props) => {
     const changeStartAndEndTimeHandler = (newStartTime: Date, newEndTime: Date) => changeStartAndEndTime(setHistory, newStartTime, newEndTime);
     const changeNameHandler = (newName: string) => changeName(localStorageKeys.history, setHistory, newName);
     const deleteSetHandler = (exerciseId: number, insertionNumber: number, setNumber: number) => deleteSet(localStorageKeys.history, setHistory, exerciseId, insertionNumber, setNumber);
+    const reOrderExercisesHandler = (result: any) => reOrderExercises(result, localStorageKeys.history, setHistory);
     const startHistoryHandler = (provided_history: Workout) => startHistory(localStorageKeys.history, setHistory, provided_history);
     const endHistoryHandler = (cause: action) => endHistory(history, setHistory, cause);
 
@@ -80,6 +82,7 @@ const HistoryContextProvider = ({ children }: Props) => {
             changeStartAndEndTime: changeStartAndEndTimeHandler,
             changeName: changeNameHandler,
             deleteSet: deleteSetHandler,
+            reOrderExercises: reOrderExercisesHandler,
             startHistory: startHistoryHandler,
             endHistory: endHistoryHandler
         }}>

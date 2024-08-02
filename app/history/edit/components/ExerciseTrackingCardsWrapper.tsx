@@ -4,7 +4,7 @@ import ExerciseTrackingCards from '@/app/global components/ExerciseTrackingCards
 import React from 'react'
 
 const ExerciseTrackingCardsWrapper = () => {
-    const { deleteSet, history, setHistory, addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, toggleCompletedSet, changeWeightValue, changeRepsValue } = useHistory();
+    const { reOrderExercises, deleteSet, history, setHistory, addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, toggleCompletedSet, changeWeightValue, changeRepsValue } = useHistory();
     return (
         <>
             <ExerciseTrackingCards
@@ -21,6 +21,7 @@ const ExerciseTrackingCardsWrapper = () => {
                 isTemplate={false}
                 replaceExerciseRedirectURL='/history/replace-exercise'
                 deleteSet={deleteSet}
+                reOrderExercises={reOrderExercises}
             />
         </>
     )

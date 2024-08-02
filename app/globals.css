@@ -9,7 +9,7 @@ body {
 }
 
 .card-bg {
-  @apply rounded-3xl bg-gradient-to-b from-card-bg-gradient-light to-card-bg-gradient-dark p-4 shadow-md
+  @apply my-3 rounded-3xl bg-gradient-to-b from-card-bg-gradient-light to-card-bg-gradient-dark p-4 shadow-md
 }
 
 .subheading-font {
@@ -51,6 +51,6 @@ html {
   scrollbar-width: none;
 
   /* Smooth section navigation */
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
   scroll-padding: var(--scroll-padding, 6rem);
 }

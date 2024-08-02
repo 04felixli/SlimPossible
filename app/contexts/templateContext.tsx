@@ -3,7 +3,7 @@
 'use client';
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 import { Workout } from '../workout/objects/classes';
-import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout, endTemplate, action, localStorageKeys, cookieKeys, startTemplate, changeName, deleteSet } from './util/workoutFunctions';
+import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout, endTemplate, action, localStorageKeys, cookieKeys, startTemplate, changeName, deleteSet, reOrderExercises } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 import workout from '../workout/page';
 
@@ -26,6 +26,7 @@ interface TemplateContextType {
     // resetTemplateContext: () => void;
     changeName: (newName: string) => void;
     deleteSet: (exerciseId: number, insertionNumber: number, setNumber: number) => void;
+    reOrderExercises: (result: any) => void;
     startTemplate: (provided_template?: Workout) => void;
     endTemplate: (cause: action) => void;
 }
@@ -55,6 +56,7 @@ const TemplateContextProvider = ({ children }: Props) => {
     // const resetTemplateContextHandler = () => resetWorkout(setTemplate);
     const changeNameHandler = (newName: string) => changeName(localStorageKeys.template, setTemplate, newName);
     const deleteSetHandler = (exerciseId: number, insertionNumber: number, setNumber: number) => deleteSet(localStorageKeys.template, setTemplate, exerciseId, insertionNumber, setNumber);
+    const reOrderExercisesHandler = (result: any) => reOrderExercises(result, localStorageKeys.template, setTemplate);
     const startTemplateHandler = (provided_template?: Workout) => startTemplate(localStorageKeys.template, setTemplate, provided_template);
     const endTemplateHandler = (cause: action) => endTemplate(template, setTemplate, cause);
 
@@ -77,6 +79,7 @@ const TemplateContextProvider = ({ children }: Props) => {
             // resetTemplateContext: resetTemplateContextHandler,
             changeName: changeNameHandler,
             deleteSet: deleteSetHandler,
+            reOrderExercises: reOrderExercisesHandler,
             startTemplate: startTemplateHandler,
             endTemplate: endTemplateHandler
         }}>

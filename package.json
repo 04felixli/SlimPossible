@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "'": "file:../../../../../../../../utils/supabase/middleware'",
+    "@hello-pangea/dnd": "^16.6.0",
     "@kinde-oss/kinde-auth-nextjs": "^2.3.6",
     "@types/'": "file:../../../../../../../../utils/supabase/middleware'",
     "date-fns": "^3.6.0",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
+    "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-dom": "^18",
     "daisyui": "^4.10.5",
     "eslint": "^8",

@@ -318,6 +318,21 @@ export const deleteSet = (localStorageKey: localStorageKeys, setWorkout: React.D
     });
 }
 
+export const reOrderExercises = (result: any, localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>) => {
+    if (!result.destination) {
+        return;
+    }
+
+    setWorkout(prevWorkout => {
+        const exercisesCopy = [...prevWorkout.exercises];
+        const [reorderedExercise] = exercisesCopy.splice(result.source.index, 1);
+        exercisesCopy.splice(result.destination.index, 0, reorderedExercise);
+        const updatedWorkout = { ...prevWorkout, exercises: exercisesCopy };
+        setLocalStorage(localStorageKey, updatedWorkout);
+        return updatedWorkout;
+    })
+}
+
 export const startWorkout = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>, workout?: Workout) => {
     setWorkout(prevWorkout => {
         const newWorkout = !workout ? { ...prevWorkout, startTime: new Date(), duration: 0, name: GetWorkoutTime() + " Workout" } : { ...workout };
@@ -395,7 +410,20 @@ export const endTemplate = async (template: Workout, setTemplate: React.Dispatch
     const plainTemplate: Workout = { ...template }; // create a plain js object
     if (cause == action.post) { await postTemplateServerAction(plainTemplate); }
     else if (cause == action.update) { await updateTemplateServerAction(plainTemplate); }
-    else if (cause == action.delete) { await deleteTemplateServerAction(plainTemplate); }
+    else if (cause == action.delete) {
+        const templateOrderFromLS = localStorage.getItem('template list order');
+        if (templateOrderFromLS) {
+            const templateOrder: number[] = JSON.parse(templateOrderFromLS);
+
+            // Remove the template ID from local storage for template order
+            const updatedTemplateOrder = templateOrder.filter(id => id !== plainTemplate.id);
+
+            // Update local storage with the new order
+            localStorage.setItem('template list order', JSON.stringify(updatedTemplateOrder));
+        }
+
+        await deleteTemplateServerAction(plainTemplate);
+    }
 
     resetWorkout(cookieKeys.template, localStorageKeys.template, setTemplate);
     deleteCookies(cookieKeys.isEditTemplate);

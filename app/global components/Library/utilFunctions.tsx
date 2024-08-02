@@ -138,7 +138,7 @@ export const convertISetInExerciseInWorkoutHistoryToWorkoutSet = (rawSet: ISetIn
 }
 
 // Helper function to set local storage
-export const setLocalStorage = (name: string, value: Workout) => {
+export const setLocalStorage = (name: string, value: any) => {
     // Convert the value to a JSON string and store it
     localStorage.setItem(name, JSON.stringify(value));
 }
