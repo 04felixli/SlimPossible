@@ -9,7 +9,7 @@ body {
 }
 
 .card-bg {
-  @apply mt-3 rounded-3xl bg-gradient-to-b from-card-bg-gradient-light to-card-bg-gradient-dark p-4 shadow-md
+  @apply rounded-3xl bg-gradient-to-b from-card-bg-gradient-light to-card-bg-gradient-dark p-4 shadow-md
 }
 
 .subheading-font {
