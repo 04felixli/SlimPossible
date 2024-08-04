@@ -7,11 +7,21 @@ import { IExerciseTemplate, IWorkoutSetTemplate, IWorkoutTemplate } from "../Int
 import { IWorkoutHistory } from "../Interfaces/historyInterfaces";
 import { convertIWorkoutTemplateToWorkout } from "./utilFunctions";
 import { NewExercise } from "@/app/exercises/components/PopUps/AddExercisePopUp";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 
 const url = process.env.API_KEY;
+
+const GetUser = async (): Promise<KindeUser | null> => {
+    const { getUser } = getKindeServerSession();
+    const user = await getUser();
+    return user;
+}
+
 export const GetExerciseList = async (searchInput: string): Promise<ExerciseInList[]> => {
     try {
-        const res = await fetch(`${url}/api/Main/GetExerciseList?searchInput=${searchInput}`, { cache: 'no-store' });
+        const user = await GetUser();
+        const res = await fetch(`${url}/api/Main/GetExerciseList?searchInput=${searchInput}&uuid=${user?.id}`, { cache: 'no-store' });
 
         if (res.status !== 200) {
             throw new Error(`HTTP Error! Status: ${res.status}`);
@@ -22,14 +32,15 @@ export const GetExerciseList = async (searchInput: string): Promise<ExerciseInLi
         return histories;
 
     } catch (error) {
-        console.error('There was an error fetching workout histories: ', error);
+        console.error('There was an error fetching exercise list: ', error);
         throw error;
     }
 }
 
 export const GetAllWorkoutHistoryAsync = async (): Promise<IWorkoutHistory[]> => {
     try {
-        const res = await fetch(`${url}/api/Main/GetAllWorkouts`, { cache: 'no-store' });
+        const user = await GetUser();
+        const res = await fetch(`${url}/api/Main/GetAllWorkouts?uuid=${user?.id}`, { cache: 'no-store' });
 
         if (res.status !== 200) {
             throw new Error(`HTTP Error! Status: ${res.status}`);
@@ -47,7 +58,8 @@ export const GetAllWorkoutHistoryAsync = async (): Promise<IWorkoutHistory[]> =>
 
 export const GetAllWorkoutTemplatesAsync = async (): Promise<IWorkoutTemplate[]> => {
     try {
-        const res = await fetch(`${url}/api/Main/GetAllWorkoutTemplates`, { cache: 'no-store' });
+        const user = await GetUser();
+        const res = await fetch(`${url}/api/Main/GetAllWorkoutTemplates?uuid=${user?.id}`, { cache: 'no-store' });
 
         if (res.status !== 200) {
             throw new Error(`HTTP Error! Status: ${res.status}`);
@@ -65,7 +77,8 @@ export const GetAllWorkoutTemplatesAsync = async (): Promise<IWorkoutTemplate[]>
 
 export const GetWorkoutTemplateById = async (id: number): Promise<Workout> => {
     try {
-        const res = await fetch(`${url}/api/Main/GetWorkoutTemplate?workoutTemplateId=${id}`, { cache: 'no-store' });
+        const user = await GetUser();
+        const res = await fetch(`${url}/api/Main/GetWorkoutTemplate?workoutTemplateId=${id}&uuid=${user?.id}`, { cache: 'no-store' });
 
         if (res.status !== 200) {
             throw new Error(`HTTP Error! Status: ${res.status}`);
@@ -86,7 +99,8 @@ export const GetWorkoutTemplateById = async (id: number): Promise<Workout> => {
 
 export const PostNewExercise = async (exerciseToAdd: NewExercise): Promise<boolean> => {
     try {
-        const res = await fetch(`${url}/api/Main/AddExercise`, {
+        const user = await GetUser();
+        const res = await fetch(`${url}/api/Main/AddExercise?uuid=${user?.id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -109,7 +123,8 @@ export const PostNewExercise = async (exerciseToAdd: NewExercise): Promise<boole
 
 export const PostCompletedWorkout = async (workout: Workout): Promise<boolean> => {
     try {
-        const res = await fetch(`${url}/api/Main/PostWorkout`, {
+        const user = await GetUser();
+        const res = await fetch(`${url}/api/Main/PostWorkout?uuid=${user?.id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -132,7 +147,8 @@ export const PostCompletedWorkout = async (workout: Workout): Promise<boolean> =
 
 export const PostTemplate = async (template: Workout): Promise<boolean> => {
     try {
-        const res = await fetch(`${url}/api/Main/PostWorkoutTemplate`, {
+        const user = await GetUser();
+        const res = await fetch(`${url}/api/Main/PostWorkoutTemplate?uuid=${user?.id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -155,7 +171,8 @@ export const PostTemplate = async (template: Workout): Promise<boolean> => {
 
 export const UpdateTemplate = async (template: Workout): Promise<boolean> => {
     try {
-        const res = await fetch(`${url}/api/Main/UpdateTemplate`, {
+        const user = await GetUser();
+        const res = await fetch(`${url}/api/Main/UpdateTemplate?uuid=${user?.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -178,7 +195,8 @@ export const UpdateTemplate = async (template: Workout): Promise<boolean> => {
 
 export const UpdateHistory = async (history: Workout): Promise<boolean> => {
     try {
-        const res = await fetch(`${url}/api/Main/UpdateHistory`, {
+        const user = await GetUser();
+        const res = await fetch(`${url}/api/Main/UpdateHistory?uuid=${user?.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -201,7 +219,8 @@ export const UpdateHistory = async (history: Workout): Promise<boolean> => {
 
 export const DeleteTemplate = async (template: Workout, templateId: number): Promise<boolean> => {
     try {
-        const res = await fetch(`${url}/api/Main/DeleteWorkoutTemplate?workoutTemplateId=${templateId}`, {
+        const user = await GetUser();
+        const res = await fetch(`${url}/api/Main/DeleteWorkoutTemplate?workoutTemplateId=${templateId}&uuid=${user?.id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -224,7 +243,8 @@ export const DeleteTemplate = async (template: Workout, templateId: number): Pro
 
 export const DeleteHistory = async (workout: Workout, workoutId: number): Promise<boolean> => {
     try {
-        const res = await fetch(`${url}/api/Main/DeleteWorkoutHistory?workoutHistoryId=${workoutId}`, {
+        const user = await GetUser();
+        const res = await fetch(`${url}/api/Main/DeleteWorkoutHistory?workoutHistoryId=${workoutId}&uuid=${user?.id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

@@ -51,7 +51,7 @@ const AddExercisePopUp = ({ closePopUp }: Props) => {
     }
 
     return (
-        <PopUpLayout closePopUp={closePopUp}>
+        <PopUpLayout popupContentClassName={"confirmation-popup-content"} closePopUp={closePopUp}>
             <form action={handleAddExercise}>
                 <section className='flex justify-between items-center'>
                     <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>
