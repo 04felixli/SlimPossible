@@ -14,18 +14,17 @@ namespace ftDB.Interfaces
 {
     public interface IDao
     {
-        Task<List<ModelExercise>> GetExerciseListAsync(string searchInput);
-        Task PostWorkoutAsync(RequestModelPostWorkout completedWorkout);
-        Task<List<ModelPastWorkout>> GetAllWorkoutsAsync();
-        Task<ModelPastWorkout> GetWorkoutAsync(int workoutId);
-        Task<ModelExerciseToUpdate> GetNewExerciseByIdAsync(int exerciseId);
-        Task PostWorkoutTemplateAsync(RequestModelPostWorkoutTemplate workoutTemplate);
-        Task<ModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId);
-        Task<List<ModelGetWorkoutTemplate>> GetAllTemplatesAsync();
-        Task<bool> DeleteWorkoutTemplateAsync(int workoutTemplateId);
-        Task<bool> DeleteWorkoutHistoryAsync(int workoutHistoryId);
-        Task AddExerciseToDbAsync(RequestModelAddExercise exerciseToAdd);
-        Task UpdateTemplateAsync(RequestModelUpdateTemplate template);
-        Task UpdateHistoryAsync(RequestModelUpdateHistory history);
+        Task<List<ModelExercise>> GetExerciseListAsync(string searchInput, string uuid);
+        Task PostWorkoutAsync(RequestModelPostWorkout completedWorkout, string uuid);
+        Task<List<ModelPastWorkout>> GetAllWorkoutsAsync(string uuid);
+        Task<ModelPastWorkout> GetWorkoutAsync(int workoutId, string uuid);
+        Task PostWorkoutTemplateAsync(RequestModelPostWorkoutTemplate workoutTemplate, string uuid);
+        Task<ModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId, string uuid);
+        Task<List<ModelGetWorkoutTemplate>> GetAllTemplatesAsync(string uuid);
+        Task<bool> DeleteWorkoutTemplateAsync(int workoutTemplateId, string uuid);
+        Task<bool> DeleteWorkoutHistoryAsync(int workoutHistoryId, string uuid);
+        Task AddExerciseToDbAsync(RequestModelAddExercise exerciseToAdd, string uuid);
+        Task UpdateTemplateAsync(RequestModelUpdateTemplate template, string uuid);
+        Task UpdateHistoryAsync(RequestModelUpdateHistory history, string uuid);
     }
 }

@@ -5,9 +5,10 @@ using NpgsqlTypes;
 
 namespace ftDB.Entities
 {
-    public class Exercise(string Name, string Equipment, string TargetMuscle)
+    public class Exercise(string Name, string Equipment, string TargetMuscle, string? uuid)
     {
         public int Id { get; set; }
+        public string? Uuid { get; set; } = uuid; // uuid is nullable since default exercises belong to all users
         public string Name { get; set; } = Name;
         public string Equipment { get; set; } = Equipment;
         public string TargetMuscle { get; set; } = TargetMuscle;

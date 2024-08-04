@@ -7,23 +7,18 @@ namespace ftDB.Interfaces
 {
     public interface IRepo
     {
-        Task<ResponseModelExerciseInList> GetExerciseListAsync(string searchInput);
-        Task<ResponseBase> PostWorkoutAsync(RequestModelPostWorkout completedWorkout);
-        Task<ResponseModelGetAllWorkouts> GetAllWorkoutsAsync();
-        Task<ResponseModelGetWorkout> GetWorkoutAsync(int workoutId);
-        ResponseModelUpdatedWorkout DeleteExerciseFromWorkout(RequestModelUpdateWorkout workout, int exerciseId);
-        ResponseModelUpdatedWorkout DeleteSetFromWorkout(RequestModelUpdateWorkout workout, int exerciseId, int setNumber);
-        ResponseModelUpdatedWorkout AddSetToWorkout(RequestModelUpdateWorkout workout, int exerciseId);
-        Task<ResponseModelUpdatedWorkout> ReplaceExerciseFromWorkoutAsync(RequestModelUpdateWorkout workout, int oldExerciseId, int newExerciseId);
-        Task<ResponseModelUpdatedWorkout> AddExerciseToWorkoutAsync(RequestModelUpdateWorkout workout, int exerciseId);
-        Task<ResponseBase> PostWorkoutTemplateAsync(RequestModelPostWorkoutTemplate workoutTemplate);
-        Task<ResponseModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId);
-        Task<ResponseModelGetAllWorkoutTemplates> GetAllWorkoutTemplatesAsync();
-        Task<ResponseBase> DeleteWorkoutTemplateAsync(int workoutTemplateId);
-        Task<ResponseBase> AddExerciseAsync(RequestModelAddExercise exerciseToAdd);
-        Task<ResponseBase> UpdateTemplateAsync(RequestModelUpdateTemplate workoutTemplate);
-        Task<ResponseBase> UpdateHistoryAsync(RequestModelUpdateHistory history);
-        Task<ResponseBase> DeleteWorkoutHistoryAsync(int workoutHistoryId);
+        Task<ResponseModelExerciseInList> GetExerciseListAsync(string searchInput, string uuid);
+        Task<ResponseBase> PostWorkoutAsync(RequestModelPostWorkout completedWorkout, string uuid);
+        Task<ResponseModelGetAllWorkouts> GetAllWorkoutsAsync(string uuid);
+        Task<ResponseModelGetWorkout> GetWorkoutAsync(int workoutId, string uuid);
+        Task<ResponseBase> PostWorkoutTemplateAsync(RequestModelPostWorkoutTemplate workoutTemplate, string uuid);
+        Task<ResponseModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId, string uuid);
+        Task<ResponseModelGetAllWorkoutTemplates> GetAllWorkoutTemplatesAsync(string uuid);
+        Task<ResponseBase> DeleteWorkoutTemplateAsync(int workoutTemplateId, string uuid);
+        Task<ResponseBase> AddExerciseAsync(RequestModelAddExercise exerciseToAdd, string uuid);
+        Task<ResponseBase> UpdateTemplateAsync(RequestModelUpdateTemplate workoutTemplate, string uuid);
+        Task<ResponseBase> UpdateHistoryAsync(RequestModelUpdateHistory history, string uuid);
+        Task<ResponseBase> DeleteWorkoutHistoryAsync(int workoutHistoryId, string uuid);
 
     }
 }

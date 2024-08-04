@@ -20,13 +20,13 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpGet("GetExerciseList")]
-        public async Task<ResponseModelExerciseInList> GetAllExercisesAsync([FromQuery] string searchInput = "")
+        public async Task<ResponseModelExerciseInList> GetAllExercisesAsync([FromQuery] string uuid, [FromQuery] string searchInput = "")
         {
             ResponseModelExerciseInList response = new();
 
             try
             {
-                response = await _repo.GetExerciseListAsync(searchInput);
+                response = await _repo.GetExerciseListAsync(searchInput, uuid);
             }
             catch (CustomExceptionModel ex)
             {
@@ -42,13 +42,13 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpPost("PostWorkout")]
-        public async Task<ResponseBase> PostWorkoutAsync([FromBody] RequestModelPostWorkout completedWorkout)
+        public async Task<ResponseBase> PostWorkoutAsync([FromBody] RequestModelPostWorkout completedWorkout, [FromQuery] string uuid)
         {
             ResponseBase response = new();
 
             try
             {
-                response = await _repo.PostWorkoutAsync(completedWorkout);
+                response = await _repo.PostWorkoutAsync(completedWorkout, uuid);
             }
             catch (CustomExceptionModel ex)
             {
@@ -64,13 +64,13 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpGet("GetAllWorkouts")]
-        public async Task<ResponseModelGetAllWorkouts> GetAllWorkoutsAsync()
+        public async Task<ResponseModelGetAllWorkouts> GetAllWorkoutsAsync([FromQuery] string uuid)
         {
             ResponseModelGetAllWorkouts response = new();
 
             try
             {
-                response = await _repo.GetAllWorkoutsAsync();
+                response = await _repo.GetAllWorkoutsAsync(uuid);
             }
             catch (CustomExceptionModel ex)
             {
@@ -86,123 +86,13 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpGet("GetWorkout")]
-        public async Task<ResponseModelGetWorkout> GetWorkoutAsync([FromQuery] int workoutId)
+        public async Task<ResponseModelGetWorkout> GetWorkoutAsync([FromQuery] int workoutId, [FromQuery] string uuid)
         {
             ResponseModelGetWorkout response = new();
 
             try
             {
-                response = await _repo.GetWorkoutAsync(workoutId);
-            }
-            catch (CustomExceptionModel ex)
-            {
-                response.SetResponseFailed(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
-            }
-
-            return response;
-        }
-
-        [EnableCors]
-        [HttpPatch("DeleteExerciseFromWorkout")]
-        public ResponseModelUpdatedWorkout DeleteExerciseFromWorkout([FromBody] RequestModelUpdateWorkout workout, [FromQuery] int exerciseId)
-        {
-            ResponseModelUpdatedWorkout response = new();
-
-            try
-            {
-                response = _repo.DeleteExerciseFromWorkout(workout, exerciseId);
-            }
-            catch (CustomExceptionModel ex)
-            {
-                response.SetResponseFailed(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
-            }
-
-            return response;
-        }
-
-        [EnableCors]
-        [HttpPatch("DeleteSetFromWorkout")]
-        public ResponseModelUpdatedWorkout DeleteSetFromWorkout([FromBody] RequestModelUpdateWorkout workout, [FromQuery] int exerciseId, [FromQuery] int setNumber)
-        {
-            ResponseModelUpdatedWorkout response = new();
-
-            try
-            {
-                response = _repo.DeleteSetFromWorkout(workout, exerciseId, setNumber);
-            }
-            catch (CustomExceptionModel ex)
-            {
-                response.SetResponseFailed(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
-            }
-
-            return response;
-        }
-
-        [EnableCors]
-        [HttpPatch("AddSetToWorkout")]
-        public ResponseModelUpdatedWorkout AddSetToWorkout([FromBody] RequestModelUpdateWorkout workout, [FromQuery] int exerciseId)
-        {
-            ResponseModelUpdatedWorkout response = new();
-
-            try
-            {
-                response = _repo.AddSetToWorkout(workout, exerciseId);
-            }
-            catch (CustomExceptionModel ex)
-            {
-                response.SetResponseFailed(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
-            }
-
-            return response;
-        }
-
-        [EnableCors]
-        [HttpPatch("ReplaceExerciseFromWorkout")]
-        public async Task<ResponseModelUpdatedWorkout> ReplaceExerciseFromWorkout([FromBody] RequestModelUpdateWorkout workout, [FromQuery] int oldExerciseId, int newExerciseId)
-        {
-            ResponseModelUpdatedWorkout response = new();
-
-            try
-            {
-                response = await _repo.ReplaceExerciseFromWorkoutAsync(workout, oldExerciseId, newExerciseId);
-            }
-            catch (CustomExceptionModel ex)
-            {
-                response.SetResponseFailed(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
-            }
-
-            return response;
-        }
-
-        [EnableCors]
-        [HttpPatch("AddExerciseToWorkout")]
-        public async Task<ResponseModelUpdatedWorkout> AddExerciseToWorkout([FromBody] RequestModelUpdateWorkout workout, [FromQuery] int exerciseId)
-        {
-            ResponseModelUpdatedWorkout response = new();
-
-            try
-            {
-                response = await _repo.AddExerciseToWorkoutAsync(workout, exerciseId);
+                response = await _repo.GetWorkoutAsync(workoutId, uuid);
             }
             catch (CustomExceptionModel ex)
             {
@@ -218,13 +108,13 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpPost("PostWorkoutTemplate")]
-        public async Task<ResponseBase> PostWorkoutTemplateAsync([FromBody] RequestModelPostWorkoutTemplate workoutTemplate)
+        public async Task<ResponseBase> PostWorkoutTemplateAsync([FromBody] RequestModelPostWorkoutTemplate workoutTemplate, [FromQuery] string uuid)
         {
             ResponseBase response = new();
 
             try
             {
-                response = await _repo.PostWorkoutTemplateAsync(workoutTemplate);
+                response = await _repo.PostWorkoutTemplateAsync(workoutTemplate, uuid);
             }
             catch (CustomExceptionModel ex)
             {
@@ -240,13 +130,13 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpGet("GetWorkoutTemplate")]
-        public async Task<ResponseModelGetWorkoutTemplate> GetWorkoutTemplateAsync([FromQuery] int workoutTemplateId)
+        public async Task<ResponseModelGetWorkoutTemplate> GetWorkoutTemplateAsync([FromQuery] int workoutTemplateId, [FromQuery] string uuid)
         {
             ResponseModelGetWorkoutTemplate response = new();
 
             try
             {
-                response = await _repo.GetWorkoutTemplateAsync(workoutTemplateId);
+                response = await _repo.GetWorkoutTemplateAsync(workoutTemplateId, uuid);
             }
             catch (CustomExceptionModel ex)
             {
@@ -262,13 +152,13 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpGet("GetAllWorkoutTemplates")]
-        public async Task<ResponseModelGetAllWorkoutTemplates> GetAllWorkoutTemplatesAsync()
+        public async Task<ResponseModelGetAllWorkoutTemplates> GetAllWorkoutTemplatesAsync([FromQuery] string uuid)
         {
             ResponseModelGetAllWorkoutTemplates response = new();
 
             try
             {
-                response = await _repo.GetAllWorkoutTemplatesAsync();
+                response = await _repo.GetAllWorkoutTemplatesAsync(uuid);
             }
             catch (CustomExceptionModel ex)
             {
@@ -284,13 +174,13 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpDelete("DeleteWorkoutTemplate")]
-        public async Task<ResponseBase> DeleteWorkoutTemplateAsync([FromQuery] int workoutTemplateId)
+        public async Task<ResponseBase> DeleteWorkoutTemplateAsync([FromQuery] int workoutTemplateId, [FromQuery] string uuid)
         {
             ResponseBase response = new();
 
             try
             {
-                response = await _repo.DeleteWorkoutTemplateAsync(workoutTemplateId);
+                response = await _repo.DeleteWorkoutTemplateAsync(workoutTemplateId, uuid);
             }
             catch (CustomExceptionModel ex)
             {
@@ -306,13 +196,13 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpPost("AddExercise")]
-        public async Task<ResponseBase> AddExerciseAsync([FromBody] RequestModelAddExercise exerciseToAdd)
+        public async Task<ResponseBase> AddExerciseAsync([FromBody] RequestModelAddExercise exerciseToAdd, [FromQuery] string uuid)
         {
             ResponseBase response = new();
 
             try
             {
-                response = await _repo.AddExerciseAsync(exerciseToAdd);
+                response = await _repo.AddExerciseAsync(exerciseToAdd, uuid);
             }
             catch (CustomExceptionModel ex)
             {
@@ -328,13 +218,13 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpPut("UpdateTemplate")]
-        public async Task<ResponseBase> UpdateTemplateAsync([FromBody] RequestModelUpdateTemplate template)
+        public async Task<ResponseBase> UpdateTemplateAsync([FromBody] RequestModelUpdateTemplate template, [FromQuery] string uuid)
         {
             ResponseBase response = new();
 
             try
             {
-                response = await _repo.UpdateTemplateAsync(template);
+                response = await _repo.UpdateTemplateAsync(template, uuid);
             }
             catch (CustomExceptionModel ex)
             {
@@ -350,13 +240,13 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpPut("UpdateHistory")]
-        public async Task<ResponseBase> UpdateHistoryAsync([FromBody] RequestModelUpdateHistory history)
+        public async Task<ResponseBase> UpdateHistoryAsync([FromBody] RequestModelUpdateHistory history, [FromQuery] string uuid)
         {
             ResponseBase response = new();
 
             try
             {
-                response = await _repo.UpdateHistoryAsync(history);
+                response = await _repo.UpdateHistoryAsync(history, uuid);
             }
             catch (CustomExceptionModel ex)
             {
@@ -372,13 +262,13 @@ namespace ftDB.Controllers
 
         [EnableCors]
         [HttpDelete("DeleteWorkoutHistory")]
-        public async Task<ResponseBase> DeleteWorkoutHistoryAsync([FromQuery] int workoutHistoryId)
+        public async Task<ResponseBase> DeleteWorkoutHistoryAsync([FromQuery] int workoutHistoryId, [FromQuery] string uuid)
         {
             ResponseBase response = new();
 
             try
             {
-                response = await _repo.DeleteWorkoutHistoryAsync(workoutHistoryId);
+                response = await _repo.DeleteWorkoutHistoryAsync(workoutHistoryId, uuid);
             }
             catch (CustomExceptionModel ex)
             {

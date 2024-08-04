@@ -21,9 +21,9 @@ namespace ftDB.Repo
     {
         private readonly IDao _dao = Dao;
 
-        public async Task<ResponseModelExerciseInList> GetExerciseListAsync(string searchInput)
+        public async Task<ResponseModelExerciseInList> GetExerciseListAsync(string searchInput, string uuid)
         {
-            List<ModelExercise> exercises = await _dao.GetExerciseListAsync(searchInput);
+            List<ModelExercise> exercises = await _dao.GetExerciseListAsync(searchInput, uuid);
 
             ResponseModelExerciseInList response = new()
             {
@@ -35,7 +35,7 @@ namespace ftDB.Repo
             return response;
         }
 
-        public async Task<ResponseBase> PostWorkoutAsync(RequestModelPostWorkout completedWorkout)
+        public async Task<ResponseBase> PostWorkoutAsync(RequestModelPostWorkout completedWorkout, string uuid)
         {
             ResponseBase resp = new();
 
@@ -60,16 +60,16 @@ namespace ftDB.Repo
                 return resp;
             }
 
-            await _dao.PostWorkoutAsync(completedWorkout);
+            await _dao.PostWorkoutAsync(completedWorkout, uuid);
 
             resp.SetResponseSuccess();
 
             return resp;
         }
 
-        public async Task<ResponseModelGetAllWorkouts> GetAllWorkoutsAsync()
+        public async Task<ResponseModelGetAllWorkouts> GetAllWorkoutsAsync(string uuid)
         {
-            List<ModelPastWorkout> workouts = await _dao.GetAllWorkoutsAsync();
+            List<ModelPastWorkout> workouts = await _dao.GetAllWorkoutsAsync(uuid);
 
             ResponseModelGetAllWorkouts response = new([.. workouts]);
 
@@ -78,9 +78,9 @@ namespace ftDB.Repo
             return response;
         }
 
-        public async Task<ResponseModelGetWorkout> GetWorkoutAsync(int workoutId)
+        public async Task<ResponseModelGetWorkout> GetWorkoutAsync(int workoutId, string uuid)
         {
-            ModelPastWorkout workout = await _dao.GetWorkoutAsync(workoutId);
+            ModelPastWorkout workout = await _dao.GetWorkoutAsync(workoutId, uuid);
 
             ResponseModelGetWorkout response = new(workout);
 
@@ -89,79 +89,7 @@ namespace ftDB.Repo
             return response;
         }
 
-        public ResponseModelUpdatedWorkout DeleteExerciseFromWorkout(RequestModelUpdateWorkout workout, int exerciseId)
-        {
-            workout.Exercises = workout.Exercises.Where(exercise => exercise.Id != exerciseId).ToArray();
-
-            ResponseModelUpdatedWorkout updatedExercises = new(workout.Exercises);
-
-            return updatedExercises;
-        }
-
-        public ResponseModelUpdatedWorkout DeleteSetFromWorkout(RequestModelUpdateWorkout workout, int exerciseId, int setNumber)
-        {
-            ModelExerciseToUpdate exercise = workout.Exercises.First(exercise => exercise.Id == exerciseId);
-
-            exercise.Sets = [.. exercise.Sets
-                .Where(set => set.SetNumber != setNumber)
-                .OrderBy(set => set.SetNumber)];
-
-            for (int i = 0; i < exercise.Sets.Length; i++)
-            {
-                exercise.Sets[i].SetNumber = i + 1;
-            }
-
-            int index = Array.FindIndex(workout.Exercises, ex => ex.Id == exerciseId);
-
-            workout.Exercises[index] = exercise;
-
-            ResponseModelUpdatedWorkout updatedExercises = new(workout.Exercises);
-
-            return updatedExercises;
-        }
-
-        public ResponseModelUpdatedWorkout AddSetToWorkout(RequestModelUpdateWorkout workout, int exerciseId)
-        {
-            ModelExerciseToUpdate exercise = workout.Exercises.First(exercise => exercise.Id == exerciseId);
-
-            ModelSetToUpdate[] newSet = [new ModelSetToUpdate(-1, -1, exercise.Sets.Length + 1, false)];
-
-            exercise.Sets = [.. exercise.Sets, .. newSet];
-
-            int index = Array.FindIndex(workout.Exercises, ex => ex.Id == exerciseId);
-
-            workout.Exercises[index] = exercise;
-
-            ResponseModelUpdatedWorkout updatedExercises = new(workout.Exercises);
-
-            return updatedExercises;
-        }
-
-        public async Task<ResponseModelUpdatedWorkout> ReplaceExerciseFromWorkoutAsync(RequestModelUpdateWorkout workout, int oldExerciseId, int newExerciseId)
-        {
-            ModelExerciseToUpdate newExercise = await _dao.GetNewExerciseByIdAsync(newExerciseId);
-
-            int index = Array.FindIndex(workout.Exercises, ex => ex.Id == oldExerciseId);
-
-            workout.Exercises[index] = newExercise;
-
-            ResponseModelUpdatedWorkout updatedExercises = new(workout.Exercises);
-
-            return updatedExercises;
-        }
-
-        public async Task<ResponseModelUpdatedWorkout> AddExerciseToWorkoutAsync(RequestModelUpdateWorkout workout, int exerciseId)
-        {
-            ModelExerciseToUpdate[] newExercise = [await _dao.GetNewExerciseByIdAsync(exerciseId)];
-
-            workout.Exercises = [.. workout.Exercises, .. newExercise];
-
-            ResponseModelUpdatedWorkout updatedExercises = new(workout.Exercises);
-
-            return updatedExercises;
-        }
-
-        public async Task<ResponseBase> PostWorkoutTemplateAsync(RequestModelPostWorkoutTemplate workoutTemplate)
+        public async Task<ResponseBase> PostWorkoutTemplateAsync(RequestModelPostWorkoutTemplate workoutTemplate, string uuid)
         {
             ResponseBase resp = new();
 
@@ -186,16 +114,16 @@ namespace ftDB.Repo
                 return resp;
             }
 
-            await _dao.PostWorkoutTemplateAsync(workoutTemplate);
+            await _dao.PostWorkoutTemplateAsync(workoutTemplate, uuid);
 
             resp.SetResponseSuccess();
 
             return resp;
         }
 
-        public async Task<ResponseModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId)
+        public async Task<ResponseModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId, string uuid)
         {
-            ModelGetWorkoutTemplate template = await _dao.GetWorkoutTemplateAsync(workoutTemplateId);
+            ModelGetWorkoutTemplate template = await _dao.GetWorkoutTemplateAsync(workoutTemplateId, uuid);
             ResponseModelGetWorkoutTemplate response = new(template);
 
             response.SetResponseSuccess();
@@ -203,9 +131,9 @@ namespace ftDB.Repo
             return response;
         }
 
-        public async Task<ResponseModelGetAllWorkoutTemplates> GetAllWorkoutTemplatesAsync()
+        public async Task<ResponseModelGetAllWorkoutTemplates> GetAllWorkoutTemplatesAsync(string uuid)
         {
-            List<ModelGetWorkoutTemplate> templates = await _dao.GetAllTemplatesAsync();
+            List<ModelGetWorkoutTemplate> templates = await _dao.GetAllTemplatesAsync(uuid);
 
             ResponseModelGetAllWorkoutTemplates response = new([.. templates]);
 
@@ -214,11 +142,11 @@ namespace ftDB.Repo
             return response;
         }
 
-        public async Task<ResponseBase> DeleteWorkoutTemplateAsync(int workoutTemplateId)
+        public async Task<ResponseBase> DeleteWorkoutTemplateAsync(int workoutTemplateId, string uuid)
         {
             ResponseBase resp = new();
 
-            bool isDeleted = await _dao.DeleteWorkoutTemplateAsync(workoutTemplateId);
+            bool isDeleted = await _dao.DeleteWorkoutTemplateAsync(workoutTemplateId, uuid);
 
             if (isDeleted)
             {
@@ -232,11 +160,11 @@ namespace ftDB.Repo
             return resp;
         }
 
-        public async Task<ResponseBase> DeleteWorkoutHistoryAsync(int workoutHistoryId)
+        public async Task<ResponseBase> DeleteWorkoutHistoryAsync(int workoutHistoryId, string uuid)
         {
             ResponseBase resp = new();
 
-            bool isDeleted = await _dao.DeleteWorkoutHistoryAsync(workoutHistoryId);
+            bool isDeleted = await _dao.DeleteWorkoutHistoryAsync(workoutHistoryId, uuid);
 
             if (isDeleted)
             {
@@ -250,15 +178,15 @@ namespace ftDB.Repo
             return resp;
         }
 
-        public async Task<ResponseBase> AddExerciseAsync(RequestModelAddExercise exerciseToAdd)
+        public async Task<ResponseBase> AddExerciseAsync(RequestModelAddExercise exerciseToAdd, string uuid)
         {
             ResponseBase resp = new();
-            await _dao.AddExerciseToDbAsync(exerciseToAdd);
+            await _dao.AddExerciseToDbAsync(exerciseToAdd, uuid);
             resp.SetResponseSuccess();
             return resp;
         }
 
-        public async Task<ResponseBase> UpdateTemplateAsync(RequestModelUpdateTemplate workoutTemplate)
+        public async Task<ResponseBase> UpdateTemplateAsync(RequestModelUpdateTemplate workoutTemplate, string uuid)
         {
             ResponseBase resp = new();
 
@@ -279,18 +207,18 @@ namespace ftDB.Repo
 
             if (workoutTemplate.Exercises.Length == 0)
             {
-                resp = await DeleteWorkoutTemplateAsync(workoutTemplate.Id);
+                resp = await DeleteWorkoutTemplateAsync(workoutTemplate.Id, uuid);
                 resp.SetResponseSuccessWithMsg("Workout template was deleted since there were no exercises.");
 
                 return resp;
             }
 
-            await _dao.UpdateTemplateAsync(workoutTemplate);
+            await _dao.UpdateTemplateAsync(workoutTemplate, uuid);
             resp.SetResponseSuccess();
             return resp;
         }
 
-        public async Task<ResponseBase> UpdateHistoryAsync(RequestModelUpdateHistory completedWorkout)
+        public async Task<ResponseBase> UpdateHistoryAsync(RequestModelUpdateHistory completedWorkout, string uuid)
         {
             ResponseBase resp = new();
 
@@ -317,7 +245,7 @@ namespace ftDB.Repo
                 return resp;
             }
 
-            await _dao.UpdateHistoryAsync(completedWorkout);
+            await _dao.UpdateHistoryAsync(completedWorkout, uuid);
             resp.SetResponseSuccess();
             return resp;
         }

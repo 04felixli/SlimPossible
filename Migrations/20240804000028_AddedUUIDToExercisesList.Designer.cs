@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NpgsqlTypes;
@@ -12,9 +13,11 @@ using ftDB.Dao;
 namespace FitnessTrackerBackEnd.Migrations
 {
     [DbContext(typeof(PostgressDBContext))]
-    partial class PostgressDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240804000028_AddedUUIDToExercisesList")]
+    partial class AddedUUIDToExercisesList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,11 +62,6 @@ namespace FitnessTrackerBackEnd.Migrations
                         .HasColumnType("timestamptz")
                         .HasColumnName("start_time");
 
-                    b.Property<string>("Uuid")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("uuid");
-
                     b.HasKey("Id");
 
                     b.ToTable("completed_workouts", (string)null);
@@ -106,7 +104,7 @@ namespace FitnessTrackerBackEnd.Migrations
                         .HasColumnType("text")
                         .HasColumnName("target_muscle");
 
-                    b.Property<string>("Uuid")
+                    b.Property<string>("UUID")
                         .HasColumnType("text")
                         .HasColumnName("uuid");
 
@@ -307,11 +305,6 @@ namespace FitnessTrackerBackEnd.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("name");
-
-                    b.Property<string>("Uuid")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("uuid");
 
                     b.HasKey("Id");
 
