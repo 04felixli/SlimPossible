@@ -398,11 +398,14 @@ export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<Re
     // 1. workout.endTime = workout.startTime + workout.duration
     // 2. Send POST request to API
     // 3. Reset workout to initial state
-    const durationInMillis = workout.duration * 1000;
-    const updatedEndTime = new Date(workout.startTime!.getTime() + durationInMillis);
+    if (cause == action.post) {
+        const durationInMillis = workout.duration * 1000;
+        const updatedEndTime = new Date(workout.startTime!.getTime() + durationInMillis);
 
-    const updatedWorkout: Workout = { ...workout, endTime: updatedEndTime }; // create a plain object for server action
-    if (cause == action.post) { await postCompletedWorkoutServerAction(updatedWorkout); }
+        const updatedWorkout: Workout = { ...workout, endTime: updatedEndTime }; // create a plain object for server action
+        await postCompletedWorkoutServerAction(updatedWorkout);
+    }
+
     resetWorkout(cookieKeys.workout, localStorageKeys.workout, setWorkout);
 };
 
