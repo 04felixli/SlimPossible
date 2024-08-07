@@ -19,6 +19,7 @@ namespace ftDB.Interfaces
         Task<ResponseBase> UpdateTemplateAsync(RequestModelUpdateTemplate workoutTemplate, string uuid);
         Task<ResponseBase> UpdateHistoryAsync(RequestModelUpdateHistory history, string uuid);
         Task<ResponseBase> DeleteWorkoutHistoryAsync(int workoutHistoryId, string uuid);
+        Task<ResponseBase> ReorderTemplatesAsync(int[] templateIds, string uuid);
 
     }
 }

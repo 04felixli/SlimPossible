@@ -281,5 +281,27 @@ namespace ftDB.Controllers
 
             return response;
         }
+
+        [EnableCors]
+        [HttpPut("ReorderTemplates")]
+        public async Task<ResponseBase> ReorderTemplatesAsync([FromBody] int[] templateIds, [FromQuery] string uuid)
+        {
+            ResponseBase response = new();
+
+            try
+            {
+                response = await _repo.ReorderTemplatesAsync(templateIds, uuid);
+            }
+            catch (CustomExceptionModel ex)
+            {
+                response.SetResponseFailed(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
+            }
+
+            return response;
+        }
     }
 }

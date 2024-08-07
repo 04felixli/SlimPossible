@@ -250,5 +250,14 @@ namespace ftDB.Repo
             return resp;
         }
 
+        public async Task<ResponseBase> ReorderTemplatesAsync(int[] templateIds, string uuid)
+        {
+            ResponseBase resp = new();
+
+            await _dao.ReorderTemplatesAsync(templateIds, uuid);
+            resp.SetResponseSuccess();
+            return resp;
+        }
+
     }
 }

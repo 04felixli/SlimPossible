@@ -16,6 +16,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ftDB.Models.Request.UpdateWorkoutModels;
 using ftDB.Models.Request.PostWorkoutTemplateModels;
 using ftDB.Models.Response.GetWorkoutTemplateModels;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using System.Text.Json;
+
 
 namespace ftDB.Dao
 {
@@ -182,6 +185,8 @@ namespace ftDB.Dao
                 }
 
                 transaction.Commit();
+
+                await PrependTemplateToTemplateOrderAsync(postedTemplateId, uuid);
             }
             catch (DbUpdateException ex)
             {
@@ -230,11 +235,19 @@ namespace ftDB.Dao
 
         public async Task<List<ModelGetWorkoutTemplate>> GetAllTemplatesAsync(string uuid)
         {
+            TemplateOrder? templateOrder = await _context.TemplateOrders.FirstOrDefaultAsync(to => to.Uuid == uuid);
+
+            if (templateOrder == null)
+            {
+                return [];
+            }
+
+            List<int> orderedTemplateIds = new(templateOrder.TemplateIds);
+
             List<ModelGetWorkoutTemplate> templates = await _context.WorkoutTemplates
                 .Where(wt => wt.Uuid == uuid)
                 .Include(wt => wt.ExerciseTemplates)
                 .ThenInclude(et => et.SetTemplates)
-                .OrderByDescending(template => template.Id)
                 .Select(template => new ModelGetWorkoutTemplate(
                     template.Id,
                     template.Name,
@@ -257,6 +270,8 @@ namespace ftDB.Dao
                     template.CreatedDate
                 )).ToListAsync();
 
+            templates = [.. templates.OrderBy(template => orderedTemplateIds.IndexOf(template.Id))];
+
             return templates;
         }
 
@@ -271,6 +286,8 @@ namespace ftDB.Dao
 
                 // Save changes to the database
                 await _context.SaveChangesAsync();
+
+                await RemoveTemplateFromTemplateOrderAsync(workoutTemplateId, uuid);
 
                 return true;
             }
@@ -538,9 +555,46 @@ namespace ftDB.Dao
             }
         }
 
+        public async Task ReorderTemplatesAsync(int[] templateIds, string uuid)
+        {
+            TemplateOrder templateOrder = await _context.TemplateOrders.FirstAsync(t => t.Uuid == uuid);
 
+            templateOrder.TemplateIds = templateIds;
+
+            await _context.SaveChangesAsync();
+        }
 
         #region Private Methods 
+
+        private async Task CreateTemplateOrderAsync(int[] templateId, string uuid)
+        {
+            _context.TemplateOrders.Add(new TemplateOrder(uuid, templateId));
+
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task PrependTemplateToTemplateOrderAsync(int templateId, string uuid)
+        {
+            TemplateOrder? templateOrder = await _context.TemplateOrders.FirstOrDefaultAsync(t => t.Uuid == uuid);
+
+            if (templateOrder == null)
+            {
+                await CreateTemplateOrderAsync([templateId], uuid);
+                return;
+            }
+
+            templateOrder.TemplateIds = templateOrder.TemplateIds.Prepend(templateId).ToArray();
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task RemoveTemplateFromTemplateOrderAsync(int templateId, string uuid)
+        {
+            TemplateOrder templateOrder = await _context.TemplateOrders.FirstAsync(t => t.Uuid == uuid);
+            List<int> templateIds = [.. templateOrder.TemplateIds];
+            templateIds.Remove(templateId);
+            templateOrder.TemplateIds = [.. templateIds];
+            await _context.SaveChangesAsync();
+        }
 
         private async Task<int> PostCompletedWorkoutAsync(CompletedWorkout workoutToPost)
         {

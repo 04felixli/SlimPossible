@@ -26,5 +26,6 @@ namespace ftDB.Interfaces
         Task AddExerciseToDbAsync(RequestModelAddExercise exerciseToAdd, string uuid);
         Task UpdateTemplateAsync(RequestModelUpdateTemplate template, string uuid);
         Task UpdateHistoryAsync(RequestModelUpdateHistory history, string uuid);
+        Task ReorderTemplatesAsync(int[] TemplateIds, string uuid);
     }
 }

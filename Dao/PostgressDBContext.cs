@@ -20,6 +20,7 @@ namespace ftDB.Dao
         public virtual DbSet<WorkoutTemplate> WorkoutTemplates { get; set; }
         public virtual DbSet<ExerciseTemplate> ExerciseTemplates { get; set; }
         public virtual DbSet<SetTemplate> SetTemplates { get; set; }
+        public virtual DbSet<TemplateOrder> TemplateOrders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -159,6 +160,16 @@ namespace ftDB.Dao
                       .HasForeignKey(ExerciseTemplate => ExerciseTemplate.WorkoutTemplateId)
                       .OnDelete(DeleteBehavior.Cascade);
             });
+
+            builder.Entity<TemplateOrder>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable("template_orders");
+                entity.Property(e => e.Uuid).HasColumnType("text").HasColumnName("uuid").IsRequired();
+                entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id").IsRequired();
+                entity.Property(e => e.TemplateIds).HasColumnType("integer[]").HasColumnName("template_ids").IsRequired();
+            });
+
         }
 
         public override int SaveChanges()
