@@ -8,6 +8,7 @@ import { Workout } from '../objects/classes';
 import { convertIWorkoutTemplateToWorkout, setLocalStorage } from '@/app/global components/Library/utilFunctions';
 import TemplatePreviewCard from './popups/TemplatePreviewCard';
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
+import { reorderTemplatesServerAction } from '@/app/global components/Library/actions';
 
 interface Props {
     templates: IWorkoutTemplate[]
@@ -45,7 +46,7 @@ const TemplateCards = ({ templates }: Props) => {
         })
     }
 
-    const handleOnDragEnd = (result: any) => {
+    const handleOnDragEnd = async (result: any) => {
         if (!result.destination) {
             return;
         }
@@ -55,28 +56,17 @@ const TemplateCards = ({ templates }: Props) => {
             const [reorderedListItem] = copy.splice(result.source.index, 1);
             copy.splice(result.destination.index, 0, reorderedListItem);
             const updatedList = [...copy];
-            setLocalStorage('template list order', updatedList.map(template => template.id));
             return updatedList;
         })
     }
 
     useEffect(() => {
-        // Retrieve and parse the order from local storage
-        const orderString = localStorage.getItem('template list order');
-        if (!orderString) {
-            return;
+        const reorder = async () => {
+            await reorderTemplatesServerAction(templateList.map(template => template.id));
         }
 
-        const order: number[] = JSON.parse(orderString);
-
-        const sortedTemplates = [...templateList].sort((a, b) => {
-            const indexA = order.indexOf(a.id);
-            const indexB = order.indexOf(b.id);
-            return indexA - indexB;
-        });
-
-        setTemplateList(sortedTemplates);
-    }, []);
+        reorder()
+    }, [templateList])
 
     return (
         <div>

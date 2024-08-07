@@ -1,7 +1,7 @@
 'use server'
 
 import { NewExercise } from "@/app/exercises/components/PopUps/AddExercisePopUp";
-import { DeleteHistory, DeleteTemplate, PostCompletedWorkout, PostNewExercise, PostTemplate, UpdateHistory, UpdateTemplate } from "./apiCalls";
+import { DeleteHistory, DeleteTemplate, PostCompletedWorkout, PostNewExercise, PostTemplate, ReorderTemplates, UpdateHistory, UpdateTemplate } from "./apiCalls";
 import { revalidatePath } from "next/cache";
 import { Workout } from "@/app/workout/objects/classes";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
@@ -89,6 +89,14 @@ export const deleteHistoryServerAction = async (history: Workout): Promise<boole
     }
     const posted = await DeleteHistory(history, history.id!);
     revalidatePath("/history");
+    return posted;
+}
+
+export const reorderTemplatesServerAction = async (templateIds: number[]): Promise<boolean> => {
+    if (!isAuthenticated) {
+        redirect("/api/auth/login");
+    }
+    const posted = await ReorderTemplates(templateIds);
     return posted;
 }
 

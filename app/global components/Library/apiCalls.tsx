@@ -265,3 +265,27 @@ export const DeleteHistory = async (workout: Workout, workoutId: number): Promis
     }
 }
 
+export const ReorderTemplates = async (templateIds: number[]): Promise<boolean> => {
+    try {
+        const user = await GetUser();
+        const res = await fetch(`${url}/api/Main/ReorderTemplates?uuid=${user?.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(templateIds),
+            cache: 'no-store'
+        });
+
+        if (res.status !== 200) {
+            throw new Error(`HTTP Error! Status: ${res.status}`);
+        }
+
+        return true;
+
+    } catch (error) {
+        console.error('There was an error reordering exercises in the db: ', error);
+        throw error;
+    }
+}
+
