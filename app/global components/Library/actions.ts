@@ -1,6 +1,6 @@
 'use server'
 
-import { NewExercise } from "@/app/exercises/components/PopUps/AddExercisePopUp";
+import { NewExercise } from "@/app/global components/popups/AddExercisePopUp";
 import { DeleteHistory, DeleteTemplate, PostCompletedWorkout, PostNewExercise, PostTemplate, ReorderTemplates, UpdateHistory, UpdateTemplate } from "./apiCalls";
 import { revalidatePath } from "next/cache";
 import { Workout } from "@/app/workout/objects/classes";

@@ -70,7 +70,7 @@ const ExerciseTrackingCards = ({ reOrderExercises, workout, setWorkout, addSet, 
                                             <div className='flex flex-row justify-between items-center'>
                                                 <div className='items-center card-title-font'>{exercise.name}</div>
 
-                                                <div className='flex flex-row justify-between items-center mt-5 max-lg:hidden w-2/12'>
+                                                <div className='flex flex-row justify-between items-center mt-5 max-lg:hidden lg:w-3/12 xl:w-2/12'>
 
                                                     <ActionButton onClickFunction={() => handleReplaceExerciseButtonClick(exercise.id, exercise.insertionNumber)}>
                                                         <TbSwitch3 />
@@ -87,6 +87,13 @@ const ExerciseTrackingCards = ({ reOrderExercises, workout, setWorkout, addSet, 
                                                     </ActionButton>
 
                                                     {/* Remove exercise button */}
+                                                    <ActionButton isRemoveExercise={true} onClickFunction={() => removeExercise(exercise.id, exercise.insertionNumber)}>
+                                                        <RiDeleteBin2Fill />
+                                                    </ActionButton>
+                                                </div>
+
+                                                {/* Remove exercise button */}
+                                                <div className='lg:hidden'>
                                                     <ActionButton isRemoveExercise={true} onClickFunction={() => removeExercise(exercise.id, exercise.insertionNumber)}>
                                                         <RiDeleteBin2Fill />
                                                     </ActionButton>

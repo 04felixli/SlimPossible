@@ -13,7 +13,7 @@ const WorkoutButtonsWrapper = () => {
         buttonText: 'Discard Changes',
         header: 'Discard Changes?',
         subHeading: 'Are you sure you want to discard all changes? All changes will be lost.',
-        doIt: 'Discard Changes',
+        doIt: 'Discard',
         noDontDoIt: 'Go Back'
     }
 
@@ -21,7 +21,7 @@ const WorkoutButtonsWrapper = () => {
         buttonText: 'Save Changes',
         header: 'Save Changes?',
         subHeading: 'This workout will be updated.',
-        doIt: 'Save Changes',
+        doIt: 'Save',
         noDontDoIt: 'Go Back'
     }
 

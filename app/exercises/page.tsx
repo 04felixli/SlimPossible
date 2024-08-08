@@ -3,7 +3,7 @@ import PageLayout from '../global components/PageLayouts/layout'
 import PageName from '../global components/PageName'
 import SearchBar from '../global components/SearchBar'
 import ExerciseList from './components/exerciseList'
-import AddNewExerciseButton from './components/AddNewExerciseButton'
+import AddNewExerciseButton from '../global components/AddNewExerciseButton'
 import { GetExerciseList } from '../global components/Library/apiCalls'
 import { ExerciseInList } from './interfaces/exercises'
 

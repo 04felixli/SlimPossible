@@ -6,7 +6,7 @@ import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
 import { IExerciseTemplate, IWorkoutSetTemplate, IWorkoutTemplate } from "../Interfaces/templateInterfaces";
 import { IWorkoutHistory } from "../Interfaces/historyInterfaces";
 import { convertIWorkoutTemplateToWorkout } from "./utilFunctions";
-import { NewExercise } from "@/app/exercises/components/PopUps/AddExercisePopUp";
+import { NewExercise } from "@/app/global components/popups/AddExercisePopUp";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 

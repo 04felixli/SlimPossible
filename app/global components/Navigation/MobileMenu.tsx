@@ -7,7 +7,7 @@ import { BsLayoutTextSidebarReverse } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { IoIosClose } from "react-icons/io";
 import { LogoutLink } from '@kinde-oss/kinde-auth-nextjs';
-
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 interface Props {
     children: ReactNode
@@ -15,6 +15,8 @@ interface Props {
 }
 
 const MobileMenu = ({ children, className }: Props) => {
+    const { getUser } = useKindeBrowserClient();
+    const user = getUser();
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const toggleMenu = () => {
@@ -72,14 +74,14 @@ const MobileMenu = ({ children, className }: Props) => {
 
 
                             <div className={`w-full my-2 px-3 border-t`}>
-                                <div className={`relative px-3 py-3 flex items-center font-medium rounded-md group`}>
+                                <div className={`relative px-3 py-3 flex items-center font-medium rounded-md transition-colors group`}>
                                     <CgProfile
                                         className={`h-5 w-5 flex-shrink-0`}
                                     />
-                                    <div className={`flex items-center ml-3`}>
+                                    <div className={`flex justify-between items-center overflow-hidden transition-all ml-3`}>
                                         <div className='leading-4'>
-                                            <h4 className='font-semibold'>Test User</h4>
-                                            <span className='text-xs'>testUser@gmail.com</span>
+                                            <h4 className='font-semibold'>{user && user.given_name ? user.given_name : 'User'}</h4>
+                                            <span className='text-xs'>{user && user.email ? user.email : 'User@gmail.com'}</span>
                                         </div>
                                     </div>
                                 </div>

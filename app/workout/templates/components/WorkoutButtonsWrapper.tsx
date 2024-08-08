@@ -16,7 +16,7 @@ const WorkoutButtonsWrapper = ({ from }: Props) => {
         buttonText: 'Discard Changes',
         header: 'Discard Changes?',
         subHeading: 'Are you sure you want to discard all changes? All changes will be lost.',
-        doIt: 'Discard Changes',
+        doIt: 'Discard',
         noDontDoIt: 'Go Back'
     }
 
@@ -24,7 +24,7 @@ const WorkoutButtonsWrapper = ({ from }: Props) => {
         buttonText: 'Save Changes',
         header: 'Save Changes?',
         subHeading: 'This workout template will be updated.',
-        doIt: 'Save Changes',
+        doIt: 'Save',
         noDontDoIt: 'Go Back'
     }
 

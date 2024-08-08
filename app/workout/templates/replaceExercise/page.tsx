@@ -6,6 +6,7 @@ import React from 'react'
 import Link from 'next/link';
 import AddOrReplaceButtonWrapper from '../components/AddOrReplaceButtonWrapper';
 import ExerciseListWrapper from '../components/ExerciseListWrapper';
+import AddNewExerciseButton from '@/app/global components/AddNewExerciseButton';
 
 const replaceExercises = (
     { searchParams }: {
@@ -25,11 +26,11 @@ const replaceExercises = (
     return (
         <PageLayout activePage='/workout'>
             <PageName name={pageName} />
-            <div className='mb-5 flex justify-between'>
-                <Link href={`/workout/templates/${from}`}>
+            <div className='mb-5 flex justify-between max-sm:flex-col'>
+                <Link href={`/workout/templates/${from}`} className='max-sm:mb-3'>
                     <AddOrReplaceButtonWrapper isAddButton={false} exerciseToReplaceId={exerciseToReplaceId} insertionNumberOfExerciseToReplace={insertionNumberOfExerciseToReplace} />
                 </Link>
-                <Button text={'Create New Exercise'} />
+                <AddNewExerciseButton />
             </div>
             <SearchBar />
             <ExerciseListWrapper query={query} singleSelect={true} />
