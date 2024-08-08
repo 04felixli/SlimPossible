@@ -7,7 +7,7 @@ import React from 'react'
 const AddTemplateButton = () => {
     const { startTemplate } = useTemplate();
     return (
-        <Link href={'/workout/templates/add-template'} onClick={() => startTemplate()}>
+        <Link href={'/workout/templates/add-template'} onClick={() => startTemplate()} className='black-button'>
             <Button text={"Add"} />
         </Link>
     )

@@ -10,7 +10,7 @@ const StartWorkoutButton = () => {
     return (
         <div className='flex justify-center items-center mb-5 flex-col'>
             {workout?.startTime && <div className='thin-font w-fit mb-1'>There is a workout in progress:</div>}
-            <Link href="/workout/start" className='w-fit rounded-full'>
+            <Link href="/workout/start" className='w-fit rounded-full black-button'>
                 <Button text={`${!workout?.startTime ? 'Quick Start' : 'Resume Workout'}`} />
             </Link>
         </div>

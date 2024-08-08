@@ -5,7 +5,6 @@ import { useHistory } from '@/app/contexts/historyContext';
 import { Workout } from '@/app/workout/objects/classes';
 import { FaCalendar, FaClock } from 'react-icons/fa';
 import { formatDuration, formatTime, getFormattedDurationStringGivenStartAndEnd } from '@/app/global components/Library/utilFunctions';
-import Button from '@/app/global components/Buttons/Button';
 import { FaRegWindowClose } from "react-icons/fa";
 import Link from 'next/link';
 import PopUpLayout, { popupContentClassNames } from '@/app/global components/popups/PopUpLayout';

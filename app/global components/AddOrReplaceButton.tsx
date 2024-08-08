@@ -18,14 +18,18 @@ const AddOrReplaceButton = ({ workout, setWorkout, addExercises, replaceExercise
     if (isAddButton) {
         return (
             <>
-                <Button text={`Add (${workout.exercisesToAdd.length})`} onClickFunction={addExercises} className='max-sm:w-full' />
+                <div className='black-button'>
+                    <Button text={`Add (${workout.exercisesToAdd.length})`} onClickFunction={addExercises} className='max-sm:w-full' />
+                </div>
             </>
         )
     }
 
     return (
         <>
-            <Button className='max-sm:w-full' text={`Replace (${workout.replacementExercise ? '1' : '0'})`} onClickFunction={() => replaceExercise(exerciseToReplaceId, insertionNumberOfExerciseToReplace)} />
+            <div className='black-button'>
+                <Button className='max-sm:w-full' text={`Replace (${workout.replacementExercise ? '1' : '0'})`} onClickFunction={() => replaceExercise(exerciseToReplaceId, insertionNumberOfExerciseToReplace)} />
+            </div>
         </>
     )
 

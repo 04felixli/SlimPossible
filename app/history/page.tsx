@@ -13,7 +13,7 @@ const history = async () => {
     return (
         <PageLayout activePage='/history'>
             <PageName name={pageName} />
-            <div className='flex justify-center mb-5'>
+            <div className='flex justify-center mb-5 black-button'>
                 <Button text={"Calendar View"} />
             </div>
             <HistoryCards workoutHistories={workoutHistories} />

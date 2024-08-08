@@ -46,7 +46,7 @@ const HistoryCards = ({ workoutHistories }: Props) => {
         <div>
             <ul>
                 {workoutHistories.map((workoutHistory) => (
-                    <li key={workoutHistory.id} className='card-bg' onClick={() => handleHistoryCardClick(workoutHistory)}>
+                    <li key={workoutHistory.id} className='card-bg hover:scale-[101%] duration-300 cursor-pointer' onClick={() => handleHistoryCardClick(workoutHistory)}>
                         <div className='flex justify-center items-center card-title-font'>{workoutHistory.name}</div>
                         <section className='font-thin text-sm'>
                             <div className='flex flex-row items-center'>

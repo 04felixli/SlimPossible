@@ -20,7 +20,7 @@ const SelectableExerciseCard = ({ workout, setWorkout, multipleExerciseSelect, s
             <div>
                 <ul>
                     {exercises.map((exercise) => (
-                        <li key={exercise.id}>
+                        <li key={exercise.id} className='hover:scale-[101%] duration-300 cursor-pointer'>
                             <div className={`card-bg ${workout.exercisesToAdd.some(selectedExercise => selectedExercise.id === exercise.id) ? 'border' : ''}`} onClick={() => multipleExerciseSelect(exercise)}>
                                 <div className='items-center card-title-font'>{exercise.name}</div>
                                 <div className='flex justify-between font-thin text-sm'>
@@ -39,7 +39,7 @@ const SelectableExerciseCard = ({ workout, setWorkout, multipleExerciseSelect, s
         <div>
             <ul>
                 {exercises.map((exercise) => (
-                    <li key={exercise.id}>
+                    <li key={exercise.id} className='hover:scale-[101%] duration-300 cursor-pointer'>
                         <div className={`card-bg ${workout.replacementExercise?.id === exercise.id ? 'border' : ''}`} onClick={() => singleExerciseSelect(exercise)}>
                             <div className='items-center card-title-font'>{exercise.name}</div>
                             <div className='flex justify-between font-thin text-sm'>

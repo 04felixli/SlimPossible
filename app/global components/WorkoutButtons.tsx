@@ -35,20 +35,20 @@ const WorkoutButtons = ({ onEndFunction, postPopUpContent, updatePopUpContent, c
 
     return (
         <div className='flex flex-col'>
-            <Link href={onAddRedirectRoute} className='mt-3 flex justify-center items-center'>
+            <Link href={onAddRedirectRoute} className='mt-3 flex justify-center items-center black-button'>
                 <Button text={'Add Exercise'} className='w-full' />
             </Link>
-            <div className='mt-5 flex justify-center items-center'>
+            <div className='mt-5 flex justify-center items-center black-button'>
                 <Button text={postPopUpContent ? postPopUpContent.buttonText : updatePopUpContent!.buttonText} onClickFunction={() => setPopUpToShow(postPopUpContent ? action.post : action.update)} className='w-full' />
             </div>
-            <div className='mt-3 flex justify-center items-center'>
+            <div className='mt-3 flex justify-center items-center black-button'>
                 <Button text={cancelPopUpContent.buttonText} onClickFunction={() => setPopUpToShow(action.cancel)} className='w-full' />
             </div>
             {(popUpToShow == action.cancel) && <ConfirmationPopUp popUpContent={cancelPopUpContent} onDoIt={() => clearExercises(action.cancel)} onDontDoIt={() => setPopUpToShow(null)} onDoItRedirectURL={onDoItRedirectURL} />}
             {(popUpToShow == action.post) && postPopUpContent && <ConfirmationPopUp popUpContent={postPopUpContent} onDoIt={() => clearExercises(action.post)} onDontDoIt={() => setPopUpToShow(null)} onDoItRedirectURL={onDoItRedirectURL} />}
             {(popUpToShow == action.update) && updatePopUpContent && <ConfirmationPopUp popUpContent={updatePopUpContent} onDoIt={() => clearExercises(action.update)} onDontDoIt={() => setPopUpToShow(null)} onDoItRedirectURL={onDoItRedirectURL} />}
             {deleteButtonPopUpContent &&
-                <div className='mt-3 flex justify-center items-center'>
+                <div className='mt-3 flex justify-center items-center black-button'>
                     <Button text={deleteButtonPopUpContent.buttonText} onClickFunction={() => setPopUpToShow(action.delete)} className='w-full' />
                 </div>}
             {(popUpToShow == action.delete) && deleteButtonPopUpContent && <ConfirmationPopUp popUpContent={deleteButtonPopUpContent} onDoIt={() => clearExercises(action.delete)} onDontDoIt={() => setPopUpToShow(null)} onDoItRedirectURL={onDoItRedirectURL} />}

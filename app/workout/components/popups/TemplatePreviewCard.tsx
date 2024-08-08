@@ -36,7 +36,7 @@ const TemplatePreviewCard = ({ workout, closePopUp }: Props) => {
 
             {/* start workout from template button */}
             <div className='flex justify-center items-center mt-3'>
-                <Link href='/workout/start' onClick={() => setWorkout(JSON.parse(JSON.stringify(workout)))}>
+                <Link href='/workout/start' onClick={() => setWorkout(JSON.parse(JSON.stringify(workout)))} className='black-button'>
                     <Button text='Start Workout' />
                 </Link>
             </div>

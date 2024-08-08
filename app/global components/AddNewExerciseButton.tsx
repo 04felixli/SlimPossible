@@ -12,7 +12,9 @@ const AddNewExerciseButton = () => {
 
     return (
         <div>
-            <Button text={"Create New Exercise"} onClickFunction={() => setOpenAddExercisePopUp(true)} className='max-sm:w-full' />
+            <div className='black-button'>
+                <Button text={"Create New Exercise"} onClickFunction={() => setOpenAddExercisePopUp(true)} className='max-sm:w-full' />
+            </div>
 
             {openAddExercisePopUp && <AddExercisePopUp closePopUp={closePopUp} />}
         </div>

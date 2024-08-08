@@ -78,7 +78,7 @@ const TemplateCards = ({ templates }: Props) => {
                                 <Draggable key={template.id} draggableId={String(template.id)} index={index}>
                                     {(provided) => (
                                         <li onClick={() => handleTemplateCardClick(template)} {...provided.draggableProps} ref={provided.innerRef} {...provided.dragHandleProps}>
-                                            <div className='card-bg'>
+                                            <div className='card-bg hover:scale-[101%] duration-300'>
                                                 <div className='flex justify-center items-center card-title-font'>{template.name}</div>
                                                 <ul>
                                                     {template.exercises.map((exercise) => (
