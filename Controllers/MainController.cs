@@ -303,5 +303,27 @@ namespace ftDB.Controllers
 
             return response;
         }
+
+        [EnableCors]
+        [HttpGet("GetUserData")]
+        public async Task<ResponseModelGetUserData> GetUserDataAsync([FromQuery] string uuid)
+        {
+            ResponseModelGetUserData response = new();
+
+            try
+            {
+                response = await _repo.GetUserDataAsync(uuid);
+            }
+            catch (CustomExceptionModel ex)
+            {
+                response.SetResponseFailed(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                response.SetResponseFailed($"An exception occurred | Message: {ex.Message} | Inner Message: {ex.InnerException}");
+            }
+
+            return response;
+        }
     }
 }

@@ -27,5 +27,6 @@ namespace ftDB.Interfaces
         Task UpdateTemplateAsync(RequestModelUpdateTemplate template, string uuid);
         Task UpdateHistoryAsync(RequestModelUpdateHistory history, string uuid);
         Task ReorderTemplatesAsync(int[] TemplateIds, string uuid);
+        Task<User> GetUserDataAsync(string uuid);
     }
 }

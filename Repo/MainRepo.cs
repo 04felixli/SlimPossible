@@ -259,5 +259,22 @@ namespace ftDB.Repo
             return resp;
         }
 
+        public async Task<ResponseModelGetUserData> GetUserDataAsync(string uuid)
+        {
+            User userData = await _dao.GetUserDataAsync(uuid);
+            ResponseModelGetUserData resp = new();
+
+            if (userData.TotalWorkouts != 0)
+            {
+                int avgWorkoutDuration = userData.TotalTime / userData.TotalWorkouts;
+                double avgWorkoutVolume = userData.TotalVolume / userData.TotalWorkouts;
+                resp.AvgWorkoutDuration = avgWorkoutDuration;
+                resp.AvgWorkoutVolume = avgWorkoutVolume;
+            }
+
+            resp.SetResponseSuccess();
+            return resp;
+        }
+
     }
 }

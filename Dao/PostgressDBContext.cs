@@ -21,6 +21,7 @@ namespace ftDB.Dao
         public virtual DbSet<ExerciseTemplate> ExerciseTemplates { get; set; }
         public virtual DbSet<SetTemplate> SetTemplates { get; set; }
         public virtual DbSet<TemplateOrder> TemplateOrders { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -168,6 +169,17 @@ namespace ftDB.Dao
                 entity.Property(e => e.Uuid).HasColumnType("text").HasColumnName("uuid").IsRequired();
                 entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id").IsRequired();
                 entity.Property(e => e.TemplateIds).HasColumnType("integer[]").HasColumnName("template_ids").IsRequired();
+            });
+
+            builder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.ToTable("users");
+                entity.Property(e => e.Uuid).HasColumnType("text").HasColumnName("uuid").IsRequired();
+                entity.Property(e => e.Id).HasColumnType("integer").HasColumnName("id").IsRequired();
+                entity.Property(e => e.TotalWorkouts).HasColumnType("integer").HasColumnName("total_workout_count").IsRequired();
+                entity.Property(e => e.TotalVolume).HasColumnType("double precision").HasColumnName("total_workout_volume").IsRequired();
+                entity.Property(e => e.TotalTime).HasColumnType("integer").HasColumnName("total_workout_time").IsRequired();
             });
 
         }

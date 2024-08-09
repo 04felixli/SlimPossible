@@ -564,6 +564,22 @@ namespace ftDB.Dao
             await _context.SaveChangesAsync();
         }
 
+        public async Task<User> GetUserDataAsync(string uuid)
+        {
+            User? userData = await _context.Users.FirstOrDefaultAsync(u => u.Uuid == uuid);
+
+            // If there is a new user, create new user data
+            if (userData == null)
+            {
+                User newUser = new(0, 0, 0, uuid);
+                _context.Users.Add(newUser);
+                await _context.SaveChangesAsync();
+                return newUser;
+            }
+
+            return userData;
+        }
+
         #region Private Methods 
 
         private async Task CreateTemplateOrderAsync(int[] templateId, string uuid)
