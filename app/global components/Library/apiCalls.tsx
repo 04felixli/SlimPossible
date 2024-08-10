@@ -1,5 +1,5 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
-import { ResponseBase, ResponseGetAllWorkoutHistory, ResponseGetAllWorkoutTemplates, ResponseGetExerciseInList, ResponseGetWorkoutTemplateById } from "../Interfaces/apiResponses";
+import { ResponseBase, ResponseGetAllWorkoutHistory, ResponseGetAllWorkoutTemplates, ResponseGetDashboardInfo, ResponseGetExerciseInList, ResponseGetWorkoutTemplateById } from "../Interfaces/apiResponses";
 import { WorkoutHistory } from "@/app/history/interfaces/history";
 import { WorkoutTemplate } from "@/app/workout/interfaces/templates";
 import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
@@ -9,6 +9,7 @@ import { convertIWorkoutTemplateToWorkout } from "./utilFunctions";
 import { NewExercise } from "@/app/global components/popups/AddExercisePopUp";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
+import { IDashboardInfo } from "@/app/dashboard/page";
 
 const url = process.env.API_KEY;
 
@@ -285,6 +286,25 @@ export const ReorderTemplates = async (templateIds: number[]): Promise<boolean> 
 
     } catch (error) {
         console.error('There was an error reordering exercises in the db: ', error);
+        throw error;
+    }
+}
+
+export const GetDashboardInfo = async (): Promise<IDashboardInfo> => {
+    try {
+        const user = await GetUser();
+        const res = await fetch(`${url}/api/Main/GetUserData?uuid=${user?.id}`, { cache: 'no-store' });
+
+        if (res.status !== 200) {
+            throw new Error(`HTTP Error! Status: ${res.status}`);
+        }
+
+        const response: ResponseGetDashboardInfo = await res.json();
+        const data: IDashboardInfo = response.data;
+        return data;
+
+    } catch (error) {
+        console.error('There was an error fetching dashboard information: ', error);
         throw error;
     }
 }

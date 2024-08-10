@@ -1,7 +1,7 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
 import { deleteHistoryServerAction, deleteTemplateServerAction, postCompletedWorkoutServerAction, postTemplateServerAction, updateHistoryServerAction, updateTemplateServerAction } from "@/app/global components/Library/actions";
 import { PostCompletedWorkout } from "@/app/global components/Library/apiCalls";
-import { deleteCookies, deleteLocalStorage, formatTime, GetWorkoutTime, setCookies, setLocalStorage } from "@/app/global components/Library/utilFunctions";
+import { computeTotalVolume, deleteCookies, deleteLocalStorage, formatTime, GetWorkoutTime, setCookies, setLocalStorage } from "@/app/global components/Library/utilFunctions";
 import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
 import editTemplate from "@/app/workout/templates/edit-template/page";
 
@@ -401,8 +401,8 @@ export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<Re
     if (cause == action.post) {
         const durationInMillis = workout.duration * 1000;
         const updatedEndTime = new Date(workout.startTime!.getTime() + durationInMillis);
-
-        const updatedWorkout: Workout = { ...workout, endTime: updatedEndTime }; // create a plain object for server action
+        const totalVolume = computeTotalVolume(workout);
+        const updatedWorkout: Workout = { ...workout, volume: totalVolume, endTime: updatedEndTime }; // create a plain object for server action
         await postCompletedWorkoutServerAction(updatedWorkout);
     }
 

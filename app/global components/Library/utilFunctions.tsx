@@ -4,6 +4,54 @@ import { IExerciseInWorkoutHistory, ISetInExerciseInWorkoutHistory, IWorkoutHist
 import { parseISO, format } from 'date-fns';
 import { CookieValueType, localStorageKeys } from "@/app/contexts/util/workoutFunctions";
 
+export const computeTotalVolume = (workout: Workout): number => {
+    let totalVolume = 0;
+
+    workout.exercises.forEach(exercise => {
+        exercise.sets.forEach(set => {
+            if (set.isCompleted && set.weight > 0 && set.reps > 0) {
+                let weightInLbs = exercise.weightUnit === 'kgs'
+                    ? parseFloat((set.weight * 2.20462).toFixed(2))
+                    : parseFloat(set.weight.toFixed(2));
+
+                totalVolume += weightInLbs * set.reps;
+            }
+        });
+    });
+
+    return parseFloat(totalVolume.toFixed(2));
+};
+
+export const formatTotalWorkoutsDuration = (totalSeconds: number): string => {
+    if (totalSeconds < 0) {
+        return 'Please enter valid start and end times';
+    }
+
+    const secondsInMinute = 60;
+    const secondsInHour = 3600;
+    const secondsInDay = 86400;
+    const secondsInYear = 31536000;
+
+    const years = Math.floor(totalSeconds / secondsInYear);
+    totalSeconds %= secondsInYear;
+
+    const days = Math.floor(totalSeconds / secondsInDay);
+    totalSeconds %= secondsInDay;
+
+    const hours = Math.floor(totalSeconds / secondsInHour);
+    const minutes = Math.floor((totalSeconds % secondsInHour) / secondsInMinute);
+
+    const formattedYears = years > 0 ? `${years}y` : '';
+    const formattedDays = days > 0 ? `${days}d` : '';
+    const formattedHours = hours > 0 ? `${hours}h` : '';
+    const formattedMinutes = (years > 0 || days > 0 || hours > 0) && minutes === 0 ? '' : `${minutes}min`;
+
+    const formattedDuration = [formattedYears, formattedDays, formattedHours, formattedMinutes].filter(Boolean).join(' ');
+
+    return formattedDuration;
+};
+
+
 export const formatDuration = (totalSeconds: number): string => {
     if (totalSeconds < 0) {
         return 'Please enter valid start and end times';

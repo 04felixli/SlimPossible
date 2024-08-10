@@ -9,7 +9,10 @@ const StartWorkoutButton = () => {
     const { workout } = useWorkout();
     return (
         <div className='flex justify-center items-center mb-5 flex-col'>
-            {workout?.startTime && <div className='thin-font w-fit mb-1'>There is a workout in progress:</div>}
+            {workout?.startTime ?
+                <div className='thin-font w-fit mb-1'>There is a workout in progress:</div> :
+                <div className='thin-font w-fit mb-1'>Start a new workout:</div>
+            }
             <Link href="/workout/start" className='w-fit rounded-full black-button'>
                 <Button text={`${!workout?.startTime ? 'Quick Start' : 'Resume Workout'}`} />
             </Link>

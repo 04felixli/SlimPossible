@@ -44,6 +44,7 @@ export const postCompletedWorkoutServerAction = async (workout: Workout): Promis
     }
     const posted = await PostCompletedWorkout(workout);
     revalidatePath("/history");
+    revalidatePath("/dashboard");
     return posted;
 }
 
@@ -71,6 +72,7 @@ export const updateHistoryServerAction = async (history: Workout): Promise<boole
     }
     const posted = await UpdateHistory(history);
     revalidatePath("/history");
+    revalidatePath("/dashboard");
     return posted;
 }
 
@@ -89,6 +91,7 @@ export const deleteHistoryServerAction = async (history: Workout): Promise<boole
     }
     const posted = await DeleteHistory(history, history.id!);
     revalidatePath("/history");
+    revalidatePath("/dashboard");
     return posted;
 }
 

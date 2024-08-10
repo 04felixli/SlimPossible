@@ -5,6 +5,7 @@ export class Workout {
     name: string;
     startTime?: Date; // Keep track of workout start time
     endTime?: Date; // Keep track of workout end time
+    volume?: number;
     duration: number;
     date: Date; // Useless property -> keep for now
     exercises: Exercise[]; // Exercises in the actual workout
