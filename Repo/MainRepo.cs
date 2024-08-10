@@ -14,6 +14,7 @@ using ftDB.Models.Response.WorkoutHistoryModels;
 using ftDB.Models.Request.UpdateWorkoutModels;
 using ftDB.Models.Request.PostWorkoutTemplateModels;
 using ftDB.Models.Response.GetWorkoutTemplateModels;
+using ftDB.Models.Response.UserDataModels;
 
 namespace ftDB.Repo
 {
@@ -61,7 +62,7 @@ namespace ftDB.Repo
             }
 
             await _dao.PostWorkoutAsync(completedWorkout, uuid);
-
+            await _dao.UpdateUserDataAsync(uuid, 1, completedWorkout.Duration, completedWorkout.Volume);
             resp.SetResponseSuccess();
 
             return resp;
@@ -164,12 +165,12 @@ namespace ftDB.Repo
         {
             ResponseBase resp = new();
 
-            bool isDeleted = await _dao.DeleteWorkoutHistoryAsync(workoutHistoryId, uuid);
+            CompletedWorkout? deletedWorkout = await _dao.DeleteWorkoutHistoryAsync(workoutHistoryId, uuid);
 
-            if (isDeleted)
+            if (deletedWorkout != null)
             {
+                await _dao.UpdateUserDataAsync(uuid, -1, -deletedWorkout.Duration, -deletedWorkout.Volume);
                 resp.SetResponseSuccess();
-
                 return resp;
             }
 
@@ -239,13 +240,14 @@ namespace ftDB.Repo
 
             if (completedWorkout.Exercises.Length == 0)
             {
-                // delete workout here too
-                resp.SetResponseSuccessWithMsg("No workout was posted since there were no exercises completed.");
+                resp = await DeleteWorkoutHistoryAsync(completedWorkout.Id, uuid);
+                resp.SetResponseSuccessWithMsg("Workout was deleted since there were no completed exercises");
 
                 return resp;
             }
 
             await _dao.UpdateHistoryAsync(completedWorkout, uuid);
+            await _dao.RecalculateUserDataAsync(uuid);
             resp.SetResponseSuccess();
             return resp;
         }
@@ -268,8 +270,12 @@ namespace ftDB.Repo
             {
                 int avgWorkoutDuration = userData.TotalTime / userData.TotalWorkouts;
                 double avgWorkoutVolume = userData.TotalVolume / userData.TotalWorkouts;
-                resp.AvgWorkoutDuration = avgWorkoutDuration;
-                resp.AvgWorkoutVolume = avgWorkoutVolume;
+                ModelUserData data = new(userData.TotalWorkouts, userData.TotalTime, userData.TotalVolume, avgWorkoutDuration, avgWorkoutVolume);
+                resp.Data = data;
+            }
+            else
+            {
+                resp.Data = new();
             }
 
             resp.SetResponseSuccess();

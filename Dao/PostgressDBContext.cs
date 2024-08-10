@@ -104,6 +104,7 @@ namespace ftDB.Dao
                 entity.Property(e => e.StartTime).HasColumnType("timestamptz").HasColumnName("start_time").IsRequired();
                 entity.Property(e => e.EndTime).HasColumnType("timestamptz").HasColumnName("end_time").IsRequired();
                 entity.Property(e => e.Uuid).HasColumnType("text").HasColumnName("uuid");
+                entity.Property(e => e.Volume).HasColumnType("double precision").HasColumnName("volume").IsRequired();
                 entity.HasMany(CompletedWorkout => CompletedWorkout.ExercisesInWorkout)
                       .WithOne(ExerciseInWorkout => ExerciseInWorkout.CompletedWorkout)
                       .HasForeignKey(ExerciseInWorkout => ExerciseInWorkout.CompletedWorkoutId)

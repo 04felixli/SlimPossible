@@ -43,7 +43,7 @@ namespace ftDB.Dao
 
             try
             {
-                CompletedWorkout workoutToPost = new(completedWorkout.Date, completedWorkout.StartTime, completedWorkout.EndTime, completedWorkout.Duration, completedWorkout.Name, uuid); // Create new CompletedWorkout entity
+                CompletedWorkout workoutToPost = new(completedWorkout.Date, completedWorkout.StartTime, completedWorkout.EndTime, completedWorkout.Duration, completedWorkout.Name, uuid, completedWorkout.Volume); // Create new CompletedWorkout entity
 
                 int workoutId = await PostCompletedWorkoutAsync(workoutToPost);
 
@@ -295,7 +295,7 @@ namespace ftDB.Dao
             return false;
         }
 
-        public async Task<bool> DeleteWorkoutHistoryAsync(int workoutHistoryId, string uuid)
+        public async Task<CompletedWorkout?> DeleteWorkoutHistoryAsync(int workoutHistoryId, string uuid)
         {
             CompletedWorkout? historyToDelete = await _context.CompletedWorkouts.FindAsync(workoutHistoryId);
 
@@ -307,10 +307,10 @@ namespace ftDB.Dao
                 // Save changes to the database
                 await _context.SaveChangesAsync();
 
-                return true;
+                return historyToDelete;
             }
 
-            return false;
+            return historyToDelete;
         }
 
         public async Task AddExerciseToDbAsync(RequestModelAddExercise exerciseToAdd, string uuid)
@@ -578,6 +578,74 @@ namespace ftDB.Dao
             }
 
             return userData;
+        }
+
+        public async Task UpdateUserDataAsync(string uuid, int totalWorkoutsModifier, int totalTimeModifier, double totalVolumeModifier)
+        {
+            User userData = await _context.Users.FirstAsync(u => u.Uuid == uuid);
+            userData.TotalWorkouts += totalWorkoutsModifier;
+            userData.TotalTime += totalTimeModifier;
+            userData.TotalVolume += totalVolumeModifier;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RecalculateUserDataAsync(string uuid)
+        {
+            List<ModelPastWorkout> workouts = await _context.CompletedWorkouts
+                .Where(w => w.Uuid == uuid)
+                .Include(cw => cw.ExercisesInWorkout)
+                    .ThenInclude(eiw => eiw.Sets)
+                .OrderByDescending(completedWorkouts => completedWorkouts.Id)
+                .Select(completedWorkouts => new ModelPastWorkout(
+                    completedWorkouts.Name,
+                    completedWorkouts.Duration,
+                    completedWorkouts.Date,
+                    completedWorkouts.StartTime,
+                    completedWorkouts.EndTime,
+                    completedWorkouts.ExercisesInWorkout
+                        .OrderBy(eiw => eiw.CompletedWorkoutId)
+                        .ThenBy(eiw => eiw.Id)
+                        .Select(exerciseInWorkout => new ModelPastExercise(
+                            exerciseInWorkout.Exercise.Id,
+                            exerciseInWorkout.Id,
+                            exerciseInWorkout.Exercise.Name,
+                            exerciseInWorkout.Exercise.Equipment,
+                            exerciseInWorkout.Exercise.TargetMuscle,
+                            exerciseInWorkout.WeightUnit,
+                            exerciseInWorkout.Notes,
+                            exerciseInWorkout.InsertionNumber,
+                            exerciseInWorkout.Sets
+                                .OrderBy(s => s.SetNumber)
+                                .Select(s => new ModelPastSet(s.Id, s.Weight, s.Reps, s.SetNumber, true))
+                                .ToArray()
+                        )).ToArray(),
+                    completedWorkouts.Id,
+                    completedWorkouts.CreatedDate
+                )).ToListAsync();
+
+            int totalWorkouts = workouts.Count;
+            double totalVolume = 0;
+            int totalDuration = 0;
+
+            foreach (var workout in workouts)
+            {
+                totalDuration += workout.Duration;
+
+                foreach (var exercise in workout.Exercises)
+                {
+                    double exerciseVolume = exercise.Sets
+                        .Where(s => s.Weight > 0 && s.Reps > 0)
+                        .Sum(s => s.Weight * s.Reps);
+
+                    totalVolume += exerciseVolume;
+                }
+            }
+
+            User userData = await _context.Users.FirstAsync(u => u.Uuid == uuid);
+            userData.TotalWorkouts = totalWorkouts;
+            userData.TotalTime = totalDuration;
+            userData.TotalVolume = totalVolume;
+            await _context.SaveChangesAsync();
         }
 
         #region Private Methods 

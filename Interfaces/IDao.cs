@@ -22,11 +22,13 @@ namespace ftDB.Interfaces
         Task<ModelGetWorkoutTemplate> GetWorkoutTemplateAsync(int workoutTemplateId, string uuid);
         Task<List<ModelGetWorkoutTemplate>> GetAllTemplatesAsync(string uuid);
         Task<bool> DeleteWorkoutTemplateAsync(int workoutTemplateId, string uuid);
-        Task<bool> DeleteWorkoutHistoryAsync(int workoutHistoryId, string uuid);
+        Task<CompletedWorkout?> DeleteWorkoutHistoryAsync(int workoutHistoryId, string uuid);
         Task AddExerciseToDbAsync(RequestModelAddExercise exerciseToAdd, string uuid);
         Task UpdateTemplateAsync(RequestModelUpdateTemplate template, string uuid);
         Task UpdateHistoryAsync(RequestModelUpdateHistory history, string uuid);
         Task ReorderTemplatesAsync(int[] TemplateIds, string uuid);
         Task<User> GetUserDataAsync(string uuid);
+        Task UpdateUserDataAsync(string uuid, int totalWorkoutsModifier, int totalTimeModifier, double totalVolumeModifier);
+        Task RecalculateUserDataAsync(string uuid);
     }
 }
