@@ -448,11 +448,14 @@ export const resetWorkout = (cookieKey: cookieKeys, localStorageKey: localStorag
     deleteCookies(cookieKey);
 }
 
-export const changeStartAndEndTime = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, newStartTime: Date, newEndTime: Date) => {
+export const changeStartAndEndTime = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, newStartTime: Date, newEndTime: Date, localStorageKey: localStorageKeys) => {
     const newStartTimeDate = new Date(newStartTime);
     const newEndTimeDate = new Date(newEndTime);
 
     setWorkout(prevWorkout => {
-        return { ...prevWorkout, startTime: newStartTimeDate, endTime: newEndTimeDate };
+        const diffInSeconds = Math.floor((newEndTimeDate.getTime() - newStartTimeDate.getTime()) / 1000);
+        const newWorkout = { ...prevWorkout, startTime: newStartTimeDate, endTime: newEndTimeDate, duration: diffInSeconds };
+        setLocalStorage(localStorageKey, newWorkout);
+        return newWorkout;
     })
 }

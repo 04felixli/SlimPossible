@@ -158,8 +158,6 @@ export const PostTemplate = async (template: Workout): Promise<boolean> => {
             cache: 'no-store'
         });
 
-        console.log(JSON.stringify(template, null, 2));
-
         if (res.status !== 200) {
             throw new Error(`HTTP Error! Status: ${res.status}`);
         }

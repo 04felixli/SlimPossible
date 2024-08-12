@@ -68,7 +68,7 @@ export const formatDuration = (totalSeconds: number): string => {
     return formattedDuration;
 };
 
-// Convert a duration in seconds to a string format: hh:mm:ss given the start and end dates
+// Convert a duration in seconds to a string format given the start and end dates
 export const getFormattedDurationStringGivenStartAndEnd = (start?: Date, end?: Date): string => {
     if (!start || !end) {
         return formatDuration(0);

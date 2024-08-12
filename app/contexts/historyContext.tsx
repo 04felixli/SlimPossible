@@ -55,7 +55,7 @@ const HistoryContextProvider = ({ children }: Props) => {
     const changeWeightValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeWeightValue(localStorageKeys.history, setHistory, event, exerciseId, setNumber, insertionNumber);
     const changeRepsValueHandler = (event: React.ChangeEvent<HTMLInputElement>, exerciseId: number, setNumber: number, insertionNumber: number) => changeRepsValue(localStorageKeys.history, setHistory, event, exerciseId, setNumber, insertionNumber);
     // const resetHistoryContextHandler = () => resetWorkout(setHistory);
-    const changeStartAndEndTimeHandler = (newStartTime: Date, newEndTime: Date) => changeStartAndEndTime(setHistory, newStartTime, newEndTime);
+    const changeStartAndEndTimeHandler = (newStartTime: Date, newEndTime: Date) => changeStartAndEndTime(setHistory, newStartTime, newEndTime, localStorageKeys.history);
     const changeNameHandler = (newName: string) => changeName(localStorageKeys.history, setHistory, newName);
     const deleteSetHandler = (exerciseId: number, insertionNumber: number, setNumber: number) => deleteSet(localStorageKeys.history, setHistory, exerciseId, insertionNumber, setNumber);
     const reOrderExercisesHandler = (result: any) => reOrderExercises(result, localStorageKeys.history, setHistory);

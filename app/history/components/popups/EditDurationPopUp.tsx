@@ -48,9 +48,6 @@ const EditDurationPopUp = ({ closePopUp }: Props) => {
     const [startTime, setStartTime] = useState<string>(formatDateForDatetimeLocal(new Date(history.startTime!)));
     const [endTime, setEndTime] = useState<string>(formatDateForDatetimeLocal(new Date(history.endTime!)));
 
-    // console.log(history.startTime);
-    // console.log(history.endTime);
-
     return (
         <PopUpLayout closePopUp={closePopUp} popupContentClassName={popupContentClassNames.previewCard}>
             <section className='flex justify-between items-center'>
