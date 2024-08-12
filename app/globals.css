@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: linear-gradient(to bottom, #808080, #383838);
+  color: white;
+  height: 100%;
+}
+
+.card-bg {
+  @apply my-3 rounded-3xl bg-gradient-to-b from-card-bg-gradient-light to-card-bg-gradient-dark p-4 shadow-md
+}
+
+.subheading-font {
+  @apply text-base font-bold
+}
+
+.card-title-font {
+  @apply font-medium text-base
+}
+
+.thin-font {
+  @apply font-thin text-sm
+}
+
+.black-button {
+  @apply hover:scale-105 duration-300
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+body {
+  -ms-overflow-style: none;
+}
+
+/* Hide scrollbar for FireFox */
+html {
+  scrollbar-width: none;
+
+  /* Smooth section navigation */
+  /* scroll-behavior: smooth; */
+  scroll-padding: var(--scroll-padding, 6rem);
+}
