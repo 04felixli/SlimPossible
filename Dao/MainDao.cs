@@ -465,8 +465,12 @@ namespace ftDB.Dao
 
                 // await _context.SaveChangesAsync();
 
-                // Update the template properties
+                // Update the history properties
                 oldWorkout.Name = completedWorkout.Name;
+                oldWorkout.StartTime = completedWorkout.StartTime;
+                oldWorkout.EndTime = completedWorkout.EndTime;
+                oldWorkout.Duration = completedWorkout.Duration;
+                oldWorkout.Date = completedWorkout.Date;
 
                 // Update the exercise templates
                 foreach (ModelPastExercise modifiedExercise in completedWorkout.Exercises)
