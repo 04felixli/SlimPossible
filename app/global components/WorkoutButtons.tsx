@@ -13,10 +13,9 @@ interface Props {
     cancelPopUpContent: IPopUp;
     onAddRedirectRoute: string; // The url path to redirect to after the user clicks 'add'
     deleteButtonPopUpContent?: IPopUp;
-    onDoItRedirectURL?: string // The url path to redirect to after the user confirms a popup action
 }
 
-const WorkoutButtons = ({ onEndFunction, postPopUpContent, updatePopUpContent, cancelPopUpContent, onAddRedirectRoute, deleteButtonPopUpContent, onDoItRedirectURL }: Props) => {
+const WorkoutButtons = ({ onEndFunction, postPopUpContent, updatePopUpContent, cancelPopUpContent, onAddRedirectRoute, deleteButtonPopUpContent }: Props) => {
     if ((!postPopUpContent && !updatePopUpContent) || (postPopUpContent && updatePopUpContent)) {
         throw new Error('must have either post or update, but cannot have both');
     }
@@ -44,14 +43,14 @@ const WorkoutButtons = ({ onEndFunction, postPopUpContent, updatePopUpContent, c
             <div className='mt-3 flex justify-center items-center black-button'>
                 <Button text={cancelPopUpContent.buttonText} onClickFunction={() => setPopUpToShow(action.cancel)} className='w-full' />
             </div>
-            {(popUpToShow == action.cancel) && <ConfirmationPopUp popUpContent={cancelPopUpContent} onDoIt={() => clearExercises(action.cancel)} onDontDoIt={() => setPopUpToShow(null)} onDoItRedirectURL={onDoItRedirectURL} />}
-            {(popUpToShow == action.post) && postPopUpContent && <ConfirmationPopUp popUpContent={postPopUpContent} onDoIt={() => clearExercises(action.post)} onDontDoIt={() => setPopUpToShow(null)} onDoItRedirectURL={onDoItRedirectURL} />}
-            {(popUpToShow == action.update) && updatePopUpContent && <ConfirmationPopUp popUpContent={updatePopUpContent} onDoIt={() => clearExercises(action.update)} onDontDoIt={() => setPopUpToShow(null)} onDoItRedirectURL={onDoItRedirectURL} />}
+            {(popUpToShow == action.cancel) && <ConfirmationPopUp popUpContent={cancelPopUpContent} onDoIt={() => clearExercises(action.cancel)} onDontDoIt={() => setPopUpToShow(null)} />}
+            {(popUpToShow == action.post) && postPopUpContent && <ConfirmationPopUp popUpContent={postPopUpContent} onDoIt={() => clearExercises(action.post)} onDontDoIt={() => setPopUpToShow(null)} />}
+            {(popUpToShow == action.update) && updatePopUpContent && <ConfirmationPopUp popUpContent={updatePopUpContent} onDoIt={() => clearExercises(action.update)} onDontDoIt={() => setPopUpToShow(null)} />}
             {deleteButtonPopUpContent &&
                 <div className='mt-3 flex justify-center items-center black-button'>
                     <Button text={deleteButtonPopUpContent.buttonText} onClickFunction={() => setPopUpToShow(action.delete)} className='w-full' />
                 </div>}
-            {(popUpToShow == action.delete) && deleteButtonPopUpContent && <ConfirmationPopUp popUpContent={deleteButtonPopUpContent} onDoIt={() => clearExercises(action.delete)} onDontDoIt={() => setPopUpToShow(null)} onDoItRedirectURL={onDoItRedirectURL} />}
+            {(popUpToShow == action.delete) && deleteButtonPopUpContent && <ConfirmationPopUp popUpContent={deleteButtonPopUpContent} onDoIt={() => clearExercises(action.delete)} onDontDoIt={() => setPopUpToShow(null)} />}
         </div>
     )
 }

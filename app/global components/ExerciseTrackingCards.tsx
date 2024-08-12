@@ -147,7 +147,7 @@ const ExerciseTrackingCards = ({ reOrderExercises, workout, setWorkout, addSet, 
                     )}
                 </Droppable>
             </DragDropContext>
-            {openReplaceExercisePopUp && <ConfirmationPopUp onDoIt={() => { }} popUpContent={replaceExercisePopUpContent} onDontDoIt={() => setOpenReplaceExercisePopUp(false)} onDoItRedirectURL={fullReplaceExerciseRedirectURL} />}
+            {openReplaceExercisePopUp && <ConfirmationPopUp onDoIt={() => { }} popUpContent={replaceExercisePopUpContent} onDontDoIt={() => setOpenReplaceExercisePopUp(false)} replaceExerciseRedirectURL={fullReplaceExerciseRedirectURL} />}
         </div >
     )
 }

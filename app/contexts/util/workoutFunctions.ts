@@ -1,5 +1,5 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
-import { deleteHistoryServerAction, deleteTemplateServerAction, postCompletedWorkoutServerAction, postTemplateServerAction, updateHistoryServerAction, updateTemplateServerAction } from "@/app/global components/Library/actions";
+import { deleteHistoryServerAction, deleteTemplateServerAction, postCompletedWorkoutServerAction, postTemplateServerAction, redirectServerAction, updateHistoryServerAction, updateTemplateServerAction } from "@/app/global components/Library/actions";
 import { PostCompletedWorkout } from "@/app/global components/Library/apiCalls";
 import { computeTotalVolume, deleteCookies, deleteLocalStorage, formatTime, GetWorkoutTime, setCookies, setLocalStorage } from "@/app/global components/Library/utilFunctions";
 import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
@@ -407,6 +407,7 @@ export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<Re
     }
 
     resetWorkout(cookieKeys.workout, localStorageKeys.workout, setWorkout);
+    await redirectServerAction("/workout");
 };
 
 export const endTemplate = async (template: Workout, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, cause: action) => {
@@ -430,6 +431,7 @@ export const endTemplate = async (template: Workout, setTemplate: React.Dispatch
 
     resetWorkout(cookieKeys.template, localStorageKeys.template, setTemplate);
     deleteCookies(cookieKeys.isEditTemplate);
+    await redirectServerAction("/workout");
 };
 
 export const endHistory = async (history: Workout, setHistory: React.Dispatch<React.SetStateAction<Workout>>, cause: action) => {
@@ -437,6 +439,7 @@ export const endHistory = async (history: Workout, setHistory: React.Dispatch<Re
     if (cause == action.update) { await updateHistoryServerAction(plainHistory); }
     if (cause == action.delete) { await deleteHistoryServerAction(plainHistory); }
     resetWorkout(cookieKeys.history, localStorageKeys.history, setHistory);
+    await redirectServerAction("/history");
 };
 
 export const resetWorkout = (cookieKey: cookieKeys, localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>) => {

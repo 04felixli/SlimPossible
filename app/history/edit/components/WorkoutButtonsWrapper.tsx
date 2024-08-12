@@ -34,7 +34,7 @@ const WorkoutButtonsWrapper = () => {
     }
 
     return (
-        <WorkoutButtons onEndFunction={endHistory} updatePopUpContent={saveChangesToWorkoutHistoryPopUpContent} cancelPopUpContent={discardChangesToWorkoutHistoryPopUpContent} deleteButtonPopUpContent={deleteWorkoutHistoryPopUpContent} onAddRedirectRoute={`/history/select-exercises`} onDoItRedirectURL='/history' />
+        <WorkoutButtons onEndFunction={endHistory} updatePopUpContent={saveChangesToWorkoutHistoryPopUpContent} cancelPopUpContent={discardChangesToWorkoutHistoryPopUpContent} deleteButtonPopUpContent={deleteWorkoutHistoryPopUpContent} onAddRedirectRoute={`/history/select-exercises`} />
     )
 }
 

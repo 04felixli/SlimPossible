@@ -158,6 +158,8 @@ export const PostTemplate = async (template: Workout): Promise<boolean> => {
             cache: 'no-store'
         });
 
+        console.log(JSON.stringify(template, null, 2));
+
         if (res.status !== 200) {
             throw new Error(`HTTP Error! Status: ${res.status}`);
         }
@@ -293,7 +295,7 @@ export const ReorderTemplates = async (templateIds: number[]): Promise<boolean> 
 export const GetDashboardInfo = async (): Promise<IDashboardInfo> => {
     try {
         const user = await GetUser();
-        const res = await fetch(`${url}/api/Main/GetUserData?uuid=${user?.id}`, { cache: 'no-store' });
+        const res = await fetch(`${url}/api/Main/GetUserData?uuid=${user?.id}`);
 
         if (res.status !== 200) {
             throw new Error(`HTTP Error! Status: ${res.status}`);

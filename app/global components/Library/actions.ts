@@ -18,6 +18,10 @@ const isAuthenticated = async (): Promise<boolean> => {
     return true
 }
 
+export const redirectServerAction = async (path: string) => {
+    redirect(path);
+}
+
 export const setExpandedCookieFunction = async () => {
     // Access the cookies object
     const cookiesObject = cookies();
@@ -43,7 +47,7 @@ export const postCompletedWorkoutServerAction = async (workout: Workout): Promis
         redirect("/api/auth/login");
     }
     const posted = await PostCompletedWorkout(workout);
-    revalidatePath("/history");
+    // revalidatePath("/history");
     revalidatePath("/dashboard");
     return posted;
 }
@@ -53,7 +57,6 @@ export const postTemplateServerAction = async (template: Workout): Promise<boole
         redirect("/api/auth/login");
     }
     const posted = await PostTemplate(template);
-    revalidatePath("/workout");
     return posted;
 }
 
@@ -62,7 +65,6 @@ export const updateTemplateServerAction = async (template: Workout): Promise<boo
         redirect("/api/auth/login");
     }
     const posted = await UpdateTemplate(template);
-    revalidatePath("/workout");
     return posted;
 }
 
@@ -71,7 +73,7 @@ export const updateHistoryServerAction = async (history: Workout): Promise<boole
         redirect("/api/auth/login");
     }
     const posted = await UpdateHistory(history);
-    revalidatePath("/history");
+    // revalidatePath("/history");
     revalidatePath("/dashboard");
     return posted;
 }
@@ -81,7 +83,6 @@ export const deleteTemplateServerAction = async (template: Workout): Promise<boo
         redirect("/api/auth/login");
     }
     const posted = await DeleteTemplate(template, template.id!);
-    revalidatePath("/workout");
     return posted;
 }
 
@@ -90,7 +91,7 @@ export const deleteHistoryServerAction = async (history: Workout): Promise<boole
         redirect("/api/auth/login");
     }
     const posted = await DeleteHistory(history, history.id!);
-    revalidatePath("/history");
+    // revalidatePath("/history");
     revalidatePath("/dashboard");
     return posted;
 }
