@@ -37,7 +37,6 @@ const workoutContext = createContext<WorkoutContextType | null>(null);
 // A function that returns the contextProvider to wrap other components in
 const WorkoutContextProvider = ({ children }: Props) => {
     const [workout, setWorkout] = useState<Workout>(new Workout());
-    const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
 
     const addSetHandler = (exerciseId: number, insertionNumber: number) => addSet(localStorageKeys.workout, setWorkout, exerciseId, insertionNumber);
     const removeExerciseHandler = (exerciseId: number, insertionNumber: number) => removeExercise(cookieKeys.workout, localStorageKeys.workout, setWorkout, exerciseId, insertionNumber);
@@ -54,8 +53,8 @@ const WorkoutContextProvider = ({ children }: Props) => {
     const changeNameHandler = (newName: string) => changeName(localStorageKeys.workout, setWorkout, newName);
     const deleteSetHandler = (exerciseId: number, insertionNumber: number, setNumber: number) => deleteSet(localStorageKeys.workout, setWorkout, exerciseId, insertionNumber, setNumber);
     const reOrderExercisesHandler = (result: any) => reOrderExercises(result, localStorageKeys.workout, setWorkout);
-    const startWorkoutHandler = (workout?: Workout) => startWorkout(localStorageKeys.workout, setWorkout, intervalIdRef, workout);
-    const endWorkoutHandler = (cause: action) => endWorkout(workout, setWorkout, intervalIdRef, cause);
+    const startWorkoutHandler = (workout?: Workout) => startWorkout(localStorageKeys.workout, setWorkout, workout);
+    const endWorkoutHandler = (cause: action) => endWorkout(workout, setWorkout, cause);
 
     return (
         <workoutContext.Provider value={{ // this value sets the createContext to be of type 

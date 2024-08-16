@@ -1,13 +1,14 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../../globals.css';
 import { useWorkout } from '@/app/contexts/workoutContext';
-import { formatDuration } from '@/app/global components/Library/utilFunctions';
+import { deleteLocalStorage, formatDuration, setLocalStorage } from '@/app/global components/Library/utilFunctions';
 import { localStorageKeys } from '@/app/contexts/util/workoutFunctions';
 import { Workout } from '../../objects/classes';
 
 const Timer = () => {
     const { workout, startWorkout, setWorkout } = useWorkout();
+    const [duration, setDuration] = useState<number>(0);
 
     useEffect(() => {
         const workoutInProgress = localStorage.getItem(localStorageKeys.workout);
@@ -23,6 +24,24 @@ const Timer = () => {
             startWorkout(newWorkout);
             return newWorkout;
         });
+
+        const startTime = new Date(parsedWorkout.startTime!).getTime();
+        const currentTime = Date.now();
+        const initialDuration = Math.floor((currentTime - startTime) / 1000); // In seconds
+        setDuration(initialDuration);
+
+        const intervalId = setInterval(() => {
+            setDuration(prevDuration => {
+                const newDuration = prevDuration + 1;
+                setLocalStorage("workout-duration", newDuration);
+                return newDuration;
+            });
+        }, 1000);
+
+        return () => {
+            clearInterval(intervalId);
+            deleteLocalStorage("workout-duration");
+        };
     }, []);
 
     const getTimerValue = (durationInSeconds: number) => {
@@ -39,7 +58,7 @@ const Timer = () => {
 
     return (
         <div className='thin-font'>
-            {getTimerValue(workout.duration)}
+            {getTimerValue(duration)}
         </div>
     );
 };

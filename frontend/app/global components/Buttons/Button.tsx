@@ -10,10 +10,8 @@ interface Props {
 }
 
 const Button = (props: Props) => {
-    // Temporary default function if none is provided
-    const handleClick = () => {
-        console.log("Default button click!");
-    };
+    // Default function if none is provided
+    const handleClick = () => { };
 
     const onClick = props.onClickFunction || handleClick;
 

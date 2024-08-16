@@ -303,6 +303,9 @@ export const deleteSet = (localStorageKey: localStorageKeys, setWorkout: React.D
     setWorkout((prevWorkout) => {
         const updatedExercises = prevWorkout.exercises.map((exercise) => {
             if (exercise.id === exerciseId && exercise.insertionNumber === insertionNumber) {
+                if (exercise.sets.length === 1) {
+                    return { ...exercise, sets: [new WorkoutSet(1)] };
+                }
                 // Filter out the set with the specific setNumber
                 const updatedSets = exercise.sets
                     .filter((set) => set.setNumber !== setNumber)
@@ -333,7 +336,7 @@ export const reOrderExercises = (result: any, localStorageKey: localStorageKeys,
     })
 }
 
-export const startWorkout = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>, workout?: Workout) => {
+export const startWorkout = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, workout?: Workout) => {
     setWorkout(prevWorkout => {
         const newWorkout = !workout ? { ...prevWorkout, startTime: new Date(), duration: 0, name: GetWorkoutTime() + " Workout" } : { ...workout };
         setLocalStorage(localStorageKey, newWorkout);
@@ -343,21 +346,6 @@ export const startWorkout = (localStorageKey: localStorageKeys, setWorkout: Reac
         setCookies(cookieKeys.workout, exercisesInWorkout, cookieExpTime);
         return newWorkout;
     });
-
-    if (intervalIdRef.current) {
-        // Interval already running, no need to start a new one
-        return;
-    }
-
-    intervalIdRef.current = setInterval(() => {
-        setWorkout(prevWorkout => {
-            if (!prevWorkout.startTime) return prevWorkout; // Don't run in case a workout hasn't been started
-            const newDuration = prevWorkout.duration + 1;
-            const newWorkout = { ...prevWorkout, duration: newDuration };
-            setLocalStorage(localStorageKey, newWorkout);
-            return newWorkout;
-        });
-    }, 1000);
 }
 
 export const startTemplate = (localStorageKey: localStorageKeys, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, template?: Workout) => {
@@ -389,20 +377,15 @@ export const startHistory = (localStorageKey: localStorageKeys, setHistory: Reac
     setHistory({ ...history });
 }
 
-export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, intervalIdRef: React.MutableRefObject<NodeJS.Timeout | null>, cause: action) => {
-    if (intervalIdRef.current) {
-        clearInterval(intervalIdRef.current);
-        intervalIdRef.current = null;
-    }
-
+export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, cause: action) => {
     // 1. workout.endTime = workout.startTime + workout.duration
     // 2. Send POST request to API
     // 3. Reset workout to initial state
     if (cause == action.post) {
-        const durationInMillis = workout.duration * 1000;
-        const updatedEndTime = new Date(workout.startTime!.getTime() + durationInMillis);
+        const updatedEndTime = new Date();
+        const updatedDuration = (updatedEndTime.getTime() - new Date(workout.startTime!).getTime()) / 1000;
         const totalVolume = computeTotalVolume(workout);
-        const updatedWorkout: Workout = { ...workout, volume: totalVolume, endTime: updatedEndTime }; // create a plain object for server action
+        const updatedWorkout: Workout = { ...workout, volume: totalVolume, duration: updatedDuration, endTime: updatedEndTime }; // create a plain object for server action
         await postCompletedWorkoutServerAction(updatedWorkout);
     }
 
