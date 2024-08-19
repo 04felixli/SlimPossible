@@ -1,16 +1,14 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TbSwitch3 } from "react-icons/tb";
 import { FaNoteSticky } from "react-icons/fa6";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { FaPlus } from "react-icons/fa";
-import Link from 'next/link';
-import { Exercise, Workout, WorkoutSet } from '../workout/objects/classes';
+import { Workout } from './objects/classes';
 import ActionButton from '../workout/components/ActionButton';
 import TrackSets from '../workout/components/TrackSets';
 import { IPopUp } from '../workout/interfaces/popup';
 import ConfirmationPopUp from './popups/ConfirmationPopUp';
-import { motion } from 'framer-motion';
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 
 interface Props {

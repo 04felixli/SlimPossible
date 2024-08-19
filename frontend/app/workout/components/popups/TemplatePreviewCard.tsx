@@ -1,12 +1,12 @@
 'use client'
-import React from 'react'
-import { Workout } from '@/app/workout/objects/classes';
+import React from 'react';
+import { Workout } from '@/app/global components/objects/classes';
 import { FaRegWindowClose } from "react-icons/fa";
-import Link from 'next/link';
 import { useTemplate } from '@/app/contexts/templateContext';
 import PopUpLayout, { popupContentClassNames } from '@/app/global components/popups/PopUpLayout';
 import Button from '@/app/global components/Buttons/Button';
 import { useWorkout } from '@/app/contexts/workoutContext';
+import CustomLink from '@/app/global components/CustomLink';
 
 
 interface Props {
@@ -28,7 +28,7 @@ const TemplatePreviewCard = ({ workout, closePopUp }: Props) => {
             {/* x and edit buttons */}
             <section className='flex justify-between items-center'>
                 <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>
-                <Link href={`/workout/templates/edit-template`} onClick={() => startTemplate(JSON.parse(JSON.stringify(workout)))}>Edit</Link>
+                <CustomLink href={`/workout/templates/edit-template`} onClick={() => startTemplate(JSON.parse(JSON.stringify(workout)))}>Edit</CustomLink>
             </section>
 
             {/* workout name */}
@@ -36,9 +36,9 @@ const TemplatePreviewCard = ({ workout, closePopUp }: Props) => {
 
             {/* start workout from template button */}
             <div className='flex justify-center items-center mt-3'>
-                <Link href='/workout/start' onClick={() => setWorkout(JSON.parse(JSON.stringify(workout)))} className='black-button'>
+                <CustomLink href='/workout/start' onClick={() => setWorkout(JSON.parse(JSON.stringify(workout)))} className='black-button'>
                     <Button text='Start Workout' />
-                </Link>
+                </CustomLink>
             </div>
 
             {/* list of exercises and sets in workout */}

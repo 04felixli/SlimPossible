@@ -1,8 +1,6 @@
 import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
 import { NextRequest, NextResponse } from "next/server";
-import { cookieKeys, CookieValueType, localStorageKeys } from "./app/contexts/util/workoutFunctions";
-import { Exercise } from "./app/workout/objects/classes";
-import { redirect } from "next/navigation";
+import { cookieKeys, CookieValueType } from "./app/contexts/util/workoutFunctions";
 
 enum validationResponses {
     noWorkout = "No Workout",

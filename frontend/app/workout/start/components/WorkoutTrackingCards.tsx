@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React from 'react';
 import ExerciseTrackingCards from '../../../global components/ExerciseTrackingCards';
 import { useWorkout } from '@/app/contexts/workoutContext';
 

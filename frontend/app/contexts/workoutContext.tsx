@@ -1,6 +1,6 @@
 'use client';
 import React, { createContext, useState, ReactNode, useContext, useRef } from 'react';
-import { Workout } from '../workout/objects/classes';
+import { Workout } from '../global components/objects/classes';
 import { localStorageKeys, action, addExercises, addSet, changeRepsValue, changeWeightUnit, changeWeightValue, endWorkout, multipleExerciseSelect, removeExercise, replaceExercise, singleExerciseSelect, startWorkout, toggleCompletedSet, toggleNotes, updateNotes, cookieKeys, changeName, deleteSet, reOrderExercises } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 

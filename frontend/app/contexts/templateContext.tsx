@@ -2,10 +2,9 @@
 
 'use client';
 import React, { createContext, useState, ReactNode, useContext } from 'react';
-import { Workout } from '../workout/objects/classes';
+import { Workout } from '../global components/objects/classes';
 import { addSet, removeExercise, changeWeightUnit, updateNotes, toggleNotes, addExercises, changeRepsValue, changeWeightValue, multipleExerciseSelect, replaceExercise, singleExerciseSelect, toggleCompletedSet, resetWorkout, endTemplate, action, localStorageKeys, cookieKeys, startTemplate, changeName, deleteSet, reOrderExercises } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
-import workout from '../workout/page';
 
 // Define the shape of the context
 interface TemplateContextType {

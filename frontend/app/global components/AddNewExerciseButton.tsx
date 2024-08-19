@@ -1,6 +1,6 @@
 'use client'
-import Button from '@/app/global components/Buttons/Button'
-import React, { useState } from 'react'
+import Button from '@/app/global components/Buttons/Button';
+import React, { useState } from 'react';
 import AddExercisePopUp from './popups/AddExercisePopUp';
 
 const AddNewExerciseButton = () => {

@@ -1,7 +1,6 @@
 'use client'
-import { useTemplate } from '@/app/contexts/templateContext'
-import React, { useState } from 'react'
-import PageName from '@/app/global components/PageName';
+import { useTemplate } from '@/app/contexts/templateContext';
+import React, { useState } from 'react';
 import PageNameClient from '@/app/global components/PageNameClient';
 import ChangeNamePopUp from '@/app/global components/ChangeNamePopUp';
 

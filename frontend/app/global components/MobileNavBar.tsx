@@ -1,12 +1,9 @@
-import React from 'react'
+import React from 'react';
 import { FaDumbbell } from "react-icons/fa";
-import { FaChartPie } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import { FaPlus } from "react-icons/fa";
 import { FaCalendar } from "react-icons/fa";
-import { VscDebugStart } from "react-icons/vsc";
-
-import Link from 'next/link';
+import CustomLink from './CustomLink';
 
 const MobileNavBar = () => {
     return (
@@ -17,19 +14,19 @@ const MobileNavBar = () => {
                 </a>
             </li>
             <li>
-                <Link href="/workout">
+                <CustomLink href="/workout">
                     <FaPlus className='h-5 w-5' />
-                </Link>
+                </CustomLink>
             </li>
             <li>
-                <Link href="/history">
+                <CustomLink href="/history">
                     <FaCalendar className='h-5 w-5' />
-                </Link>
+                </CustomLink>
             </li>
             <li>
-                <Link href="/exercises">
+                <CustomLink href="/exercises">
                     <FaDumbbell className="h-5 w-5" />
-                </Link>
+                </CustomLink>
             </li>
         </ul>
     )

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import TemplateCards from './components/TemplateCards'
 import PageName from '../global components/PageName';
 import PageLayout from '../global components/PageLayouts/layout';

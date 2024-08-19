@@ -1,8 +1,8 @@
 'use client'
 import { useTemplate } from '@/app/contexts/templateContext';
-import { ExerciseInList } from '@/app/exercises/interfaces/exercises'
+import { ExerciseInList } from '@/app/exercises/interfaces/exercises';
 import SelectableExerciseCard from '@/app/global components/SelectableExerciseCard';
-import React from 'react'
+import React from 'react';
 
 interface Props {
     exercises: ExerciseInList[];

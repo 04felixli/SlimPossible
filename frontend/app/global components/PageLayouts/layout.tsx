@@ -1,5 +1,4 @@
-import React, { Children, createContext, ReactNode, useContext } from 'react';
-import MobileNavBar from '../MobileNavBar';
+import React, { ReactNode } from 'react';
 import SideBar from '../Navigation/SideBar';
 import SideBarItem from '../Navigation/SideBarItem';
 import PageContent from './PageContent';
@@ -8,7 +7,6 @@ import { MdOutlineDashboard } from 'react-icons/md';
 import MobileMenu from '../Navigation/MobileMenu';
 import MobileMenuItem from '../Navigation/MobileMenuItem';
 import { cookies } from 'next/headers';
-import { setExpandedCookieFunction } from '../Library/actions';
 
 interface LayoutProps {
     children: ReactNode;

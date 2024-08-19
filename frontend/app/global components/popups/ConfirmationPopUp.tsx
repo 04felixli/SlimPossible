@@ -1,9 +1,9 @@
 import React from 'react';
-import './popup.css'; // Make sure to import the CSS file
+import './popup.css';
 import { IPopUp } from '@/app/workout/interfaces/popup';
 import Button from '@/app/global components/Buttons/Button';
 import PopUpLayout, { popupContentClassNames } from './PopUpLayout';
-import Link from 'next/link';
+import CustomLink from '../CustomLink';
 
 interface Props {
   popUpContent: IPopUp;
@@ -26,9 +26,9 @@ const ConfirmationPopUp = ({ popUpContent, onDoIt, onDontDoIt, replaceExerciseRe
         </button>
         {!replaceExerciseRedirectURL ?
           <Button text={popUpContent.doIt} onClickFunction={onDoIt} className='w-full mt-3' /> :
-          <Link href={replaceExerciseRedirectURL} className='mt-3'>
+          <CustomLink href={replaceExerciseRedirectURL} className='mt-3'>
             <Button text={popUpContent.doIt} onClickFunction={onDoIt} className='w-full' />
-          </Link>}
+          </CustomLink>}
       </div>
     </PopUpLayout>
 

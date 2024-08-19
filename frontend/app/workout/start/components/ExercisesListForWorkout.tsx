@@ -1,7 +1,7 @@
 'use client'
-import { useWorkout } from '@/app/contexts/workoutContext'
-import { ExerciseInList } from '@/app/exercises/interfaces/exercises'
-import React from 'react'
+import { useWorkout } from '@/app/contexts/workoutContext';
+import { ExerciseInList } from '@/app/exercises/interfaces/exercises';
+import React from 'react';
 import SelectableExerciseCard from '../../../global components/SelectableExerciseCard';
 
 interface Props {

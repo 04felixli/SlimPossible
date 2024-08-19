@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { FaCheck } from "react-icons/fa";
-import { Exercise, Workout, WorkoutSet } from '../objects/classes';
+import { Exercise, WorkoutSet } from '../../global components/objects/classes';
 import NumericInput from './NumericInput';
 import { IoClose } from "react-icons/io5";
 

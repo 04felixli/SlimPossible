@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react'
-import { CgProfile } from 'react-icons/cg'
+import React, { ReactNode } from 'react';
+import { CgProfile } from 'react-icons/cg';
 import { BsLayoutTextSidebarReverse } from "react-icons/bs";
 import { setExpandedCookieFunction } from '../Library/actions';
 import LogoutButton from './LogoutButton';

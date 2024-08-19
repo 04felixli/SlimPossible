@@ -1,10 +1,10 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import Button from '@/app/global components/Buttons/Button';
-import Link from 'next/link';
 import { IPopUp } from '../workout/interfaces/popup';
 import { action } from '../contexts/util/workoutFunctions';
 import ConfirmationPopUp from './popups/ConfirmationPopUp';
+import CustomLink from './CustomLink';
 
 interface Props {
     onEndFunction: (cause: action) => void; // function to run when workout / template editing / history editing ends
@@ -34,9 +34,9 @@ const WorkoutButtons = ({ onEndFunction, postPopUpContent, updatePopUpContent, c
 
     return (
         <div className='flex flex-col'>
-            <Link href={onAddRedirectRoute} className='mt-3 flex justify-center items-center black-button'>
+            <CustomLink href={onAddRedirectRoute} className='mt-3 flex justify-center items-center black-button'>
                 <Button text={'Add Exercise'} className='w-full' />
-            </Link>
+            </CustomLink>
             <div className='mt-5 flex justify-center items-center black-button'>
                 <Button text={postPopUpContent ? postPopUpContent.buttonText : updatePopUpContent!.buttonText} onClickFunction={() => setPopUpToShow(postPopUpContent ? action.post : action.update)} className='w-full' />
             </div>

@@ -3,7 +3,7 @@ import React, { useState, Dispatch, SetStateAction } from 'react';
 import { useHistory } from '@/app/contexts/historyContext';
 import { FaRegWindowClose } from 'react-icons/fa';
 import PopUpLayout, { popupContentClassNames } from '@/app/global components/popups/PopUpLayout';
-import { Workout } from '../workout/objects/classes';
+import { Workout } from './objects/classes';
 
 interface Props {
     workout: Workout;

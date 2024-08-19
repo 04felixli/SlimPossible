@@ -1,6 +1,6 @@
 "use client"
-import React, { useEffect } from 'react'
-import { useWorkout } from './contexts/workoutContext'
+import React, { useEffect } from 'react';
+import { useWorkout } from './contexts/workoutContext';
 import { useTemplate } from './contexts/templateContext';
 import { useHistory } from './contexts/historyContext';
 import { action } from './contexts/util/workoutFunctions';

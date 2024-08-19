@@ -1,11 +1,9 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import '../../globals.css';
-import Link from 'next/link';
 import { IWorkoutTemplate } from '@/app/global components/Interfaces/templateInterfaces';
-import { useTemplate } from '@/app/contexts/templateContext';
-import { Workout } from '../objects/classes';
-import { convertIWorkoutTemplateToWorkout, setLocalStorage } from '@/app/global components/Library/utilFunctions';
+import { Workout } from '../../global components/objects/classes';
+import { convertIWorkoutTemplateToWorkout } from '@/app/global components/Library/utilFunctions';
 import TemplatePreviewCard from './popups/TemplatePreviewCard';
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 import { reorderTemplatesServerAction } from '@/app/global components/Library/actions';

@@ -1,9 +1,7 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
 import { deleteHistoryServerAction, deleteTemplateServerAction, postCompletedWorkoutServerAction, postTemplateServerAction, redirectServerAction, updateHistoryServerAction, updateTemplateServerAction } from "@/app/global components/Library/actions";
-import { PostCompletedWorkout } from "@/app/global components/Library/apiCalls";
-import { computeTotalVolume, deleteCookies, deleteLocalStorage, formatTime, GetWorkoutTime, setCookies, setLocalStorage } from "@/app/global components/Library/utilFunctions";
-import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
-import editTemplate from "@/app/workout/templates/edit-template/page";
+import { computeTotalVolume, deleteCookies, deleteLocalStorage, GetWorkoutTime, setCookies, setLocalStorage } from "@/app/global components/Library/utilFunctions";
+import { Exercise, Workout, WorkoutSet } from "@/app/global components/objects/classes";
 
 export enum action {
     post = 'post',

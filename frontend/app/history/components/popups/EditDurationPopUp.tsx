@@ -2,7 +2,7 @@
 import { useHistory } from '@/app/contexts/historyContext';
 import { getFormattedDurationStringGivenStartAndEnd } from '@/app/global components/Library/utilFunctions';
 import PopUpLayout, { popupContentClassNames } from '@/app/global components/popups/PopUpLayout';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { FaRegWindowClose } from 'react-icons/fa';
 
 interface Props {

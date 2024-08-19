@@ -1,7 +1,7 @@
-import { cookieKeys, localStorageKeys } from '@/app/contexts/util/workoutFunctions';
+import { cookieKeys } from '@/app/contexts/util/workoutFunctions';
 import Button from '@/app/global components/Buttons/Button';
+import CustomLink from '@/app/global components/CustomLink';
 import { cookies } from 'next/headers';
-import Link from 'next/link';
 import React from 'react'
 
 const StartWorkoutButton = () => {
@@ -17,9 +17,9 @@ const StartWorkoutButton = () => {
                 <div className='thin-font w-fit mb-1'>There is a workout in progress:</div> :
                 <div className='thin-font w-fit mb-1'>Start a new workout:</div>
             }
-            <Link href="/workout/start" className='w-fit rounded-full black-button'>
+            <CustomLink href="/workout/start" className='w-fit rounded-full black-button'>
                 <Button text={`${!started ? 'Quick Start' : 'Resume Workout'}`} />
-            </Link>
+            </CustomLink>
         </div>
     )
 }

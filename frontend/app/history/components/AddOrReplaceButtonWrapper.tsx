@@ -1,6 +1,5 @@
 'use client'
-import React from 'react'
-import { useWorkout } from '@/app/contexts/workoutContext';
+import React from 'react';
 import { useHistory } from '@/app/contexts/historyContext';
 import AddOrReplaceButton from '@/app/global components/AddOrReplaceButton';
 

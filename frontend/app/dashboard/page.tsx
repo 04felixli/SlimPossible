@@ -1,5 +1,5 @@
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
-import React from 'react'
+import React from 'react';
 import PageLayout from '../global components/PageLayouts/layout';
 import { GetDashboardInfo } from '../global components/Library/apiCalls';
 import { formatTotalWorkoutsDuration, GetWorkoutTime } from '../global components/Library/utilFunctions';

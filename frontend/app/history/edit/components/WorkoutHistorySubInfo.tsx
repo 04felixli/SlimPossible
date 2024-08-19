@@ -1,10 +1,9 @@
 'use client'
-import { useHistory } from '@/app/contexts/historyContext'
-import { formatDuration, formatTime, getFormattedDurationStringGivenStartAndEnd } from '@/app/global components/Library/utilFunctions'
-import React, { useEffect, useState } from 'react'
-import { FaCalendar, FaClock } from 'react-icons/fa'
-import EditDurationPopUp from '../../components/popups/EditDurationPopUp'
-import { AiFillEdit } from "react-icons/ai";
+import { useHistory } from '@/app/contexts/historyContext';
+import { formatTime, getFormattedDurationStringGivenStartAndEnd } from '@/app/global components/Library/utilFunctions';
+import React, { useState } from 'react';
+import { FaCalendar, FaClock } from 'react-icons/fa';
+import EditDurationPopUp from '../../components/popups/EditDurationPopUp';
 
 const WorkoutHistorySubInfo = () => {
     const { history, setHistory } = useHistory();

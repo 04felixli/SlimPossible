@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { ExerciseInList } from '@/app/exercises/interfaces/exercises';
 import { GetExerciseList } from '@/app/global components/Library/apiCalls';
 import ExercisesListForHistory from './ExercisesListForHistory';

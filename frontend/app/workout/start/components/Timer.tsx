@@ -1,42 +1,53 @@
-'use client';
+'use client'
 import React, { useEffect, useState } from 'react';
 import '../../../globals.css';
 import { useWorkout } from '@/app/contexts/workoutContext';
-import { deleteLocalStorage, formatDuration, setLocalStorage } from '@/app/global components/Library/utilFunctions';
+import { deleteLocalStorage, setLocalStorage } from '@/app/global components/Library/utilFunctions';
 import { localStorageKeys } from '@/app/contexts/util/workoutFunctions';
-import { Workout } from '../../objects/classes';
+import { Workout } from '../../../global components/objects/classes';
 
 const Timer = () => {
     const { workout, startWorkout, setWorkout } = useWorkout();
     const [duration, setDuration] = useState<number>(0);
 
     useEffect(() => {
+        let intervalId: NodeJS.Timeout;
+
         const workoutInProgress = localStorage.getItem(localStorageKeys.workout);
 
         if (!workoutInProgress && !workout.startTime) {
             startWorkout();
-            return;
-        }
 
-        const parsedWorkout: Workout = JSON.parse(workoutInProgress!);
-        setWorkout(_ => {
-            const newWorkout: Workout = { ...parsedWorkout, startTime: new Date(parsedWorkout.startTime!) }
-            startWorkout(newWorkout);
-            return newWorkout;
-        });
-
-        const startTime = new Date(parsedWorkout.startTime!).getTime();
-        const currentTime = Date.now();
-        const initialDuration = Math.floor((currentTime - startTime) / 1000); // In seconds
-        setDuration(initialDuration);
-
-        const intervalId = setInterval(() => {
-            setDuration(prevDuration => {
-                const newDuration = prevDuration + 1;
-                setLocalStorage("workout-duration", newDuration);
-                return newDuration;
+            intervalId = setInterval(() => {
+                setDuration(prevDuration => {
+                    const newDuration = prevDuration + 1;
+                    setLocalStorage("workout-duration", newDuration);
+                    console.log("incrementing duration");
+                    return newDuration;
+                });
+            }, 1000);
+        } else {
+            const parsedWorkout: Workout = JSON.parse(workoutInProgress!);
+            setWorkout(_ => {
+                const newWorkout: Workout = { ...parsedWorkout, startTime: new Date(parsedWorkout.startTime!) };
+                startWorkout(newWorkout);
+                return newWorkout;
             });
-        }, 1000);
+
+            const startTime = new Date(parsedWorkout.startTime!).getTime();
+            const currentTime = Date.now();
+            const initialDuration = Math.floor((currentTime - startTime) / 1000); // In seconds
+            setDuration(initialDuration);
+
+            intervalId = setInterval(() => {
+                setDuration(prevDuration => {
+                    const newDuration = prevDuration + 1;
+                    setLocalStorage("workout-duration", newDuration);
+                    console.log("incrementing duration");
+                    return newDuration;
+                });
+            }, 1000);
+        }
 
         return () => {
             clearInterval(intervalId);

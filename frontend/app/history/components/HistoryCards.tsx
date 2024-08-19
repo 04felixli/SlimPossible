@@ -1,11 +1,10 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { FaCalendar } from "react-icons/fa";
 import { FaClock } from "react-icons/fa";
-import { convertIWorkoutHistoryToWorkout, formatDuration, formatTime, getFormattedDurationStringGivenStartAndEnd } from '@/app/global components/Library/utilFunctions';
+import { convertIWorkoutHistoryToWorkout, formatTime, getFormattedDurationStringGivenStartAndEnd } from '@/app/global components/Library/utilFunctions';
 import { IWorkoutHistory } from '@/app/global components/Interfaces/historyInterfaces';
-import { useHistory } from '@/app/contexts/historyContext';
-import { Workout } from '@/app/workout/objects/classes';
+import { Workout } from '@/app/global components/objects/classes';
 import HistoryPreviewCard from './popups/HistoryPreviewCard';
 
 interface Props {

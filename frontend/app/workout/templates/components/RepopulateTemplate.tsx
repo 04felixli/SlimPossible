@@ -1,8 +1,8 @@
 "use client"
 import { useTemplate } from '@/app/contexts/templateContext';
 import { localStorageKeys } from '@/app/contexts/util/workoutFunctions';
-import React, { useEffect } from 'react'
-import { Workout } from '../../objects/classes';
+import React, { useEffect } from 'react';
+import { Workout } from '../../../global components/objects/classes';
 
 const RepopulateTemplate = () => {
     const { template, startTemplate, setTemplate } = useTemplate();

@@ -1,8 +1,7 @@
 "use client"
 import React, { useState, useEffect, ReactNode } from 'react'
-import { CiLogout, CiMenuFries } from 'react-icons/ci';
+import { CiLogout } from 'react-icons/ci';
 import { motion, AnimatePresence } from 'framer-motion';
-import { navLinks } from '../PageLayouts/layout';
 import { BsLayoutTextSidebarReverse } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { IoIosClose } from "react-icons/io";

@@ -1,7 +1,7 @@
 "use client"
-import { LogoutLink } from '@kinde-oss/kinde-auth-nextjs/components'
-import React from 'react'
-import { CiLogout } from 'react-icons/ci'
+import { LogoutLink } from '@kinde-oss/kinde-auth-nextjs/components';
+import React from 'react';
+import { CiLogout } from 'react-icons/ci';
 
 interface Props {
     isExpanded: boolean;

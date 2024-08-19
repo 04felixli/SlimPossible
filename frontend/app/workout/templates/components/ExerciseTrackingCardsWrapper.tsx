@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React from 'react';
 import { useTemplate } from '@/app/contexts/templateContext';
 import ExerciseTrackingCards from '@/app/global components/ExerciseTrackingCards';
 

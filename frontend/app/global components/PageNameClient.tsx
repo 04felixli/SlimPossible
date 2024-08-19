@@ -1,6 +1,5 @@
 'use client'
-import React, { Dispatch, MouseEventHandler, SetStateAction } from 'react'
-import { AiFillEdit } from 'react-icons/ai';
+import React, { Dispatch, SetStateAction } from 'react';
 
 interface Props {
     name: string;

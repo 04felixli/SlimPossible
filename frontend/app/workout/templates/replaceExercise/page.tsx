@@ -1,11 +1,11 @@
 import PageLayout from '@/app/global components/PageLayouts/layout';
 import PageName from '@/app/global components/PageName';
 import SearchBar from '@/app/global components/SearchBar';
-import React from 'react'
-import Link from 'next/link';
+import React from 'react';
 import AddOrReplaceButtonWrapper from '../components/AddOrReplaceButtonWrapper';
 import ExerciseListWrapper from '../components/ExerciseListWrapper';
 import AddNewExerciseButton from '@/app/global components/AddNewExerciseButton';
+import CustomLink from '@/app/global components/CustomLink';
 
 const replaceExercises = (
     { searchParams }: {
@@ -26,9 +26,9 @@ const replaceExercises = (
         <PageLayout activePage='/workout'>
             <PageName name={pageName} />
             <div className='mb-5 flex justify-between max-sm:flex-col'>
-                <Link href={`/workout/templates/${from}`} className='max-sm:mb-3'>
+                <CustomLink href={`/workout/templates/${from}`} className='max-sm:mb-3'>
                     <AddOrReplaceButtonWrapper isAddButton={false} exerciseToReplaceId={exerciseToReplaceId} insertionNumberOfExerciseToReplace={insertionNumberOfExerciseToReplace} />
-                </Link>
+                </CustomLink>
                 <AddNewExerciseButton />
             </div>
             <SearchBar />

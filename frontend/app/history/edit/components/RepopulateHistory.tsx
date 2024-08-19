@@ -1,8 +1,7 @@
 "use client"
 import { useHistory } from '@/app/contexts/historyContext';
-import { useTemplate } from '@/app/contexts/templateContext';
 import { localStorageKeys } from '@/app/contexts/util/workoutFunctions';
-import { Workout } from '@/app/workout/objects/classes';
+import { Workout } from '@/app/global components/objects/classes';
 import React, { useEffect } from 'react'
 
 const RepopulateHistory = () => {

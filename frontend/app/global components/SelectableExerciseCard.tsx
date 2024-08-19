@@ -1,8 +1,7 @@
 'use client';
-import React from 'react'
+import React from 'react';
 import { ExerciseInList } from '@/app/exercises/interfaces/exercises';
-import { Exercise, Workout } from '../workout/objects/classes';
-import { useWorkout } from '@/app/contexts/workoutContext';
+import { Workout } from './objects/classes';
 
 interface Props {
     workout: Workout;

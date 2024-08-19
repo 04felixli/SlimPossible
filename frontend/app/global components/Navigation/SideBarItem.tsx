@@ -1,8 +1,5 @@
 import React from "react";
-import Link from "next/link";
-// import { useSideBarContext } from "../../contexts/sideBarContext";
-// import { usePathname } from "next/navigation";
-import { cookies } from "next/headers";
+import CustomLink from "../CustomLink";
 
 interface Props {
     page: string;
@@ -18,7 +15,7 @@ const SideBarItem = ({ page, icon, text, isActive, isExpanded }: Props) => {
         <div
             className={`rounded-md w-full my-2 ${isActive ? "bg-darkest-color text-disabled-color" : "hover:scale-105 hover:bg-card-bg-gradient-light hover:duration-300"}`}
         >
-            <Link
+            <CustomLink
                 href={page}
                 className={`relative px-3 py-3 flex items-center font-medium rounded-md cursor-pointer transition-colors group`}
             >
@@ -32,7 +29,7 @@ const SideBarItem = ({ page, icon, text, isActive, isExpanded }: Props) => {
                         {text}
                     </div>
                 )}
-            </Link>
+            </CustomLink>
         </div>
     );
 };

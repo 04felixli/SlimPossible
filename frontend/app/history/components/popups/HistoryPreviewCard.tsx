@@ -1,13 +1,13 @@
 'use client'
 import React from 'react'
-import './popup.css'; // Make sure to import the CSS file
+import './popup.css';
 import { useHistory } from '@/app/contexts/historyContext';
-import { Workout } from '@/app/workout/objects/classes';
+import { Workout } from '@/app/global components/objects/classes';
 import { FaCalendar, FaClock } from 'react-icons/fa';
-import { formatDuration, formatTime, getFormattedDurationStringGivenStartAndEnd } from '@/app/global components/Library/utilFunctions';
+import { formatTime, getFormattedDurationStringGivenStartAndEnd } from '@/app/global components/Library/utilFunctions';
 import { FaRegWindowClose } from "react-icons/fa";
-import Link from 'next/link';
 import PopUpLayout, { popupContentClassNames } from '@/app/global components/popups/PopUpLayout';
+import CustomLink from '@/app/global components/CustomLink';
 
 
 interface Props {
@@ -28,7 +28,7 @@ const HistoryPreviewCard = ({ workout, closePopUp }: Props) => {
             {/* x and edit buttons */}
             <section className='flex justify-between items-center'>
                 <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>
-                <Link href={`/history/edit`} onClick={() => startHistory(JSON.parse(JSON.stringify(workout)))}>Edit</Link>
+                <CustomLink href={`/history/edit`} onClick={() => startHistory(JSON.parse(JSON.stringify(workout)))}>Edit</CustomLink>
             </section>
 
             {/* workout name */}

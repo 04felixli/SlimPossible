@@ -4,7 +4,6 @@ import "./globals.css";
 import WorkoutContextProvider from "./contexts/workoutContext";
 import TemplateContextProvider from "./contexts/templateContext";
 import HistoryContextProvider from "./contexts/historyContext";
-import { KindeProvider } from "@kinde-oss/kinde-auth-nextjs";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ['700', '500', '400', '100'] });
 

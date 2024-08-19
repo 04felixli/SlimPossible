@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React from 'react';
 import { IPopUp } from '@/app/workout/interfaces/popup';
 import { useTemplate } from '@/app/contexts/templateContext';
 import WorkoutButtons from '@/app/global components/WorkoutButtons';

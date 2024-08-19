@@ -1,5 +1,5 @@
 'use client';
-import React from 'react'
+import React from 'react';
 import { FaSearch } from "react-icons/fa";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';

@@ -1,11 +1,8 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
-import { ResponseBase, ResponseGetAllWorkoutHistory, ResponseGetAllWorkoutTemplates, ResponseGetDashboardInfo, ResponseGetExerciseInList, ResponseGetWorkoutTemplateById } from "../Interfaces/apiResponses";
-import { WorkoutHistory } from "@/app/history/interfaces/history";
-import { WorkoutTemplate } from "@/app/workout/interfaces/templates";
-import { Exercise, Workout, WorkoutSet } from "@/app/workout/objects/classes";
-import { IExerciseTemplate, IWorkoutSetTemplate, IWorkoutTemplate } from "../Interfaces/templateInterfaces";
+import { ResponseGetAllWorkoutHistory, ResponseGetAllWorkoutTemplates, ResponseGetDashboardInfo, ResponseGetExerciseInList } from "../Interfaces/apiResponses";
+import { Workout } from "@/app/global components/objects/classes";
+import { IWorkoutTemplate } from "../Interfaces/templateInterfaces";
 import { IWorkoutHistory } from "../Interfaces/historyInterfaces";
-import { convertIWorkoutTemplateToWorkout } from "./utilFunctions";
 import { NewExercise } from "@/app/global components/popups/AddExercisePopUp";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
@@ -13,16 +10,16 @@ import { IDashboardInfo } from "@/app/dashboard/page";
 
 const url = process.env.API_KEY;
 
-const GetUser = async (): Promise<KindeUser | null> => {
+const GetUser = async (): Promise<KindeUser | { id: string }> => {
     const { getUser } = getKindeServerSession();
-    const user = await getUser();
+    const user = await getUser() || { id: "default-id" };
     return user;
 }
 
 export const GetExerciseList = async (searchInput: string): Promise<ExerciseInList[]> => {
     try {
         const user = await GetUser();
-        const res = await fetch(`${url}/api/Main/GetExerciseList?searchInput=${searchInput}&uuid=${user?.id}`, { cache: 'no-store' });
+        const res = await fetch(`${url}/api/Main/GetExerciseList?searchInput=${searchInput}&uuid=${user?.id}`);
 
         if (res.status !== 200) {
             throw new Error(`HTTP Error! Status: ${res.status}`);
@@ -41,7 +38,7 @@ export const GetExerciseList = async (searchInput: string): Promise<ExerciseInLi
 export const GetAllWorkoutHistoryAsync = async (): Promise<IWorkoutHistory[]> => {
     try {
         const user = await GetUser();
-        const res = await fetch(`${url}/api/Main/GetAllWorkouts?uuid=${user?.id}`, { cache: 'no-store' });
+        const res = await fetch(`${url}/api/Main/GetAllWorkouts?uuid=${user?.id}`);
 
         if (res.status !== 200) {
             throw new Error(`HTTP Error! Status: ${res.status}`);
@@ -60,7 +57,7 @@ export const GetAllWorkoutHistoryAsync = async (): Promise<IWorkoutHistory[]> =>
 export const GetAllWorkoutTemplatesAsync = async (): Promise<IWorkoutTemplate[]> => {
     try {
         const user = await GetUser();
-        const res = await fetch(`${url}/api/Main/GetAllWorkoutTemplates?uuid=${user?.id}`, { cache: 'no-store' });
+        const res = await fetch(`${url}/api/Main/GetAllWorkoutTemplates?uuid=${user?.id}`);
 
         if (res.status !== 200) {
             throw new Error(`HTTP Error! Status: ${res.status}`);
@@ -76,28 +73,6 @@ export const GetAllWorkoutTemplatesAsync = async (): Promise<IWorkoutTemplate[]>
     }
 }
 
-export const GetWorkoutTemplateById = async (id: number): Promise<Workout> => {
-    try {
-        const user = await GetUser();
-        const res = await fetch(`${url}/api/Main/GetWorkoutTemplate?workoutTemplateId=${id}&uuid=${user?.id}`, { cache: 'no-store' });
-
-        if (res.status !== 200) {
-            throw new Error(`HTTP Error! Status: ${res.status}`);
-        }
-
-        const response: ResponseGetWorkoutTemplateById = await res.json();
-        const rawTemplate: IWorkoutTemplate = response.workoutTemplate;
-
-        const templateObject: Workout = convertIWorkoutTemplateToWorkout(rawTemplate);
-
-        return templateObject;
-
-    } catch (error) {
-        console.error('There was an error fetching workout template: ', error);
-        throw error;
-    }
-}
-
 export const PostNewExercise = async (exerciseToAdd: NewExercise): Promise<boolean> => {
     try {
         const user = await GetUser();
@@ -107,7 +82,6 @@ export const PostNewExercise = async (exerciseToAdd: NewExercise): Promise<boole
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(exerciseToAdd),
-            cache: 'no-store'
         });
 
         if (res.status !== 200) {
@@ -131,7 +105,6 @@ export const PostCompletedWorkout = async (workout: Workout): Promise<boolean> =
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(workout),
-            cache: 'no-store'
         });
 
         if (res.status !== 200) {
@@ -155,7 +128,6 @@ export const PostTemplate = async (template: Workout): Promise<boolean> => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(template),
-            cache: 'no-store'
         });
 
         if (res.status !== 200) {
@@ -179,7 +151,6 @@ export const UpdateTemplate = async (template: Workout): Promise<boolean> => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(template),
-            cache: 'no-store'
         });
 
         if (res.status !== 200) {
@@ -203,7 +174,6 @@ export const UpdateHistory = async (history: Workout): Promise<boolean> => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(history),
-            cache: 'no-store'
         });
 
         if (res.status !== 200) {
@@ -227,7 +197,6 @@ export const DeleteTemplate = async (template: Workout, templateId: number): Pro
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(template),
-            cache: 'no-store'
         });
 
         if (res.status !== 200) {
@@ -251,7 +220,6 @@ export const DeleteHistory = async (workout: Workout, workoutId: number): Promis
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(workout),
-            cache: 'no-store'
         });
 
         if (res.status !== 200) {
@@ -275,7 +243,6 @@ export const ReorderTemplates = async (templateIds: number[]): Promise<boolean> 
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(templateIds),
-            cache: 'no-store'
         });
 
         if (res.status !== 200) {

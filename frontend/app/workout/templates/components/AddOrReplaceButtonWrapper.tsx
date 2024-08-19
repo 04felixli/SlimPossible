@@ -1,6 +1,6 @@
 'use client'
-import React from 'react'
-import AddOrReplaceButton from '../../../global components/AddOrReplaceButton'
+import React from 'react';
+import AddOrReplaceButton from '../../../global components/AddOrReplaceButton';
 import { useWorkout } from '@/app/contexts/workoutContext';
 import { useTemplate } from '@/app/contexts/templateContext';
 

@@ -1,8 +1,7 @@
-import { Workout, Exercise, WorkoutSet } from "@/app/workout/objects/classes";
+import { Workout, Exercise, WorkoutSet } from "@/app/global components/objects/classes";
 import { IWorkoutTemplate, IExerciseTemplate, IWorkoutSetTemplate } from "../Interfaces/templateInterfaces";
 import { IExerciseInWorkoutHistory, ISetInExerciseInWorkoutHistory, IWorkoutHistory } from "../Interfaces/historyInterfaces";
-import { parseISO, format } from 'date-fns';
-import { CookieValueType, localStorageKeys } from "@/app/contexts/util/workoutFunctions";
+import { format } from 'date-fns';
 
 export const computeTotalVolume = (workout: Workout): number => {
     let totalVolume = 0;
