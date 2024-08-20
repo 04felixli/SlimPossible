@@ -22,7 +22,6 @@ const Timer = () => {
                 setDuration(prevDuration => {
                     const newDuration = prevDuration + 1;
                     setLocalStorage("workout-duration", newDuration);
-                    console.log("incrementing duration");
                     return newDuration;
                 });
             }, 1000);
@@ -43,7 +42,6 @@ const Timer = () => {
                 setDuration(prevDuration => {
                     const newDuration = prevDuration + 1;
                     setLocalStorage("workout-duration", newDuration);
-                    console.log("incrementing duration");
                     return newDuration;
                 });
             }, 1000);

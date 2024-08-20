@@ -8,9 +8,7 @@ interface Props {
 
 const ActionButton = ({ children, onClickFunction, isRemoveExercise }: Props) => {
     // Temporary default function if none is provided
-    const handleClick = () => {
-        console.log("Action button click!");
-    };
+    const handleClick = () => { };
 
     const onClick = onClickFunction || handleClick;
 
