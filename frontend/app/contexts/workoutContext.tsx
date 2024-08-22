@@ -1,7 +1,7 @@
 'use client';
 import React, { createContext, useState, ReactNode, useContext, useRef } from 'react';
 import { Workout } from '../global components/objects/classes';
-import { localStorageKeys, action, addExercises, addSet, changeRepsValue, changeWeightUnit, changeWeightValue, endWorkout, multipleExerciseSelect, removeExercise, replaceExercise, singleExerciseSelect, startWorkout, toggleCompletedSet, toggleNotes, updateNotes, cookieKeys, changeName, deleteSet, reOrderExercises } from './util/workoutFunctions';
+import { localStorageKeys, action, addExercises, addSet, changeRepsValue, changeWeightUnit, changeWeightValue, endWorkout, multipleExerciseSelect, removeExercise, replaceExercise, singleExerciseSelect, startWorkout, toggleCompletedSet, toggleNotes, updateNotes, cookieKeys, changeName, deleteSet, reOrderExercises, resetWorkout } from './util/workoutFunctions';
 import { ExerciseInList } from '../exercises/interfaces/exercises';
 
 // Define the shape of the context
@@ -25,6 +25,7 @@ interface WorkoutContextType {
     reOrderExercises: (result: any) => void;
     startWorkout: (workout?: Workout) => void;
     endWorkout: (cause: action) => void;
+    resetWorkout: () => void;
 }
 
 type Props = {
@@ -55,6 +56,7 @@ const WorkoutContextProvider = ({ children }: Props) => {
     const reOrderExercisesHandler = (result: any) => reOrderExercises(result, localStorageKeys.workout, setWorkout);
     const startWorkoutHandler = (workout?: Workout) => startWorkout(localStorageKeys.workout, setWorkout, workout);
     const endWorkoutHandler = (cause: action) => endWorkout(workout, setWorkout, cause);
+    const resetWorkoutHandler = () => resetWorkout(cookieKeys.workout, localStorageKeys.workout, setWorkout);
 
     return (
         <workoutContext.Provider value={{ // this value sets the createContext to be of type 
@@ -76,7 +78,8 @@ const WorkoutContextProvider = ({ children }: Props) => {
             deleteSet: deleteSetHandler,
             reOrderExercises: reOrderExercisesHandler,
             startWorkout: startWorkoutHandler,
-            endWorkout: endWorkoutHandler
+            endWorkout: endWorkoutHandler,
+            resetWorkout: resetWorkoutHandler,
         }}>
             {children}
         </workoutContext.Provider>

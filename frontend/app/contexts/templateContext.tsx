@@ -28,6 +28,7 @@ interface TemplateContextType {
     reOrderExercises: (result: any) => void;
     startTemplate: (provided_template?: Workout) => void;
     endTemplate: (cause: action) => void;
+    resetTemplate: () => void;
 }
 
 type Props = {
@@ -58,6 +59,7 @@ const TemplateContextProvider = ({ children }: Props) => {
     const reOrderExercisesHandler = (result: any) => reOrderExercises(result, localStorageKeys.template, setTemplate);
     const startTemplateHandler = (provided_template?: Workout) => startTemplate(localStorageKeys.template, setTemplate, provided_template);
     const endTemplateHandler = (cause: action) => endTemplate(template, setTemplate, cause);
+    const resetTemplateHandler = () => resetWorkout(cookieKeys.template, localStorageKeys.template, setTemplate);
 
     return (
         <templateContext.Provider value={{
@@ -80,7 +82,8 @@ const TemplateContextProvider = ({ children }: Props) => {
             deleteSet: deleteSetHandler,
             reOrderExercises: reOrderExercisesHandler,
             startTemplate: startTemplateHandler,
-            endTemplate: endTemplateHandler
+            endTemplate: endTemplateHandler,
+            resetTemplate: resetTemplateHandler,
         }}>
             {children}
         </templateContext.Provider>

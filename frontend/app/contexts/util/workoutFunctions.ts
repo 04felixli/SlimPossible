@@ -427,6 +427,9 @@ export const resetWorkout = (cookieKey: cookieKeys, localStorageKey: localStorag
     setWorkout(new Workout());
     deleteLocalStorage(localStorageKey);
     deleteCookies(cookieKey);
+    if (cookieKey === cookieKeys.template) {
+        deleteCookies(cookieKeys.isEditTemplate);
+    }
 }
 
 export const changeStartAndEndTime = (setWorkout: React.Dispatch<React.SetStateAction<Workout>>, newStartTime: Date, newEndTime: Date, localStorageKey: localStorageKeys) => {

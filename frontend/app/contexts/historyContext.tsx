@@ -29,6 +29,7 @@ interface HistoryContextType {
     reOrderExercises: (result: any) => void;
     startHistory: (provided_history: Workout) => void;
     endHistory: (cause: action) => void;
+    resetHistory: () => void;
 }
 
 type Props = {
@@ -60,6 +61,7 @@ const HistoryContextProvider = ({ children }: Props) => {
     const reOrderExercisesHandler = (result: any) => reOrderExercises(result, localStorageKeys.history, setHistory);
     const startHistoryHandler = (provided_history: Workout) => startHistory(localStorageKeys.history, setHistory, provided_history);
     const endHistoryHandler = (cause: action) => endHistory(history, setHistory, cause);
+    const resetHistoryHandler = () => resetWorkout(cookieKeys.history, localStorageKeys.history, setHistory);
 
     return (
         <historyContext.Provider value={{
@@ -83,7 +85,8 @@ const HistoryContextProvider = ({ children }: Props) => {
             deleteSet: deleteSetHandler,
             reOrderExercises: reOrderExercisesHandler,
             startHistory: startHistoryHandler,
-            endHistory: endHistoryHandler
+            endHistory: endHistoryHandler,
+            resetHistory: resetHistoryHandler,
         }}>
             {children}
         </historyContext.Provider>
