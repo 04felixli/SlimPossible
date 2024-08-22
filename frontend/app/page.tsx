@@ -16,7 +16,7 @@ export default async function Home() {
     <div className="flex flex-col justify-center items-center w-full">
       <DeleteInformation />
       <div>
-        <h1 className="text-7xl mb-5">SLIMPOSSIBLE</h1>
+        <h1 className="text-4xl md:text-7xl mb-5 text-wrap">SLIMPOSSIBLE</h1>
         <div className="flex flex-col justify-center items-center">
 
           <LoginLink className="rounded-full w-8/12 black-button shadow-lg">
