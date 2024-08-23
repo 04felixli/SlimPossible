@@ -381,7 +381,7 @@ export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<Re
     // 3. Reset workout to initial state
     if (cause == action.post) {
         const updatedEndTime = new Date();
-        const updatedDuration = (updatedEndTime.getTime() - new Date(workout.startTime!).getTime()) / 1000;
+        const updatedDuration = Math.floor((updatedEndTime.getTime() - new Date(workout.startTime!).getTime()) / 1000);
         const totalVolume = computeTotalVolume(workout);
         const updatedWorkout: Workout = { ...workout, volume: totalVolume, duration: updatedDuration, endTime: updatedEndTime }; // create a plain object for server action
         await postCompletedWorkoutServerAction(updatedWorkout);

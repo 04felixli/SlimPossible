@@ -15,6 +15,7 @@ using ftDB.Models.Request.UpdateWorkoutModels;
 using ftDB.Models.Request.PostWorkoutTemplateModels;
 using ftDB.Models.Response.GetWorkoutTemplateModels;
 using ftDB.Models.Response.UserDataModels;
+using ftDB.Models.Response.ExerciseInListModels;
 
 namespace ftDB.Repo
 {
@@ -24,7 +25,7 @@ namespace ftDB.Repo
 
         public async Task<ResponseModelExerciseInList> GetExerciseListAsync(string searchInput, string uuid)
         {
-            List<ModelExercise> exercises = await _dao.GetExerciseListAsync(searchInput, uuid);
+            List<ModelExerciseInList> exercises = await _dao.GetExerciseListAsync(searchInput, uuid);
 
             ResponseModelExerciseInList response = new()
             {
@@ -183,6 +184,14 @@ namespace ftDB.Repo
         {
             ResponseBase resp = new();
             await _dao.AddExerciseToDbAsync(exerciseToAdd, uuid);
+            resp.SetResponseSuccess();
+            return resp;
+        }
+
+        public async Task<ResponseBase> UpdateExerciseAsync(RequestModelUpdateExercise updatedExercise, string uuid)
+        {
+            ResponseBase resp = new();
+            await _dao.UpdateExerciseInDbAsync(updatedExercise, uuid);
             resp.SetResponseSuccess();
             return resp;
         }

@@ -17,7 +17,7 @@ export interface NewExercise {
 }
 
 const AddExercisePopUp = ({ closePopUp }: Props) => {
-    const equipmentList: string[] = ["Barbell", "Dumbell", "Cable", "Machine", "Body Weight"];
+    const equipmentList: string[] = ["Barbell", "Dumbbell", "Cable", "Machine", "Body Weight"];
     const targetMuscleList: string[] = ["Chest", "Back", "Legs", "Arms", "Shoulders", "Core"];
 
     const [newExercise, setNewExercise] = useState<NewExercise>({ name: '', equipment: equipmentList[0], targetMuscle: targetMuscleList[0] });

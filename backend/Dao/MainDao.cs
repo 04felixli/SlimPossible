@@ -18,6 +18,7 @@ using ftDB.Models.Request.PostWorkoutTemplateModels;
 using ftDB.Models.Response.GetWorkoutTemplateModels;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System.Text.Json;
+using ftDB.Models.Response.ExerciseInListModels;
 
 
 namespace ftDB.Dao
@@ -26,7 +27,7 @@ namespace ftDB.Dao
     {
         private readonly PostgressDBContext _context = context;
 
-        public async Task<List<ModelExercise>> GetExerciseListAsync(string searchInput, string uuid)
+        public async Task<List<ModelExerciseInList>> GetExerciseListAsync(string searchInput, string uuid)
         {
             if (searchInput != "")
             {
@@ -318,6 +319,24 @@ namespace ftDB.Dao
             Exercise exercise = new(exerciseToAdd.Name, exerciseToAdd.Equipment, exerciseToAdd.TargetMuscle, uuid);
 
             _context.Exercises.Add(exercise);
+
+            await _context.SaveChangesAsync();
+
+            return;
+        }
+
+        public async Task UpdateExerciseInDbAsync(RequestModelUpdateExercise updatedExercise, string uuid)
+        {
+            Exercise? oldExercise = await _context.Exercises.FirstOrDefaultAsync(e => e.Uuid == uuid && e.Id == updatedExercise.ExerciseId);
+
+            if (oldExercise == null)
+            {
+                return;
+            }
+
+            oldExercise.Name = updatedExercise.Name;
+            oldExercise.Equipment = updatedExercise.Equipment;
+            oldExercise.TargetMuscle = updatedExercise.TargetMuscle;
 
             await _context.SaveChangesAsync();
 
@@ -709,17 +728,18 @@ namespace ftDB.Dao
             await _context.SaveChangesAsync();
         }
 
-        private async Task<List<ModelExercise>> GetExerciseListWhenStringExistsAsync(string searchInput, string uuid)
+        private async Task<List<ModelExerciseInList>> GetExerciseListWhenStringExistsAsync(string searchInput, string uuid)
         {
-            List<ModelExercise> exerciseList = await _context.Exercises
+            List<ModelExerciseInList> exerciseList = await _context.Exercises
                                                             .Where(exercise => exercise.SearchVector.Matches(searchInput) && (exercise.Uuid == uuid || exercise.Uuid == null))
                                                             .OrderBy(exercise => exercise.Id)
-                                                            .Select(exercise => new ModelExercise
+                                                            .Select(exercise => new ModelExerciseInList
                                                                     (
                                                                         exercise.Id,
                                                                         exercise.Name,
                                                                         exercise.Equipment,
-                                                                        exercise.TargetMuscle
+                                                                        exercise.TargetMuscle,
+                                                                        exercise.Uuid != null
                                                                     )
                                                                     )
                                                             .ToListAsync();
@@ -727,17 +747,18 @@ namespace ftDB.Dao
             return exerciseList;
         }
 
-        private async Task<List<ModelExercise>> GetExerciseListEmptyStringAsync(string uuid)
+        private async Task<List<ModelExerciseInList>> GetExerciseListEmptyStringAsync(string uuid)
         {
-            List<ModelExercise> exerciseList = await _context.Exercises
+            List<ModelExerciseInList> exerciseList = await _context.Exercises
                                                             .Where(exercise => exercise.Uuid == uuid || exercise.Uuid == null)
                                                             .OrderBy(exercise => exercise.Id)
-                                                            .Select(exercise => new ModelExercise
+                                                            .Select(exercise => new ModelExerciseInList
                                                                     (
                                                                         exercise.Id,
                                                                         exercise.Name,
                                                                         exercise.Equipment,
-                                                                        exercise.TargetMuscle
+                                                                        exercise.TargetMuscle,
+                                                                        exercise.Uuid != null
                                                                     )
                                                                     )
                                                             .ToListAsync();

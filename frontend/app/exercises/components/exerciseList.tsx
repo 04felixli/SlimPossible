@@ -12,7 +12,7 @@ const ExerciseList = ({ exercises }: Props) => {
             <ul>
                 {exercises.map((exercise) => (
                     <li key={exercise.id} className='card-bg mb-3'>
-                        <div className='items-center card-title-font'>{exercise.name}</div>
+                        <div className='items-center card-title-font'>{exercise.name} {exercise.isCustom && <span className='font-thin'>(Custom)</span>}</div>
                         <div className='flex justify-between font-thin text-sm'>
                             <div>{exercise.equipment}</div>
                             <div>{exercise.targetMuscle}</div>

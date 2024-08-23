@@ -16,6 +16,7 @@ namespace ftDB.Interfaces
         Task<ResponseModelGetAllWorkoutTemplates> GetAllWorkoutTemplatesAsync(string uuid);
         Task<ResponseBase> DeleteWorkoutTemplateAsync(int workoutTemplateId, string uuid);
         Task<ResponseBase> AddExerciseAsync(RequestModelAddExercise exerciseToAdd, string uuid);
+        Task<ResponseBase> UpdateExerciseAsync(RequestModelUpdateExercise exerciseToUpdate, string uuid);
         Task<ResponseBase> UpdateTemplateAsync(RequestModelUpdateTemplate workoutTemplate, string uuid);
         Task<ResponseBase> UpdateHistoryAsync(RequestModelUpdateHistory history, string uuid);
         Task<ResponseBase> DeleteWorkoutHistoryAsync(int workoutHistoryId, string uuid);
