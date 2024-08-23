@@ -15,7 +15,7 @@ namespace ftDB.Interfaces
 {
     public interface IDao
     {
-        Task<List<ModelExerciseInList>> GetExerciseListAsync(string searchInput, string uuid);
+        Task<List<ModelExerciseInList>> GetExerciseListAsync(string searchInput, string uuid, bool filterByCustom, bool filterByHidden);
         Task PostWorkoutAsync(RequestModelPostWorkout completedWorkout, string uuid);
         Task<List<ModelPastWorkout>> GetAllWorkoutsAsync(string uuid);
         Task<ModelPastWorkout> GetWorkoutAsync(int workoutId, string uuid);

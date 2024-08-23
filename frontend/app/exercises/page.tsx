@@ -6,16 +6,22 @@ import ExerciseList from './components/exerciseList'
 import AddNewExerciseButton from '../global components/AddNewExerciseButton'
 import { GetExerciseList } from '../global components/Library/apiCalls'
 import { ExerciseInList } from './interfaces/exercises'
+import FilterCustomExercises from './components/FilterCustomExercises'
+import FilterHiddenExercises from './components/FilterHiddenExercises'
 
 const exercises = async (
   { searchParams }: {
     searchParams?: {
       query?: string;
+      filterCustomExercises?: string;
+      filterHiddenExercises?: string;
     }
   }) => {
   const pageName = "Exercises";
   const query = searchParams?.query || '';
-  const exercises: ExerciseInList[] = await GetExerciseList(query);
+  const filterByCustom = searchParams?.filterCustomExercises === "true" || false;
+  const filterByHidden = searchParams?.filterHiddenExercises === "true" || false;
+  const exercises: ExerciseInList[] = await GetExerciseList(query, filterByCustom, filterByHidden);
 
   return (
     <PageLayout activePage='/exercises'>
@@ -24,6 +30,10 @@ const exercises = async (
         <AddNewExerciseButton />
       </div>
       <SearchBar />
+      <div className='flex flex-row w-4/12 justify-between items-center mt-3'>
+        <FilterCustomExercises />
+        <FilterHiddenExercises />
+      </div>
       <ExerciseList exercises={exercises} />
     </PageLayout>
   )

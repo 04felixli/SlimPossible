@@ -1,12 +1,12 @@
 'use server'
 
-import { NewExercise } from "@/app/global components/popups/AddExercisePopUp";
-import { DeleteHistory, DeleteTemplate, PostCompletedWorkout, PostNewExercise, PostTemplate, ReorderTemplates, UpdateHistory, UpdateTemplate } from "./apiCalls";
+import { DeleteHistory, DeleteTemplate, PostCompletedWorkout, PostNewExercise, PostTemplate, ReorderTemplates, UpdateExercise, UpdateHistory, UpdateTemplate } from "./apiCalls";
 import { revalidatePath } from "next/cache";
 import { Workout } from "@/app/global components/objects/classes";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { NewOrUpdatedExercise } from "../popups/HandleExercisePopUp";
 
 const isAuthenticated = async (): Promise<boolean> => {
     const { isAuthenticated } = getKindeServerSession();
@@ -33,13 +33,22 @@ export const setExpandedCookieFunction = async () => {
     cookies().set('isExpanded', String(newExpandedState));
 }
 
-export const addExerciseServerAction = async (newExercise: NewExercise): Promise<boolean> => {
+export const addExerciseServerAction = async (newExercise: NewOrUpdatedExercise): Promise<boolean> => {
     if (!isAuthenticated) {
         redirect("/api/auth/login");
     }
     const posted = await PostNewExercise(newExercise);
     revalidatePath("/exercises");
     return posted;
+}
+
+export const updateExerciseServerAction = async (updatedExercise: NewOrUpdatedExercise): Promise<boolean> => {
+    if (!isAuthenticated) {
+        redirect("/api/auth/login");
+    }
+    const updated = await UpdateExercise(updatedExercise);
+    revalidatePath("/exercises");
+    return updated;
 }
 
 export const postCompletedWorkoutServerAction = async (workout: Workout): Promise<boolean> => {
@@ -111,3 +120,4 @@ export const reorderTemplatesServerAction = async (templateIds: number[]): Promi
 export const navigateTo = async (path: string) => {
     redirect(path);
 }
+

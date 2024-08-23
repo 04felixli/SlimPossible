@@ -6,6 +6,8 @@ import AddOrReplaceButtonWrapper from '../components/AddOrReplaceButtonWrapper';
 import ExerciseListWrapper from '../components/ExerciseListWrapper';
 import AddNewExerciseButton from '@/app/global components/AddNewExerciseButton';
 import CustomLink from '@/app/global components/CustomLink';
+import FilterCustomExercises from '@/app/exercises/components/FilterCustomExercises';
+import FilterHiddenExercises from '@/app/exercises/components/FilterHiddenExercises';
 
 const replaceExercises = (
     { searchParams }: {
@@ -13,9 +15,13 @@ const replaceExercises = (
             query?: string;
             id: string;
             inoetr: string; // insertion number of the exercise to replace
+            filterCustomExercises?: string;
+            filterHiddenExercises?: string;
         }
     }) => {
     const pageName: string = "Replace Exercise";
+    const filterByCustom = searchParams?.filterCustomExercises === "true" || false;
+    const filterByHidden = searchParams?.filterHiddenExercises === "true" || false;
     const query: string = searchParams.query || '';
     const exerciseToReplaceId: number = parseInt(searchParams.id);
     const insertionNumberOfExerciseToReplace: number = parseInt(searchParams.inoetr);
@@ -30,7 +36,11 @@ const replaceExercises = (
                 <AddNewExerciseButton />
             </div>
             <SearchBar />
-            <ExerciseListWrapper query={query} singleSelect={true} />
+            <div className='flex flex-row w-4/12 justify-between items-center mt-3'>
+                <FilterCustomExercises />
+                <FilterHiddenExercises />
+            </div>
+            <ExerciseListWrapper query={query} filterByCustom={filterByCustom} filterByHidden={filterByHidden} singleSelect={true} />
         </PageLayout>
     )
 }

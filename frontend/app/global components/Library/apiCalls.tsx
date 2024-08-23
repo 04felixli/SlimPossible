@@ -3,10 +3,10 @@ import { ResponseGetAllWorkoutHistory, ResponseGetAllWorkoutTemplates, ResponseG
 import { Workout } from "@/app/global components/objects/classes";
 import { IWorkoutTemplate } from "../Interfaces/templateInterfaces";
 import { IWorkoutHistory } from "../Interfaces/historyInterfaces";
-import { NewExercise } from "@/app/global components/popups/AddExercisePopUp";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 import { IDashboardInfo } from "@/app/dashboard/page";
+import { NewOrUpdatedExercise } from "../popups/HandleExercisePopUp";
 
 const url = process.env.API_KEY;
 
@@ -16,10 +16,10 @@ const GetUser = async (): Promise<KindeUser | { id: string }> => {
     return user;
 }
 
-export const GetExerciseList = async (searchInput: string): Promise<ExerciseInList[]> => {
+export const GetExerciseList = async (searchInput: string, filterByCustom: boolean, filterByHidden: boolean): Promise<ExerciseInList[]> => {
     try {
         const user = await GetUser();
-        const res = await fetch(`${url}/api/Main/GetExerciseList?searchInput=${searchInput}&uuid=${user?.id}`);
+        const res = await fetch(`${url}/api/Main/GetExerciseList?searchInput=${searchInput}&filterByCustom=${filterByCustom}&filterByHidden=${filterByHidden}&uuid=${user?.id}`);
 
         if (res.status !== 200) {
             throw new Error(`HTTP Error! Status: ${res.status}`);
@@ -73,7 +73,7 @@ export const GetAllWorkoutTemplatesAsync = async (): Promise<IWorkoutTemplate[]>
     }
 }
 
-export const PostNewExercise = async (exerciseToAdd: NewExercise): Promise<boolean> => {
+export const PostNewExercise = async (exerciseToAdd: NewOrUpdatedExercise): Promise<boolean> => {
     try {
         const user = await GetUser();
         const res = await fetch(`${url}/api/Main/AddExercise?uuid=${user?.id}`, {
@@ -92,6 +92,29 @@ export const PostNewExercise = async (exerciseToAdd: NewExercise): Promise<boole
 
     } catch (error) {
         console.error('There was an error posting a new exercise to the db: ', error);
+        throw error;
+    }
+}
+
+export const UpdateExercise = async (updatedExercise: NewOrUpdatedExercise): Promise<boolean> => {
+    try {
+        const user = await GetUser();
+        const res = await fetch(`${url}/api/Main/UpdateExercise?uuid=${user?.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedExercise),
+        });
+
+        if (res.status !== 200) {
+            throw new Error(`HTTP Error! Status: ${res.status}`);
+        }
+
+        return true;
+
+    } catch (error) {
+        console.error('There was an error updating the exercise in the db: ', error);
         throw error;
     }
 }

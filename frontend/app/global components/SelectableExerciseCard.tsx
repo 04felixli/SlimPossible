@@ -17,7 +17,7 @@ const SelectableExerciseCard = ({ workout, setWorkout, multipleExerciseSelect, s
     if (!singleSelect) {
         return (
             <div>
-                <ul>
+                <ul className='mt-8'>
                     {exercises.map((exercise) => (
                         <li key={exercise.id} className='hover:scale-[101%] duration-300 cursor-pointer'>
                             <div className={`card-bg ${workout.exercisesToAdd.some(selectedExercise => selectedExercise.id === exercise.id) ? 'border' : ''}`} onClick={() => multipleExerciseSelect(exercise)}>
@@ -36,7 +36,7 @@ const SelectableExerciseCard = ({ workout, setWorkout, multipleExerciseSelect, s
 
     return (
         <div>
-            <ul>
+            <ul className='mt-8'>
                 {exercises.map((exercise) => (
                     <li key={exercise.id} className='hover:scale-[101%] duration-300 cursor-pointer'>
                         <div className={`card-bg ${workout.replacementExercise?.id === exercise.id ? 'border' : ''}`} onClick={() => singleExerciseSelect(exercise)}>

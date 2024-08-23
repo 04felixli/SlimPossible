@@ -1,27 +1,31 @@
 'use client'
+import { ExerciseInList } from '@/app/exercises/interfaces/exercises';
 import InputField from '@/app/global components/InputField';
-import { addExerciseServerAction } from '@/app/global components/Library/actions';
 import PopUpLayout from '@/app/global components/popups/PopUpLayout';
 import SelectDropDown from '@/app/global components/SelectDropDown';
 import React, { useState } from 'react'
 import { FaRegWindowClose } from 'react-icons/fa';
 
-interface Props {
-    closePopUp: () => void;
-}
-
-export interface NewExercise {
+export interface NewOrUpdatedExercise {
+    exerciseId: number;
     name: string;
     equipment: string;
     targetMuscle: string;
 }
 
-const AddExercisePopUp = ({ closePopUp }: Props) => {
+interface Props {
+    exercise?: ExerciseInList;
+    closePopUp: () => void;
+    serverActionFunction: (newExercise: NewOrUpdatedExercise) => Promise<boolean>; // either update or create an exercise
+}
+
+const HandleExercisePopUp = ({ exercise, closePopUp, serverActionFunction }: Props) => {
     const equipmentList: string[] = ["Barbell", "Dumbbell", "Cable", "Machine", "Body Weight"];
     const targetMuscleList: string[] = ["Chest", "Back", "Legs", "Arms", "Shoulders", "Core"];
 
-    const [newExercise, setNewExercise] = useState<NewExercise>({ name: '', equipment: equipmentList[0], targetMuscle: targetMuscleList[0] });
+    const { id = -1, name = '', equipment = equipmentList[0], targetMuscle = targetMuscleList[0] } = exercise || {};
 
+    const [newExercise, setNewExercise] = useState<NewOrUpdatedExercise>({ exerciseId: id, name: name, equipment: equipment, targetMuscle: targetMuscle });
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewExercise(prevExercise => {
@@ -41,29 +45,29 @@ const AddExercisePopUp = ({ closePopUp }: Props) => {
         })
     }
 
-    const addButtonDisabled = () => {
+    const hasName = () => {
         return newExercise.name === '';
     }
 
-    const handleAddExercise = async () => {
+    const handleSubmit = async () => {
         closePopUp();
-        return await addExerciseServerAction(newExercise);
+        return await serverActionFunction(newExercise);
     }
 
     return (
         <PopUpLayout popupContentClassName={"confirmation-popup-content"} closePopUp={closePopUp}>
-            <form action={handleAddExercise}>
+            <form action={handleSubmit}>
                 <section className='flex justify-between items-center'>
                     <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>
                     <button
-                        disabled={addButtonDisabled()}
-                        className={`${addButtonDisabled() ? 'text-disabled-color' : ''}`}
+                        disabled={hasName()}
+                        className={`${hasName() ? 'text-disabled-color' : ''}`}
                         type='submit'
                     >
-                        Add
+                        {name ? "Save" : "Add"}
                     </button>
                 </section>
-                <div className='flex justify-center items-center card-title-font mt-3'>New Exercise</div>
+                <div className='flex justify-center items-center card-title-font mt-3'>{name !== '' ? `Editing "${name}"` : 'New Exercise'}</div>
                 <InputField
                     name='Add exercise input field'
                     placeHolder='New Exercise Name'
@@ -80,4 +84,4 @@ const AddExercisePopUp = ({ closePopUp }: Props) => {
     )
 }
 
-export default AddExercisePopUp
+export default HandleExercisePopUp

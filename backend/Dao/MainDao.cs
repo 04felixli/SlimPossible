@@ -27,14 +27,14 @@ namespace ftDB.Dao
     {
         private readonly PostgressDBContext _context = context;
 
-        public async Task<List<ModelExerciseInList>> GetExerciseListAsync(string searchInput, string uuid)
+        public async Task<List<ModelExerciseInList>> GetExerciseListAsync(string searchInput, string uuid, bool filterByCustom, bool filterByHidden)
         {
             if (searchInput != "")
             {
-                return await GetExerciseListWhenStringExistsAsync(searchInput, uuid);
+                return await GetExerciseListWhenStringExistsAsync(searchInput, uuid, filterByCustom, filterByHidden);
             }
 
-            return await GetExerciseListEmptyStringAsync(uuid);
+            return await GetExerciseListEmptyStringAsync(uuid, filterByCustom, filterByHidden);
 
         }
 
@@ -728,10 +728,14 @@ namespace ftDB.Dao
             await _context.SaveChangesAsync();
         }
 
-        private async Task<List<ModelExerciseInList>> GetExerciseListWhenStringExistsAsync(string searchInput, string uuid)
+        private async Task<List<ModelExerciseInList>> GetExerciseListWhenStringExistsAsync(string searchInput, string uuid, bool filterByCustom, bool filterByHidden)
         {
             List<ModelExerciseInList> exerciseList = await _context.Exercises
-                                                            .Where(exercise => exercise.SearchVector.Matches(searchInput) && (exercise.Uuid == uuid || exercise.Uuid == null))
+                                                            .Where(exercise =>
+                                                                    exercise.SearchVector.Matches(searchInput) &&
+                                                                    (exercise.Uuid == uuid || exercise.Uuid == null) &&
+                                                                    (!filterByCustom || exercise.Uuid != null)
+                                                                  )
                                                             .OrderBy(exercise => exercise.Id)
                                                             .Select(exercise => new ModelExerciseInList
                                                                     (
@@ -747,10 +751,10 @@ namespace ftDB.Dao
             return exerciseList;
         }
 
-        private async Task<List<ModelExerciseInList>> GetExerciseListEmptyStringAsync(string uuid)
+        private async Task<List<ModelExerciseInList>> GetExerciseListEmptyStringAsync(string uuid, bool filterByCustom, bool filterByHidden)
         {
             List<ModelExerciseInList> exerciseList = await _context.Exercises
-                                                            .Where(exercise => exercise.Uuid == uuid || exercise.Uuid == null)
+                                                            .Where(exercise => (exercise.Uuid == uuid || exercise.Uuid == null) && (!filterByCustom || exercise.Uuid != null))
                                                             .OrderBy(exercise => exercise.Id)
                                                             .Select(exercise => new ModelExerciseInList
                                                                     (

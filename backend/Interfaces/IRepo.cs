@@ -7,7 +7,7 @@ namespace ftDB.Interfaces
 {
     public interface IRepo
     {
-        Task<ResponseModelExerciseInList> GetExerciseListAsync(string searchInput, string uuid);
+        Task<ResponseModelExerciseInList> GetExerciseListAsync(string searchInput, string uuid, bool filterByCustom, bool filterByHidden);
         Task<ResponseBase> PostWorkoutAsync(RequestModelPostWorkout completedWorkout, string uuid);
         Task<ResponseModelGetAllWorkouts> GetAllWorkoutsAsync(string uuid);
         Task<ResponseModelGetWorkout> GetWorkoutAsync(int workoutId, string uuid);

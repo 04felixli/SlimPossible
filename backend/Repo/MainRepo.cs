@@ -23,9 +23,9 @@ namespace ftDB.Repo
     {
         private readonly IDao _dao = Dao;
 
-        public async Task<ResponseModelExerciseInList> GetExerciseListAsync(string searchInput, string uuid)
+        public async Task<ResponseModelExerciseInList> GetExerciseListAsync(string searchInput, string uuid, bool filterByCustom, bool filterByHidden)
         {
-            List<ModelExerciseInList> exercises = await _dao.GetExerciseListAsync(searchInput, uuid);
+            List<ModelExerciseInList> exercises = await _dao.GetExerciseListAsync(searchInput, uuid, filterByCustom, filterByHidden);
 
             ResponseModelExerciseInList response = new()
             {
