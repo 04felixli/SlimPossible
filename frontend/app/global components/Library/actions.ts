@@ -37,8 +37,6 @@ export const HandleExerciseServerAction = async (FormData: FormData, newExercise
 
     const action = FormData.get('save-button') ? FormData.get('save-button') : FormData.get('hide-exercise-button');
 
-    console.log(FormData)
-
     let exercise: NewOrUpdatedExercise = { ...newExercise };
     let posted = false;
 

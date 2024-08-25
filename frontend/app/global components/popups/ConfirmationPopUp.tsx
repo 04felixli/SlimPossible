@@ -19,7 +19,7 @@ const ConfirmationPopUp = ({ popUpContent, onDoIt, onDontDoIt, replaceExerciseRe
       <div className='thin-font'>{popUpContent.subHeading}</div>
       <div className='flex flex-col mt-5'>
         <button
-          className='px-6 py-0.5 rounded-full shadow-lg border items-center flex justify-center'
+          className='px-6 py-0.5 rounded-md shadow-lg border items-center flex justify-center'
           onClick={onDontDoIt}
         >
           {popUpContent.noDontDoIt}

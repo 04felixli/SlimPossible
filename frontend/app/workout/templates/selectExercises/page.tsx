@@ -34,9 +34,10 @@ const selectExercises = (
                 <AddNewExerciseButton />
             </div>
             <SearchBar />
-            <div className='flex flex-row w-4/12 justify-between items-center mt-3'>
-                <FilterCustomExercises />
-                <FilterHiddenExercises />
+            <div className='flex flex-col lg:flex-row justify-left mt-3 w-fit'>
+                <p>Filters:</p>
+                <FilterCustomExercises className='lg:ml-2' />
+                <FilterHiddenExercises className='lg:ml-2' />
             </div>
             <ExerciseListWrapper query={query} filterByCustom={filterByCustom} filterByHidden={filterByHidden} singleSelect={false} />
         </PageLayout>
