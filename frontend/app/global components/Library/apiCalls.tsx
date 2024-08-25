@@ -20,7 +20,6 @@ export const GetExerciseList = async (searchInput: string, filterByCustom: boole
     try {
         const user = await GetUser();
         const res = await fetch(`${url}/api/Main/GetExerciseList?searchInput=${searchInput}&filterByCustom=${filterByCustom}&filterByHidden=${filterByHidden}&uuid=${user?.id}`);
-
         if (res.status !== 200) {
             throw new Error(`HTTP Error! Status: ${res.status}`);
         }

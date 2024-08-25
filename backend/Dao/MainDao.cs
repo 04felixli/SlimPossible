@@ -316,7 +316,7 @@ namespace ftDB.Dao
 
         public async Task AddExerciseToDbAsync(RequestModelAddExercise exerciseToAdd, string uuid)
         {
-            Exercise exercise = new(exerciseToAdd.Name, exerciseToAdd.Equipment, exerciseToAdd.TargetMuscle, uuid);
+            Exercise exercise = new(exerciseToAdd.Name, exerciseToAdd.Equipment, exerciseToAdd.TargetMuscle, null, uuid, false); // added exercises are always custom 
 
             _context.Exercises.Add(exercise);
 
@@ -327,7 +327,7 @@ namespace ftDB.Dao
 
         public async Task UpdateExerciseInDbAsync(RequestModelUpdateExercise updatedExercise, string uuid)
         {
-            Exercise? oldExercise = await _context.Exercises.FirstOrDefaultAsync(e => e.Uuid == uuid && e.Id == updatedExercise.ExerciseId);
+            Exercise? oldExercise = await _context.Exercises.FirstOrDefaultAsync(e => e.Id == updatedExercise.ExerciseId);
 
             if (oldExercise == null)
             {
@@ -337,6 +337,28 @@ namespace ftDB.Dao
             oldExercise.Name = updatedExercise.Name;
             oldExercise.Equipment = updatedExercise.Equipment;
             oldExercise.TargetMuscle = updatedExercise.TargetMuscle;
+
+            if (oldExercise.IsHidden != null)
+            {
+                oldExercise.IsHidden = updatedExercise.IsHidden;
+            }
+
+            // Update the HiddenForUuids list based on the IsHidden value
+            if (oldExercise.HiddenForUuids != null)
+            {
+                var uuidsList = oldExercise.HiddenForUuids.ToList();
+
+                if (updatedExercise.IsHidden == true && !uuidsList.Contains(uuid))
+                {
+                    uuidsList.Add(uuid); // Add uuid if hidden
+                }
+                else if (updatedExercise.IsHidden == false && uuidsList.Contains(uuid))
+                {
+                    uuidsList.Remove(uuid); // Remove uuid if not hidden
+                }
+
+                oldExercise.HiddenForUuids = [.. uuidsList];
+            }
 
             await _context.SaveChangesAsync();
 
@@ -734,7 +756,11 @@ namespace ftDB.Dao
                                                             .Where(exercise =>
                                                                     exercise.SearchVector.Matches(searchInput) &&
                                                                     (exercise.Uuid == uuid || exercise.Uuid == null) &&
-                                                                    (!filterByCustom || exercise.Uuid != null)
+                                                                    (!filterByCustom || exercise.Uuid != null) &&
+                                                                    (filterByHidden ?
+                                                                        ((exercise.IsHidden == true) || (exercise.HiddenForUuids != null && exercise.HiddenForUuids.Contains(uuid))) :
+                                                                        ((exercise.IsHidden == false) || (exercise.HiddenForUuids != null && !exercise.HiddenForUuids.Contains(uuid)))
+                                                                    )
                                                                   )
                                                             .OrderBy(exercise => exercise.Id)
                                                             .Select(exercise => new ModelExerciseInList
@@ -743,7 +769,8 @@ namespace ftDB.Dao
                                                                         exercise.Name,
                                                                         exercise.Equipment,
                                                                         exercise.TargetMuscle,
-                                                                        exercise.Uuid != null
+                                                                        exercise.Uuid != null,
+                                                                        exercise.IsHidden ?? (exercise.HiddenForUuids != null && exercise.HiddenForUuids.Contains(uuid))
                                                                     )
                                                                     )
                                                             .ToListAsync();
@@ -754,7 +781,14 @@ namespace ftDB.Dao
         private async Task<List<ModelExerciseInList>> GetExerciseListEmptyStringAsync(string uuid, bool filterByCustom, bool filterByHidden)
         {
             List<ModelExerciseInList> exerciseList = await _context.Exercises
-                                                            .Where(exercise => (exercise.Uuid == uuid || exercise.Uuid == null) && (!filterByCustom || exercise.Uuid != null))
+                                                            .Where(exercise =>
+                                                                    (exercise.Uuid == uuid || exercise.Uuid == null) &&
+                                                                    (!filterByCustom || exercise.Uuid != null) &&
+                                                                    (filterByHidden ?
+                                                                        ((exercise.IsHidden == true) || (exercise.HiddenForUuids != null && exercise.HiddenForUuids.Contains(uuid))) :
+                                                                        ((exercise.IsHidden == false) || (exercise.HiddenForUuids != null && !exercise.HiddenForUuids.Contains(uuid)))
+                                                                    )
+                                                                  )
                                                             .OrderBy(exercise => exercise.Id)
                                                             .Select(exercise => new ModelExerciseInList
                                                                     (
@@ -762,7 +796,8 @@ namespace ftDB.Dao
                                                                         exercise.Name,
                                                                         exercise.Equipment,
                                                                         exercise.TargetMuscle,
-                                                                        exercise.Uuid != null
+                                                                        exercise.Uuid != null,
+                                                                        exercise.IsHidden ?? (exercise.HiddenForUuids != null && exercise.HiddenForUuids.Contains(uuid))
                                                                     )
                                                                     )
                                                             .ToListAsync();

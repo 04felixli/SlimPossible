@@ -33,6 +33,29 @@ export const setExpandedCookieFunction = async () => {
     cookies().set('isExpanded', String(newExpandedState));
 }
 
+export const HandleExerciseServerAction = async (FormData: FormData, newExercise: NewOrUpdatedExercise) => {
+
+    const action = FormData.get('save-button') ? FormData.get('save-button') : FormData.get('hide-exercise-button');
+
+    console.log(FormData)
+
+    let exercise: NewOrUpdatedExercise = { ...newExercise };
+    let posted = false;
+
+    if (action === 'add') {
+        posted = await PostNewExercise(exercise);
+    } else if (action === 'save') {
+        posted = await UpdateExercise(exercise);
+    } else {
+        const newHiddenStatus = !newExercise.isHidden;
+        exercise = { ...newExercise, isHidden: newHiddenStatus };
+        posted = await UpdateExercise(exercise);
+    }
+
+    revalidatePath("/exercises");
+    return posted;
+}
+
 export const addExerciseServerAction = async (newExercise: NewOrUpdatedExercise): Promise<boolean> => {
     if (!isAuthenticated) {
         redirect("/api/auth/login");

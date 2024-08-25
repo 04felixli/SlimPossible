@@ -11,7 +11,7 @@ interface Props {
 
 const CheckBoxFilter = ({ checked, className, onChangeFunction, labelText, classNameForLabelText }: Props) => {
     return (
-        <label>
+        <label className='flex flex-row justify-left items-center'>
             <input
                 type="checkbox"
                 checked={checked}

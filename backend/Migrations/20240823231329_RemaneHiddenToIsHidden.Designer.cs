@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NpgsqlTypes;
@@ -12,9 +13,11 @@ using ftDB.Dao;
 namespace FitnessTrackerBackEnd.Migrations
 {
     [DbContext(typeof(PostgressDBContext))]
-    partial class PostgressDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240823231329_RemaneHiddenToIsHidden")]
+    partial class RemaneHiddenToIsHidden
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,13 +96,7 @@ namespace FitnessTrackerBackEnd.Migrations
                         .HasColumnType("text")
                         .HasColumnName("equipment");
 
-                    b.Property<string[]>("HiddenForUuids")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text[]")
-                        .HasDefaultValue(new string[0])
-                        .HasColumnName("hidden_for_uuids");
-
-                    b.Property<bool?>("IsHidden")
+                    b.Property<bool>("IsHidden")
                         .HasColumnType("boolean")
                         .HasColumnName("is_hidden");
 

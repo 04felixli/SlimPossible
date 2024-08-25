@@ -28,7 +28,7 @@ const InputField: React.FC<Props> = ({
             value={inputValue}
             onChange={onChange}
             // onKeyDown={onKeyDown}
-            className={`${className}`} // Center the text horizontally
+            className={`${className}`}
             disabled={disabled}
             placeholder={placeHolder}
         />

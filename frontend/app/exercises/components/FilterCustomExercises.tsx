@@ -4,7 +4,11 @@ import React from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import CheckBoxFilter from './CheckBoxFilter';
 
-const FilterCustomExercises = () => {
+interface Props {
+    className?: string;
+}
+
+const FilterCustomExercises = ({ className }: Props) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
@@ -24,9 +28,10 @@ const FilterCustomExercises = () => {
     return (
         <CheckBoxFilter
             checked={viewCustom}
-            className=''
+            className={className}
             onChangeFunction={handleCustomFilter}
-            labelText='Filter by Custom Exercises'
+            labelText='Custom'
+            classNameForLabelText='font-thin'
         />
     );
 }

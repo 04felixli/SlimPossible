@@ -4,7 +4,11 @@ import React from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import CheckBoxFilter from './CheckBoxFilter';
 
-const FilterHiddenExercises = () => {
+interface Props {
+    className?: string;
+}
+
+const FilterHiddenExercises = ({ className }: Props) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
@@ -24,9 +28,10 @@ const FilterHiddenExercises = () => {
     return (
         <CheckBoxFilter
             checked={viewHidden}
-            className=''
+            className={className}
             onChangeFunction={handleHiddenFilter}
-            labelText='Filter by Hidden Exercises'
+            labelText='Hidden'
+            classNameForLabelText='font-thin'
         />
     );
 }

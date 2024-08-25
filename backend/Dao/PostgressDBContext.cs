@@ -37,6 +37,8 @@ namespace ftDB.Dao
                 entity.Property(e => e.Equipment).HasColumnType("text").HasColumnName("equipment").IsRequired();
                 entity.Property(e => e.TargetMuscle).HasColumnType("text").HasColumnName("target_muscle").IsRequired();
                 entity.Property(e => e.Uuid).HasColumnType("text").HasColumnName("uuid");
+                entity.Property(e => e.IsHidden).HasColumnType("boolean").HasColumnName("is_hidden");
+                entity.Property(e => e.HiddenForUuids).HasColumnType("text[]").HasColumnName("hidden_for_uuids").HasDefaultValue(Array.Empty<string>());
                 entity.HasGeneratedTsVectorColumn
                 (
                     p => p.SearchVector,

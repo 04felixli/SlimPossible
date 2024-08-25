@@ -7,6 +7,8 @@ interface Props {
     text: string;
     onClickFunction?: () => void; // Make onClickFunction optional
     className?: string; // Additional styles if needed
+    name?: string;
+    value?: string;
 }
 
 const Button = (props: Props) => {
@@ -37,13 +39,16 @@ const Button = (props: Props) => {
                     mass: 0.1,
                 },
             }}
-            className={`px-6 py-0.5 rounded-full relative radial-gradient shadow-lg ${props.className}`}
+            className={`px-6 py-0.5 rounded-md relative radial-gradient shadow-lg ${props.className}`}
             onClick={onClick}
+            type='submit'
+            name={props.name ? props.name : 'default-button'}
+            value={props.value || ''}
         >
             <span className="tracking-wide h-full w-full block relative linear-mask">
                 {props.text}
             </span>
-            <span className="block absolute inset-0 rounded-full p-px linear-overlay" />
+            <span className="block absolute inset-0 rounded-md p-px linear-overlay" />
         </motion.button>
     )
 }

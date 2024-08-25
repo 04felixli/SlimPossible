@@ -4,4 +4,5 @@ export interface ExerciseInList {
     equipment: string;
     targetMuscle: string;
     isCustom: boolean;
+    isHidden: boolean;
 }
