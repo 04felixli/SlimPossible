@@ -35,7 +35,7 @@ export const setExpandedCookieFunction = async () => {
 
 export const HandleExerciseServerAction = async (FormData: FormData, newExercise: NewOrUpdatedExercise) => {
 
-    const action = FormData.get('save-button') ? FormData.get('save-button') : FormData.get('hide-exercise-button');
+    const action = FormData.get('action-button') ? FormData.get('action-button') : FormData.get('hide-exercise-button');
 
     let exercise: NewOrUpdatedExercise = { ...newExercise };
     let posted = false;

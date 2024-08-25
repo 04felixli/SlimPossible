@@ -61,7 +61,7 @@ const HandleExercisePopUp = ({ exercise, closePopUp, serverActionFunction }: Pro
                 <section className='flex justify-between items-center'>
                     <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>
                     <button
-                        name={name ? "save-button" : "add-button"}
+                        name='action-button'
                         disabled={hasName()}
                         className={`${hasName() ? 'text-disabled-color' : ''}`}
                         type='submit'
@@ -74,6 +74,7 @@ const HandleExercisePopUp = ({ exercise, closePopUp, serverActionFunction }: Pro
                 <p className='font-thin text-sm flex justify-center items-center'>Note: You can only edit custom exercises</p>
                 <div className='flex justify-center items-center mt-5'>
                     <input
+                        autoFocus
                         type="text"
                         name='exercise-name-input-field'
                         placeholder='New Exercise Name'
