@@ -26,7 +26,7 @@ interface TemplateContextType {
     changeName: (newName: string) => void;
     deleteSet: (exerciseId: number, insertionNumber: number, setNumber: number) => void;
     reOrderExercises: (result: any) => void;
-    startTemplate: (provided_template?: Workout) => void;
+    startTemplate: (redirectLink: string, provided_template?: Workout) => void;
     endTemplate: (cause: action) => void;
     resetTemplate: () => void;
 }
@@ -57,7 +57,7 @@ const TemplateContextProvider = ({ children }: Props) => {
     const changeNameHandler = (newName: string) => changeName(localStorageKeys.template, setTemplate, newName);
     const deleteSetHandler = (exerciseId: number, insertionNumber: number, setNumber: number) => deleteSet(localStorageKeys.template, setTemplate, exerciseId, insertionNumber, setNumber);
     const reOrderExercisesHandler = (result: any) => reOrderExercises(result, localStorageKeys.template, setTemplate);
-    const startTemplateHandler = (provided_template?: Workout) => startTemplate(localStorageKeys.template, setTemplate, provided_template);
+    const startTemplateHandler = (redirectLink: string, provided_template?: Workout) => startTemplate(localStorageKeys.template, setTemplate, redirectLink, provided_template);
     const endTemplateHandler = (cause: action) => endTemplate(template, setTemplate, cause);
     const resetTemplateHandler = () => resetWorkout(cookieKeys.template, localStorageKeys.template, setTemplate);
 

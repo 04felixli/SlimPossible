@@ -7,6 +7,8 @@ import PopUpLayout, { popupContentClassNames } from '@/app/global components/pop
 import Button from '@/app/global components/Buttons/Button';
 import { useWorkout } from '@/app/contexts/workoutContext';
 import CustomLink from '@/app/global components/CustomLink';
+import { getClientSideCookie } from '@/app/global components/Library/utilFunctions';
+import { cookieKeys } from '@/app/contexts/util/workoutFunctions';
 
 
 interface Props {
@@ -23,12 +25,14 @@ const TemplatePreviewCard = ({ workout, closePopUp }: Props) => {
         return (<></>);
     }
 
+    const ableToEdit = getClientSideCookie(cookieKeys.isEditTemplate) === undefined ? true : false;
+
     return (
         <PopUpLayout closePopUp={closePopUp} className='w-6/12' popupContentClassName={popupContentClassNames.previewCard}>
             {/* x and edit buttons */}
             <section className='flex justify-between items-center'>
                 <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>
-                <CustomLink href={`/workout/templates/edit-template`} onClick={() => startTemplate(JSON.parse(JSON.stringify(workout)))}>Edit</CustomLink>
+                <button onClick={() => startTemplate(`/workout/templates/edit-template`, JSON.parse(JSON.stringify(workout)))} disabled={!ableToEdit} className={`${ableToEdit ? '' : 'text-disabled-color cursor-not-allowed'}`}>Edit</button>
             </section>
 
             {/* workout name */}

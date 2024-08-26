@@ -16,10 +16,7 @@ const workout = async () => {
         <PageLayout activePage='/workout'>
             <PageName name={pageName} />
             <StartWorkoutButton />
-            <div className='flex flex-row justify-between items-center'>
-                <div className='subheading-font'>Templates</div>
-                <AddTemplateButton />
-            </div>
+            <AddTemplateButton />
             <TemplateCards templates={templates} />
         </PageLayout>
     )

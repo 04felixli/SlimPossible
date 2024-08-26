@@ -2,6 +2,7 @@ import { Workout, Exercise, WorkoutSet } from "@/app/global components/objects/c
 import { IWorkoutTemplate, IExerciseTemplate, IWorkoutSetTemplate } from "../Interfaces/templateInterfaces";
 import { IExerciseInWorkoutHistory, ISetInExerciseInWorkoutHistory, IWorkoutHistory } from "../Interfaces/historyInterfaces";
 import { format } from 'date-fns';
+import { cookies } from "next/headers";
 
 export const computeTotalVolume = (workout: Workout): number => {
     let totalVolume = 0;
@@ -217,3 +218,12 @@ export const setCookies = (name: string, value: any, days: number) => {
 export const deleteCookies = (name: string) => {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
+
+export const getClientSideCookie = (name: string): string | undefined => {
+    const cookieValue = document.cookie
+        .split('; ')
+        .find((row) => row.startsWith(`${name}=`))
+        ?.split('=')[1];
+
+    return cookieValue;
+};

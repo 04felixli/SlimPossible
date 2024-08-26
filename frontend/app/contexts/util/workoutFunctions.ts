@@ -1,6 +1,6 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
 import { deleteHistoryServerAction, deleteTemplateServerAction, postCompletedWorkoutServerAction, postTemplateServerAction, redirectServerAction, updateHistoryServerAction, updateTemplateServerAction } from "@/app/global components/Library/actions";
-import { computeTotalVolume, deleteCookies, deleteLocalStorage, GetWorkoutTime, kgsToLbs, lbsToKgs, setCookies, setLocalStorage } from "@/app/global components/Library/utilFunctions";
+import { computeTotalVolume, deleteCookies, deleteLocalStorage, getClientSideCookie, GetWorkoutTime, kgsToLbs, lbsToKgs, setCookies, setLocalStorage } from "@/app/global components/Library/utilFunctions";
 import { Exercise, Workout, WorkoutSet } from "@/app/global components/objects/classes";
 
 export enum action {
@@ -336,24 +336,33 @@ export const startWorkout = (localStorageKey: localStorageKeys, setWorkout: Reac
     });
 }
 
-export const startTemplate = (localStorageKey: localStorageKeys, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, template?: Workout) => {
-    setTemplate(prevTemplate => {
-        // No provided template means user wants to add new template
-        if (!template) {
+export const startTemplate = async (localStorageKey: localStorageKeys, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, redirectLink: string, template?: Workout) => {
+    if (!template) {
+        if (getClientSideCookie(cookieKeys.isEditTemplate) === 'true') {
+            return;
+        }
+        setTemplate(prevTemplate => {
             setLocalStorage(localStorageKey, prevTemplate);
             setCookies(cookieKeys.template, [], cookieExpTime);
             setCookies(cookieKeys.isEditTemplate, false, cookieExpTime);
             return { ...prevTemplate, startTime: new Date(), duration: 0, name: GetWorkoutTime() + " Workout" };
+        })
+    } else {
+        if (getClientSideCookie(cookieKeys.isEditTemplate) === 'false') {
+            return;
         }
+        setTemplate(prevTemplate => {
+            setLocalStorage(localStorageKey, template);
+            const exercisesInTemplate: CookieValueType[] = template.exercises.map(exercise => {
+                return { exerciseId: exercise.id, insertionNumber: exercise.insertionNumber };
+            });
+            setCookies(cookieKeys.template, exercisesInTemplate, cookieExpTime);
+            setCookies(cookieKeys.isEditTemplate, true, cookieExpTime);
+            return { ...template, startTime: new Date(), duration: 0 };
+        })
+    }
 
-        setLocalStorage(localStorageKey, template);
-        const exercisesInTemplate: CookieValueType[] = template.exercises.map(exercise => {
-            return { exerciseId: exercise.id, insertionNumber: exercise.insertionNumber };
-        });
-        setCookies(cookieKeys.template, exercisesInTemplate, cookieExpTime);
-        setCookies(cookieKeys.isEditTemplate, true, cookieExpTime);
-        return { ...template, startTime: new Date(), duration: 0 };
-    })
+    await redirectServerAction(redirectLink);
 }
 
 export const startHistory = (localStorageKey: localStorageKeys, setHistory: React.Dispatch<React.SetStateAction<Workout>>, history: Workout) => {
