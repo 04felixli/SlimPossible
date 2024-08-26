@@ -32,7 +32,11 @@ const HistoryPreviewCard = ({ workout, closePopUp }: Props) => {
             </section>
 
             {/* workout name */}
-            <div className='card-title-font items-center flex justify-center'>{workout.name}</div>
+            <div className='card-title-font items-center flex justify-center'>
+                <span className='truncate max-w-full'>
+                    {workout.name}
+                </span>
+            </div>
 
             {/* sub headings */}
             <section className='font-thin text-sm'>

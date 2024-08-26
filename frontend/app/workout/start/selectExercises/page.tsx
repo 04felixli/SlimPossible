@@ -7,19 +7,16 @@ import ExerciseListWrapper from '../components/ExerciseListWrapper';
 import AddNewExerciseButton from '@/app/global components/AddNewExerciseButton';
 import CustomLink from '@/app/global components/CustomLink';
 import FilterCustomExercises from '@/app/exercises/components/FilterCustomExercises';
-import FilterHiddenExercises from '@/app/exercises/components/FilterHiddenExercises';
 
 const selectExercises = (
     { searchParams }: {
         searchParams?: {
             query?: string;
             filterCustomExercises?: string;
-            filterHiddenExercises?: string;
         }
     }) => {
     const pageName: string = "Select Exercises";
     const filterByCustom = searchParams?.filterCustomExercises === "true" || false;
-    const filterByHidden = searchParams?.filterHiddenExercises === "true" || false;
     const query: string = searchParams?.query || '';
 
     return (
@@ -35,9 +32,8 @@ const selectExercises = (
             <div className='flex flex-col lg:flex-row justify-left mt-3 w-fit'>
                 <p>Filters:</p>
                 <FilterCustomExercises className='lg:ml-2' />
-                <FilterHiddenExercises className='lg:ml-2' />
             </div>
-            <ExerciseListWrapper query={query} filterByCustom={filterByCustom} filterByHidden={filterByHidden} singleSelect={false} />
+            <ExerciseListWrapper query={query} filterByCustom={filterByCustom} filterByHidden={false} singleSelect={false} />
         </PageLayout>
     )
 }

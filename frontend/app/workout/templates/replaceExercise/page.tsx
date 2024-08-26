@@ -7,7 +7,6 @@ import ExerciseListWrapper from '../components/ExerciseListWrapper';
 import AddNewExerciseButton from '@/app/global components/AddNewExerciseButton';
 import CustomLink from '@/app/global components/CustomLink';
 import FilterCustomExercises from '@/app/exercises/components/FilterCustomExercises';
-import FilterHiddenExercises from '@/app/exercises/components/FilterHiddenExercises';
 
 const replaceExercises = (
     { searchParams }: {
@@ -17,12 +16,10 @@ const replaceExercises = (
             id: string;
             inoetr: string; // insertion number of exercise to replace
             filterCustomExercises?: string;
-            filterHiddenExercises?: string;
         }
     }) => {
     const pageName: string = "Replace Exercise";
     const filterByCustom = searchParams?.filterCustomExercises === "true" || false;
-    const filterByHidden = searchParams?.filterHiddenExercises === "true" || false;
     const query: string = searchParams.query || '';
     const from: string = searchParams.from;
     const exerciseToReplaceId: number = parseInt(searchParams.id);
@@ -41,9 +38,8 @@ const replaceExercises = (
             <div className='flex flex-col lg:flex-row justify-left mt-3 w-fit'>
                 <p>Filters:</p>
                 <FilterCustomExercises className='lg:ml-2' />
-                <FilterHiddenExercises className='lg:ml-2' />
             </div>
-            <ExerciseListWrapper query={query} filterByCustom={filterByCustom} filterByHidden={filterByHidden} singleSelect={true} />
+            <ExerciseListWrapper query={query} filterByCustom={filterByCustom} filterByHidden={false} singleSelect={true} />
         </PageLayout>
     )
 }

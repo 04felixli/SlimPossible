@@ -46,7 +46,11 @@ const HistoryCards = ({ workoutHistories }: Props) => {
             <ul>
                 {workoutHistories.map((workoutHistory) => (
                     <li key={workoutHistory.id} className='card-bg hover:scale-[101%] duration-300 cursor-pointer' onClick={() => handleHistoryCardClick(workoutHistory)}>
-                        <div className='flex justify-center items-center card-title-font'>{workoutHistory.name}</div>
+                        <div className='flex justify-center items-center card-title-font'>
+                            <span className='truncate max-w-full'>
+                                {workoutHistory.name}
+                            </span>
+                        </div>
                         <section className='font-thin text-sm'>
                             <div className='flex flex-row items-center'>
                                 <FaCalendar className='mr-2' />

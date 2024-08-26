@@ -38,7 +38,7 @@ const ExerciseList = ({ exercises }: Props) => {
                     </li>
                 ))}
             </ul>
-            {exerciseToEdit && <HandleExercisePopUp exercise={exerciseToEdit} closePopUp={userDoneEditing} serverActionFunction={updateExerciseServerAction} />}
+            {exerciseToEdit && <HandleExercisePopUp exercise={exerciseToEdit} closePopUp={userDoneEditing} />}
         </div>
     )
 }

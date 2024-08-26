@@ -32,7 +32,11 @@ const TemplatePreviewCard = ({ workout, closePopUp }: Props) => {
             </section>
 
             {/* workout name */}
-            <div className='card-title-font items-center flex justify-center'>{workout.name}</div>
+            <div className='card-title-font items-center flex justify-center'>
+                <span className='truncate max-w-full'>
+                    {workout.name}
+                </span>
+            </div>
 
             {/* start workout from template button */}
             <div className='flex justify-center items-center mt-3'>
@@ -50,7 +54,7 @@ const TemplatePreviewCard = ({ workout, closePopUp }: Props) => {
                             {exercise.sets.map((set) => (
                                 <li key={`${set.setNumber}`} className='flex flex-row'>
                                     <div className={`px-2`}>{`${set.setNumber})`}</div>
-                                    <div>{`${set.weight} ${exercise.weightUnit} x ${set.reps}`}</div>
+                                    <div>{`${set.weight >= 0 ? set.weight : '____'} ${exercise.weightUnit} x ${set.reps > 0 ? set.reps : '____'}`}</div>
                                 </li>
                             ))}
                         </ul>

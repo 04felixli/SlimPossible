@@ -1,6 +1,5 @@
 'use client'
 import { ExerciseInList } from '@/app/exercises/interfaces/exercises';
-import InputField from '@/app/global components/InputField';
 import PopUpLayout from '@/app/global components/popups/PopUpLayout';
 import SelectDropDown from '@/app/global components/SelectDropDown';
 import React, { useState } from 'react'
@@ -19,10 +18,9 @@ export interface NewOrUpdatedExercise {
 interface Props {
     exercise?: ExerciseInList;
     closePopUp: () => void;
-    serverActionFunction: (newExercise: NewOrUpdatedExercise) => Promise<boolean>; // either update or create an exercise
 }
 
-const HandleExercisePopUp = ({ exercise, closePopUp, serverActionFunction }: Props) => {
+const HandleExercisePopUp = ({ exercise, closePopUp }: Props) => {
     const equipmentList: string[] = ["Barbell", "Dumbbell", "Cable", "Machine", "Body Weight"];
     const targetMuscleList: string[] = ["Chest", "Back", "Legs", "Arms", "Shoulders", "Core"];
 
@@ -70,8 +68,8 @@ const HandleExercisePopUp = ({ exercise, closePopUp, serverActionFunction }: Pro
                         {name ? "Save" : "Add"}
                     </button>
                 </section>
-                <div className='flex justify-center items-center card-title-font mt-3'>{`${name !== '' ? `Edit or Hide "${name}"` : "New Exercise"}`}</div>
-                <p className='font-thin text-sm flex justify-center items-center'>Note: You can only edit custom exercises</p>
+                <div className='flex justify-center items-center card-title-font mt-3'>{`${name !== '' ? `Edit or Hide Exercise` : "New Exercise"}`}</div>
+                {name !== '' && <p className='font-thin text-sm flex justify-center items-center'>Note: You can only edit custom exercises</p>}
                 <div className='flex justify-center items-center mt-5'>
                     <input
                         autoFocus
@@ -82,6 +80,7 @@ const HandleExercisePopUp = ({ exercise, closePopUp, serverActionFunction }: Pro
                         onChange={handleNameChange}
                         className={`max-w-xl bg-darkest-color rounded-md py-3 px-2 h-full w-full text-left ${!isCustom ? 'cursor-not-allowed text-disabled-color' : ''}`}
                         disabled={!isCustom}
+                        maxLength={50}
                     />
                 </div>
                 <div className='flex flex-col justify-between mt-5'>

@@ -40,8 +40,8 @@ const dashboard = async () => {
                     <span>{formatTotalWorkoutsDuration(data.totalTime)}</span>
                 </li>
                 <li className='flex flex-col justify-center items-center p-4 bg-gray-900 rounded-3xl'>
-                    <span className='card-title-font'>Average Volume Per Workout:</span>
-                    <span>{data.avgWorkoutVolume}</span>
+                    <span className='card-title-font'>Average Volume Per Workout (lbs): </span>
+                    <span>{data.avgWorkoutVolume.toFixed(2)}</span>
                 </li>
                 <li className='flex flex-col justify-center items-center p-4 bg-gray-900 rounded-3xl'>
                     <span className='card-title-font'>Average Duration Per Workout:</span>

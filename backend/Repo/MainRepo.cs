@@ -96,7 +96,7 @@ namespace ftDB.Repo
             ResponseBase resp = new();
 
             workoutTemplate.Exercises = workoutTemplate.Exercises
-                                                        .Where(exercise => exercise.Sets.Any(set => set.Weight >= 0 && set.Reps >= 0)) // Only keep exercises with at least one valid set in them
+                                                        // .Where(exercise => exercise.Sets.Any(set => set.Weight >= 0 && set.Reps >= 0)) // Only keep exercises with at least one valid set in them
                                                         .Select(exercise => new ModelPostExerciseTemplate
                                                         (
                                                             exercise.Id,
@@ -106,7 +106,8 @@ namespace ftDB.Repo
                                                             exercise.WeightUnit,
                                                             exercise.Notes,
                                                             exercise.InsertionNumber,
-                                                            exercise.Sets.Where(set => set.Weight >= 0 && set.Reps >= 0).ToArray() // Only keep valid sets
+                                                            exercise.Sets
+                                                        // exercise.Sets.Where(set => set.Weight >= 0 && set.Reps >= 0).ToArray() // Only keep valid sets
                                                         )).ToArray();
 
             if (workoutTemplate.Exercises.Length == 0)
@@ -201,7 +202,7 @@ namespace ftDB.Repo
             ResponseBase resp = new();
 
             workoutTemplate.Exercises = workoutTemplate.Exercises
-                                                        .Where(exercise => exercise.Sets.Any(set => set.Weight >= 0 && set.Reps >= 0)) // Only keep exercises with at least one valid set in them
+                                                        // .Where(exercise => exercise.Sets.Any(set => set.Weight >= 0 && set.Reps >= 0)) // Only keep exercises with at least one valid set in them
                                                         .Select(exercise => new ModelGetExerciseTemplate
                                                         (
                                                             exercise.Id,
@@ -212,7 +213,8 @@ namespace ftDB.Repo
                                                             exercise.WeightUnit,
                                                             exercise.Notes,
                                                             exercise.InsertionNumber,
-                                                            exercise.Sets.Where(set => set.Weight >= 0 && set.Reps >= 0).ToArray() // Only keep valid sets
+                                                            exercise.Sets
+                                                        // exercise.Sets.Where(set => set.Weight >= 0 && set.Reps >= 0).ToArray() // Only keep valid sets
                                                         )).ToArray();
 
             if (workoutTemplate.Exercises.Length == 0)

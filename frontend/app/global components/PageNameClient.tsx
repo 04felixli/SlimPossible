@@ -8,10 +8,16 @@ interface Props {
 
 const PageName = ({ name, changeName }: Props) => {
     return (
-        <h1 className='flex justify-center font-bold text-5xl mb-5 items-center' >
-            <span onClick={() => changeName(true)}>{name}</span>
+        <h1 className='flex justify-center font-bold text-5xl mb-5 items-center'>
+            <span
+                onClick={() => changeName(true)}
+                className='truncate max-w-full'
+            >
+                {name}
+            </span>
         </h1>
+
     )
 }
 
-export default PageName
+export default PageName;

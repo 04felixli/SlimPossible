@@ -77,7 +77,11 @@ const TemplateCards = ({ templates }: Props) => {
                                     {(provided) => (
                                         <li onClick={() => handleTemplateCardClick(template)} {...provided.draggableProps} ref={provided.innerRef} {...provided.dragHandleProps}>
                                             <div className='card-bg hover:scale-[101%] duration-300'>
-                                                <div className='flex justify-center items-center card-title-font'>{template.name}</div>
+                                                <div className='flex justify-center items-center card-title-font'>
+                                                    <span className='truncate max-w-full'>
+                                                        {template.name}
+                                                    </span>
+                                                </div>
                                                 <ul>
                                                     {template.exercises.map((exercise) => (
                                                         <li key={`${exercise.id} - ${exercise.insertionNumber}`} className='flex flex-row items-center mt-2 text-sm'>

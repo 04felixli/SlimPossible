@@ -392,7 +392,15 @@ export const endWorkout = async (workout: Workout, setWorkout: React.Dispatch<Re
 };
 
 export const endTemplate = async (template: Workout, setTemplate: React.Dispatch<React.SetStateAction<Workout>>, cause: action) => {
-    const plainTemplate: Workout = { ...template }; // create a plain js object
+    const plainTemplate: Workout = {
+        ...template,
+        exercises: template.exercises.map(exercise => ({
+            ...exercise,
+            sets: exercise.sets.map(set => ({
+                ...set
+            }))
+        }))
+    };
     if (cause == action.post) { await postTemplateServerAction(plainTemplate); }
     else if (cause == action.update) { await updateTemplateServerAction(plainTemplate); }
     else if (cause == action.delete) {
@@ -416,7 +424,15 @@ export const endTemplate = async (template: Workout, setTemplate: React.Dispatch
 };
 
 export const endHistory = async (history: Workout, setHistory: React.Dispatch<React.SetStateAction<Workout>>, cause: action) => {
-    const plainHistory: Workout = { ...history }; // create a plain js object
+    const plainHistory: Workout = {
+        ...history,
+        exercises: history.exercises.map(exercise => ({
+            ...exercise,
+            sets: exercise.sets.map(set => ({
+                ...set
+            }))
+        }))
+    };
     if (cause == action.update) { await updateHistoryServerAction(plainHistory); }
     if (cause == action.delete) { await deleteHistoryServerAction(plainHistory); }
     resetWorkout(cookieKeys.history, localStorageKeys.history, setHistory);
