@@ -8,7 +8,7 @@ interface Props {
 
 const PageName = ({ name, changeName }: Props) => {
     return (
-        <h1 className='flex justify-center font-bold text-5xl mb-5 items-center'>
+        <h1 className='flex justify-center font-bold text-3xl md:text-5xl mb-5 items-center'>
             <span
                 onClick={() => changeName(true)}
                 className='truncate max-w-full'

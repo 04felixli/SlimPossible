@@ -28,7 +28,7 @@ const TemplatePreviewCard = ({ workout, closePopUp }: Props) => {
     const ableToEdit = getClientSideCookie(cookieKeys.isEditTemplate) === undefined ? true : false;
 
     return (
-        <PopUpLayout closePopUp={closePopUp} className='w-6/12' popupContentClassName={popupContentClassNames.previewCard}>
+        <PopUpLayout closePopUp={closePopUp} popupContentClassName={popupContentClassNames.previewCard}>
             {/* x and edit buttons */}
             <section className='flex justify-between items-center'>
                 <button><FaRegWindowClose className='w-6 h-6' onClick={closePopUp} /></button>

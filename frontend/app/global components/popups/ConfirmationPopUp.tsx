@@ -14,7 +14,7 @@ interface Props {
 
 const ConfirmationPopUp = ({ popUpContent, onDoIt, onDontDoIt, replaceExerciseRedirectURL }: Props) => {
   return (
-    <PopUpLayout closePopUp={onDontDoIt} className='' popupContentClassName={popupContentClassNames.confirmation}>
+    <PopUpLayout closePopUp={onDontDoIt} popupContentClassName={popupContentClassNames.confirmation}>
       <div className='card-title-font items-center flex justify-center'>{popUpContent.header}</div>
       <div className='thin-font'>{popUpContent.subHeading}</div>
       <div className='flex flex-col mt-5'>
