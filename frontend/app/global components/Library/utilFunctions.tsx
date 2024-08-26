@@ -21,6 +21,16 @@ export const computeTotalVolume = (workout: Workout): number => {
     return parseFloat(totalVolume.toFixed(2));
 };
 
+export const lbsToKgs = (lbs: number): number => {
+    const kgs = lbs * 0.45359237;
+    return +kgs.toFixed(2);
+}
+
+export const kgsToLbs = (kgs: number): number => {
+    const lbs = kgs / 0.45359237;
+    return +lbs.toFixed(2);
+}
+
 export const formatTotalWorkoutsDuration = (totalSeconds: number): string => {
     if (totalSeconds < 0) {
         return 'Please enter valid start and end times';

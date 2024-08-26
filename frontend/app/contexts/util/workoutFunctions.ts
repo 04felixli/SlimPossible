@@ -1,6 +1,6 @@
 import { ExerciseInList } from "@/app/exercises/interfaces/exercises";
 import { deleteHistoryServerAction, deleteTemplateServerAction, postCompletedWorkoutServerAction, postTemplateServerAction, redirectServerAction, updateHistoryServerAction, updateTemplateServerAction } from "@/app/global components/Library/actions";
-import { computeTotalVolume, deleteCookies, deleteLocalStorage, GetWorkoutTime, setCookies, setLocalStorage } from "@/app/global components/Library/utilFunctions";
+import { computeTotalVolume, deleteCookies, deleteLocalStorage, GetWorkoutTime, kgsToLbs, lbsToKgs, setCookies, setLocalStorage } from "@/app/global components/Library/utilFunctions";
 import { Exercise, Workout, WorkoutSet } from "@/app/global components/objects/classes";
 
 export enum action {
@@ -63,16 +63,6 @@ export const removeExercise = (cookieKey: cookieKeys, localStorageKey: localStor
 }
 
 export const changeWeightUnit = (localStorageKey: localStorageKeys, setWorkout: React.Dispatch<React.SetStateAction<Workout>>, exerciseId: number, insertionNumber: number) => {
-    const lbsToKgs = (lbs: number): number => {
-        const kgs = lbs * 0.45359237;
-        return +kgs.toFixed(2);
-    }
-
-    const kgsToLbs = (kgs: number): number => {
-        const lbs = kgs / 0.45359237;
-        return +lbs.toFixed(2);
-    }
-
     setWorkout(prevWorkout => {
         const updatedExercises = prevWorkout.exercises.map(exercise => {
             if (exercise.id === exerciseId && exercise.insertionNumber === insertionNumber) {
